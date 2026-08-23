@@ -1,0 +1,86 @@
+<section class="section-head">
+  <div class="wrap">
+    <span class="lab">Beyond the club</span>
+    <h2>Independent Projects</h2>
+    <p>Two self-directed analyses, both built after the articles above and both deliberately dependency-light &mdash; the statistics are written out rather than called from a library, so every step is inspectable. Each ships its own results write-up and its own list of what it gets wrong.</p>
+  </div>
+</section>
+
+<article class="proj" id="starfit">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">August 2026</span>
+      <span class="method-tag">fixed-effects regression &middot; instrumental variables</span>
+    </div>
+    <h3>Does five stars&rsquo; worth of usage fit on one team?</h3>
+    <p class="path">~/nba_star_fit &middot; hand-rolled weighted least squares in NumPy</p>
+
+    <dl class="kv">
+      <dt>The question</dt>
+      <dd>A lineup only has 100 usage points to share. If you assemble five players who have each built a career on carrying an offense, whose share has to give &mdash; and does anyone actually get more efficient when asked to do less?</dd>
+
+      <dt>Method</dt>
+      <dd>Two estimators per player, both within-player by construction. First, minutes-weighted means in games with a co-star available against games without, with a 4,000-replication bootstrap for the interval. Second, a minutes-weighted least-squares regression of the outcome on a 0/1 availability dummy for every co-star simultaneously, plus season fixed effects and a home dummy, with heteroskedasticity-robust HC1 standard errors computed by hand. A third pass instruments usage with co-star availability in a two-stage least-squares estimate of the efficiency-versus-usage slope. No statsmodels and no scikit-learn &mdash; the normal equations, the robust sandwich and the bootstrap are all written out.</dd>
+
+      <dt>Data</dt>
+      <dd>7,857 player-game rows across 20 players and 44 team-seasons, 2010 through 2026, parsed from Basketball-Reference and held in a permanent local cache so the analysis re-runs offline.</dd>
+
+      <dt>What I found</dt>
+      <dd>
+        <ol class="finds">
+          <li>The cost of a co-star is large and precisely estimated for some players: Jaylen Brown&rsquo;s usage rises <b>+8.18</b> points when Jayson Tatum sits (95% CI <b>+6.75 to +9.61</b>); Tyrese Maxey&rsquo;s rises <b>+6.45</b> without Joel Embiid.</li>
+          <li>And essentially zero for others. Embiid&rsquo;s own usage moves <b>+0.20</b> points when Maxey sits (CI <b>&minus;2.05 to +2.41</b>) &mdash; he is already at his ceiling regardless of who else is on the floor.</li>
+          <li>Maxey is the one player whose efficiency slope excludes zero: <b>&minus;0.68</b> true-shooting points per extra point of usage (CI <b>&minus;1.44 to &minus;0.02</b>). He gets better with less.</li>
+          <li>The binding constraint turns out to be arithmetic, not efficiency. Five established workloads sum to <b>147</b> usage points against a budget of 100, and even at each player&rsquo;s most-crowded observed rate they still sum to <b>132.5</b> &mdash; a <b>32.5</b>-point overhang that no efficiency gain closes. The answer is staggering minutes, not sharing the ball.</li>
+        </ol>
+      </dd>
+    </dl>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>Three real problems. The standard errors are robust but not clustered, and absences come in multi-week spells, so the intervals above are narrower than they should be. I report roughly 147 nominal-95% intervals across all players and outcomes with no multiple-comparison correction, then promote the largest to the headline &mdash; which is exactly how a false positive gets a table row. And a typo in one player ID silently returned a Basketball-Reference index page instead of a game log; because the file was large enough to look valid to my cache check, that co-star simply vanished from the model with no error raised. That one is a good argument for asserting row counts after every parse.</p>
+    </div>
+  </div>
+</article>
+
+<article class="proj" id="availability">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">July 2026</span>
+      <span class="method-tag">Markov model &middot; Monte Carlo &middot; backtest</span>
+    </div>
+    <h3>Will he play tonight? &mdash; an availability model</h3>
+    <p class="path">~/nba-availability-model &middot; pure standard-library Python</p>
+
+    <dl class="kv">
+      <dt>Why I built it</dt>
+      <dd>To answer the criticism of my own article. Six weeks after publishing the Bridges piece, I went back and named the four things the LSTM got wrong &mdash; it gave a never-injured player near-zero risk, treated each game as independent when absences arrive in multi-week blocks, never compounded per-game risk into the season-long question actually being asked, and had no real out-of-sample test. This rebuilds it to fix all four.</dd>
+
+      <dt>Method</dt>
+      <dd>A two-state Markov model: available &rarr; unavailable at a per-game onset hazard, then unavailable for a duration drawn from that player&rsquo;s own observed absence lengths. The hazard is partially pooled toward a league prior with empirical Bayes (method-of-moments Beta, &alpha;&nbsp;=&nbsp;2.71, &beta;&nbsp;=&nbsp;29.80), which is what stops a one-absence player from being assigned impossible durability. Each player&rsquo;s season is then simulated 40,000 times. Two parameters per player, no covariates &mdash; rest days are computed and displayed but deliberately kept out of the fit.</dd>
+
+      <dt>Validation</dt>
+      <dd>A genuine temporal holdout: fit on 2021&ndash;22 through 2024&ndash;25, tested on 2025&ndash;26, 1,311 held-out player-games, scored against deliberately dumb baselines on Brier score and log loss, with a reliability table and interval coverage.</dd>
+
+      <dt>What I found</dt>
+      <dd>
+        <ol class="finds">
+          <li>Mikal Bridges missed <b>1</b> of 325 at-risk games in training. Pooled, that is a <b>1.04%</b> per-game hazard &mdash; which compounded across 82 games makes a perfect season a <b>41.2%</b> proposition. The streak was closer to a coin flip than to a certainty.</li>
+          <li>Clustering carries almost all the short-horizon signal: one-step-ahead Brier <b>0.136</b> against <b>0.268</b> for the same player&rsquo;s marginal rate. Knowing whether he played last night matters more than knowing who he is.</li>
+          <li>Preseason, player identity carries almost nothing &mdash; the pooled model (<b>0.268</b>) barely separates from a flat league base rate (<b>0.270</b>). Worth reporting precisely because it is the unflattering result.</li>
+          <li>The 90% predictive intervals only covered <b>68.8%</b> of realised season totals. They are too narrow, and the write-up says so.</li>
+        </ol>
+      </dd>
+    </dl>
+
+    <div class="figs">
+      <figure class="tall"><div class="imgbox"><img src="{{c5a}}" alt="Interactive availability report showing a 41.2 percent probability of a perfect season for Mikal Bridges, a KPI row, and an 82-game ledger grid comparing Bridges and Anthony Davis" width="760" height="723"></div><figcaption>The interactive report the model builds. The &ldquo;82-game ledger&rdquo; below the headline exists to show absence <em>texture</em> &mdash; Davis&rsquo; misses arrive in contiguous blocks, which is exactly why treating games as independent fails.</figcaption></figure>
+    </div>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>Absence durations are redrawn independently at each onset, so the model returns injured players too soon &mdash; that shows up plainly as the worst-calibrated bin in the reliability table. The 16-player cohort was hand-picked to span durable and fragile archetypes, which means the pooling prior describes that cohort rather than the league. And the simulation propagates season-to-season randomness but not uncertainty in the fitted parameters, which is most of why the intervals are too narrow.</p>
+    </div>
+  </div>
+</article>
+

@@ -1,0 +1,6 @@
+# a build copy, only used for drag-and-drop hosting
+deploy/
+
+__pycache__/
+*.pyc
+.DS_Store

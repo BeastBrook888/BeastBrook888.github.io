@@ -1,0 +1,651 @@
+<title>Rondon Basketball Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+
+<style>
+/* ============================ tokens: light ============================ */
+:root{
+  --ground:#F2F3F5;
+  --surface:#FFFFFF;
+  --surface-2:#EAECEF;
+  --ink:#16181C;
+  --ink-2:#3A4149;
+  --muted:#5D6472;
+  --hair:#DDE1E6;
+  --hair-strong:#C6CCD3;
+  --hot:#CC4B1F;
+  --hot-soft:#FBEEE8;
+  --cool:#2F5D8C;
+  --cool-soft:#E8EEF5;
+  --shadow:0 1px 2px rgba(22,24,28,.05), 0 8px 24px -12px rgba(22,24,28,.14);
+
+  --display:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --sans:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --chart-bg:#FFFFFF;
+  --cov-bridges:url("{{c6a}}");
+  --cov-gleague:url("{{c6b}}");
+  --cov-westbrook:url("{{c6c}}");
+  --cov-postup:url("{{c6d}}");
+  --col:68ch;
+  --wide:1080px;
+}
+/* dark via OS, unless an explicit light choice is stamped */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101317; --surface:#171B21; --surface-2:#1F242B;
+    --ink:#E8EAED; --ink-2:#C3C9D1; --muted:#98A0AE;
+    --hair:#262C34; --hair-strong:#39414B;
+    --hot:#F1703F; --hot-soft:#2A1A13;
+    --cool:#6BA3D6; --cool-soft:#141E28;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+/* dark via explicit toggle */
+:root[data-theme="dark"]{
+  --ground:#101317; --surface:#171B21; --surface-2:#1F242B;
+  --ink:#E8EAED; --ink-2:#C3C9D1; --muted:#98A0AE;
+  --hair:#262C34; --hair-strong:#39414B;
+  --hot:#F1703F; --hot-soft:#2A1A13;
+  --cool:#6BA3D6; --cool-soft:#141E28;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wide); margin:0 auto; padding:0 28px}
+.col{max-width:var(--col)}
+a{color:var(--hot); text-decoration-thickness:1px; text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cool); outline-offset:3px; border-radius:2px}
+img{max-width:100%; display:block}
+h1,h2,h3{font-family:var(--display); font-stretch:expanded; font-weight:700; text-wrap:balance; margin:0}
+
+/* eyebrow / label utility */
+.lab{
+  font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--muted);
+}
+
+/* ============================ hero ============================ */
+.hero{padding:88px 0 40px; border-bottom:1px solid var(--hair)}
+.hero h1{
+  font-size:clamp(38px,7.4vw,74px); line-height:.96; letter-spacing:-.02em;
+  margin:16px 0 0;
+}
+.hero .sub{
+  font-family:var(--sans); font-size:19px; color:var(--ink-2);
+  margin:20px 0 0; max-width:56ch; line-height:1.5;
+}
+/* the "career line" — a box-score line, for a person */
+.statline{
+  margin-top:34px; border-top:2px solid var(--ink); border-bottom:1px solid var(--hair);
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+}
+.statline div{padding:14px 16px 15px; border-right:1px solid var(--hair)}
+.statline div:last-child{border-right:0}
+.statline b{
+  display:block; font-family:var(--mono); font-weight:600; font-size:25px;
+  letter-spacing:-.02em; font-variant-numeric:tabular-nums; color:var(--ink);
+}
+.statline span{display:block; margin-top:3px}
+
+/* contact */
+.contactrow{display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center; margin-top:26px}
+.contact{
+  font-family:var(--mono); font-size:13px; color:var(--muted);
+  text-decoration:none; border-bottom:1px dashed var(--hair-strong); padding-bottom:2px;
+}
+.contact:hover{color:var(--hot); border-bottom-color:var(--hot)}
+
+/* ============================ arc rail ============================ */
+.arc{padding:36px 0 8px}
+.arc-steps{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(148px,1fr)); gap:0;
+  margin-top:14px; border-top:1px solid var(--hair-strong);
+}
+.arc-steps a{
+  display:block; padding:14px 16px 16px 0; text-decoration:none; color:var(--ink);
+  border-top:3px solid transparent; margin-top:-2px; transition:border-color .18s, color .18s;
+}
+.arc-steps a:hover{border-top-color:var(--hot)}
+.arc-steps .yr{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.arc-steps .mth{
+  display:block; font-family:var(--sans); font-weight:600; font-size:15px;
+  margin-top:5px; line-height:1.3;
+}
+.arc-note{font-family:var(--sans); font-size:14px; color:var(--muted); margin:16px 0 0; max-width:74ch}
+
+/* ============================ skills ============================ */
+.skills{padding:30px 0 46px}
+.chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
+.chip{
+  font-family:var(--mono); font-size:12px; padding:5px 10px;
+  border:1px solid var(--hair-strong); border-radius:2px; color:var(--ink-2);
+  background:var(--surface);
+}
+.chip.m{border-color:var(--cool); color:var(--cool); background:var(--cool-soft)}
+
+/* ---- rail split into its two real groups ---- */
+.rails{display:grid; grid-template-columns:1fr; gap:26px 0; margin-top:10px}
+.railgroup > .lab{display:block; margin-bottom:10px}
+.railgroup .arc-steps{margin-top:0}
+@media (min-width:860px){
+  /* 2fr / 1fr so four cells and two cells come out the same width */
+  .rails{grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:0}
+  .railgroup + .railgroup{padding-left:38px; border-left:1px solid var(--hair-strong)}
+}
+
+/* ---- cover art beside the article title ---- */
+/* ---- cover art: embedded ONCE each as a CSS variable, then used at two
+     sizes (article lead + nav card). background-size:contain inside a box of
+     the image's own aspect ratio shows the whole frame, never cropped. ---- */
+.covart{
+  width:100%; aspect-ratio:var(--ar);
+  background-repeat:no-repeat; background-position:center; background-size:contain;
+  border:1px solid var(--hair); border-radius:3px;
+}
+.cov-bridges{--ar:1100/619; background-image:var(--cov-bridges)}
+.cov-gleague{--ar:1100/825; background-image:var(--cov-gleague)}
+.cov-westbrook{--ar:1100/825; background-image:var(--cov-westbrook)}
+.cov-postup{--ar:1100/726; background-image:var(--cov-postup)}
+.case .covart{max-width:640px; margin-top:22px; box-shadow:var(--shadow)}
+.case .readlink{margin-top:12px}
+
+/* ============================ contents / article nav ============================ */
+.toc{padding:0 0 54px}
+.toc-grid{
+  display:grid; gap:14px; margin-top:14px;
+  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+}
+.tocard{
+  display:flex; flex-direction:column; gap:10px;
+  padding:18px 20px 18px; text-decoration:none; color:var(--ink);
+  background:var(--surface); border:1px solid var(--hair); border-radius:3px;
+  transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.tocard:hover{border-color:var(--hot); transform:translateY(-2px); box-shadow:var(--shadow)}
+.tocard:focus-visible{border-color:var(--cool)}
+.toc-top{display:flex; flex-wrap:wrap; gap:7px 12px; align-items:center}
+.tocard h3{font-size:19px; line-height:1.2; letter-spacing:-.01em; min-width:0}
+.tocard p{margin:0; font-size:15.5px; line-height:1.5; color:var(--ink-2)}
+.tocard .method-tag{font-size:10px; letter-spacing:.08em; padding:3px 6px}
+.tocard .go{
+  margin-top:auto; padding-top:2px;
+  font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--hot);
+}
+.toc-more{font-family:var(--sans); font-size:14.5px; color:var(--muted); margin:20px 0 0}
+.toc-more a{color:var(--cool)}
+
+/* anchors land clear of the viewport edge */
+article[id]{scroll-margin-top:22px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* ============================ case study ============================ */
+.case{padding:64px 0; border-top:1px solid var(--hair)}
+.case-head{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:baseline}
+.case h2{font-size:clamp(25px,3.5vw,36px); line-height:1.12; letter-spacing:-.015em; margin:14px 0 0; max-width:30ch}
+.method-tag{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--cool); background:var(--cool-soft);
+  border:1px solid var(--cool); border-radius:2px; padding:4px 8px;
+}
+.readlink{font-family:var(--mono); font-size:12.5px; margin-top:14px; display:inline-block}
+
+.block{margin-top:30px}
+.block .lab{display:block; margin-bottom:7px}
+.block p{margin:0; max-width:var(--col)}
+.block p+p{margin-top:12px}
+
+/* findings */
+ol.finds{list-style:none; margin:10px 0 0; padding:0; max-width:var(--col); counter-reset:f}
+/* NOT a grid: a grid container turns every inline <b> into its own grid item,
+   which stacks the numbers onto their own rows away from the sentence. */
+ol.finds li{
+  position:relative; padding:13px 0 13px 2.5rem;
+  border-top:1px solid var(--hair);
+}
+ol.finds li:last-child{border-bottom:1px solid var(--hair)}
+ol.finds li::before{
+  content:counter(f); counter-increment:f;
+  position:absolute; left:0; top:18px;
+  font-family:var(--mono); font-size:12px; font-weight:600; color:var(--hot);
+  font-variant-numeric:tabular-nums;
+}
+ol.finds b{
+  font-family:var(--mono); font-weight:600; font-variant-numeric:tabular-nums;
+  color:var(--hot); white-space:nowrap;
+}
+
+/* charts — each reads as an aid to the argument above it, so they stack in
+   order at their own natural width instead of being forced into equal columns
+   that cram mismatched aspect ratios together. */
+.figs{
+  margin-top:36px; display:flex; flex-direction:column;
+  align-items:flex-start; gap:26px;
+}
+.figs + .figs{margin-top:26px}
+/* two charts that make one point together share a row */
+.figs.duo{flex-flow:row wrap; align-items:flex-start}
+.figs.duo figure{flex:1 1 320px; width:auto}
+figure{
+  margin:0; background:var(--surface); border:1px solid var(--hair);
+  border-radius:3px; overflow:hidden; box-shadow:var(--shadow);
+  display:flex; flex-direction:column;
+  width:fit-content; max-width:100%;
+}
+figure .imgbox{overflow-x:auto; background:var(--chart-bg)}
+figure img{height:auto; max-width:100%}
+figcaption{
+  font-family:var(--sans); font-size:13px; line-height:1.45; color:var(--muted);
+  padding:11px 14px 13px; border-top:1px solid var(--hair); max-width:64ch;
+}
+/* wide charts keep a legible floor and scroll inside their own box on phones
+   instead of shrinking into an unreadable smear */
+figure.wide{width:100%}
+figure.wide img{min-width:660px; margin:0 auto}
+
+/* limitations */
+.limits{
+  margin-top:34px; max-width:var(--col); border-left:2px solid var(--hair-strong);
+  padding:2px 0 2px 18px;
+}
+.limits p{margin:6px 0 0; font-size:16px; color:var(--ink-2)}
+
+/* ============================ independent ============================ */
+.section-head{padding:70px 0 4px; border-top:2px solid var(--ink)}
+.section-head h2{font-size:clamp(24px,3.4vw,33px); margin-top:14px}
+.section-head p{font-family:var(--sans); font-size:16px; color:var(--muted); max-width:66ch; margin:12px 0 0}
+.proj{padding:44px 0; border-top:1px solid var(--hair)}
+.proj h3{font-size:22px; letter-spacing:-.01em}
+.proj .path{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:6px}
+.kv{margin-top:20px; max-width:var(--col)}
+.kv dt{font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:16px}
+.kv dd{margin:5px 0 0}
+
+/* ============================ footer ============================ */
+footer{
+  border-top:1px solid var(--hair); margin-top:24px; padding:36px 0 60px;
+  font-family:var(--sans); font-size:14px; color:var(--muted);
+}
+footer p{margin:0; max-width:70ch}
+footer p+p{margin-top:9px}
+
+/* ============================ responsive ============================ */
+@media (max-width:760px){
+  body{font-size:16.5px}
+  .hero{padding:56px 0 32px}
+  .arc-steps{grid-template-columns:repeat(2,1fr)}
+  .arc-steps a{padding-right:12px}
+  .figs.duo{flex-direction:column}
+  figcaption{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+}
+/* restrained load-in: hero only */
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.hero .sub,.statline,.contactrow{animation:rise .6s cubic-bezier(.22,.7,.3,1) both}
+  .hero .sub{animation-delay:.07s}
+  .statline{animation-delay:.14s}
+  .contactrow{animation-delay:.2s}
+  @keyframes rise{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
+}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="lab">Sports Analytics Group at Berkeley &middot; 2024&ndash;2026</span>
+    <h1>Colin Rondon<br>Basketball Analytics</h1>
+    <p class="sub">Four published articles on the NBA and two independent projects, each built from data I scraped and cleaned myself &mdash; from post-up efficiency to a model that estimates whether a player sits out tomorrow.</p>
+
+    <!-- ============================================================
+         FILL IN YOUR CONTACT DETAILS HERE — replace the two hrefs
+         and the two visible labels below. Nothing else on the page
+         needs editing.
+         ============================================================ -->
+    <div class="contactrow">
+      <a class="contact" href="mailto:colinrondon888@gmail.com">colinrondon888@gmail.com</a>
+      <a class="contact" href="https://www.linkedin.com/in/colin-ryan-rondon">linkedin.com/in/colin-ryan-rondon</a>
+    </div>
+    <!-- ==================== end contact block ==================== -->
+
+    <div class="statline">
+      <div><b>4</b><span class="lab">Published articles</span></div>
+      <div><b>2</b><span class="lab">Independent projects</span></div>
+      <div><b>10</b><span class="lab">Data sources</span></div>
+      <div><b>38k</b><span class="lab">Player-game rows</span></div>
+      <div><b>24</b><span class="lab">Seasons analysed</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="arc">
+  <div class="wrap">
+    <div class="rails">
+      <div class="railgroup">
+        <span class="lab">Published articles &middot; SAGB</span>
+        <nav class="arc-steps">
+        <a href="#bridges"><span class="yr">JUN 2026</span><span class="mth">Sequence modelling</span></a>
+        <a href="#gleague"><span class="yr">JAN 2026</span><span class="mth">Historical trend analysis</span></a>
+        <a href="#westbrook"><span class="yr">MAY 2025</span><span class="mth">On/off lineup analysis</span></a>
+        <a href="#postup"><span class="yr">DEC 2024</span><span class="mth">Clustering</span></a>
+        </nav>
+      </div>
+      <div class="railgroup">
+        <span class="lab">Independent projects</span>
+        <nav class="arc-steps">
+        <a href="#starfit"><span class="yr">AUG 2026</span><span class="mth">Fixed effects + IV</span></a>
+        <a href="#availability"><span class="yr">JUL 2026</span><span class="mth">Markov + Monte Carlo</span></a>
+        </nav>
+      </div>
+    </div>
+    <p class="arc-note">Newest work first, so the page opens on what I can do now. Read it backwards and it doubles as a record of the methods getting harder: unsupervised clustering, then descriptive lineup work, then a 24-season historical panel, then a recurrent network with a held-out backtest &mdash; and finally two independent projects that go back and do the statistics properly. The most recent of those exists because I decided one of my own published articles was wrong.</p>
+  </div>
+</section>
+
+<section class="skills">
+  <div class="wrap">
+    <span class="lab">Tools</span>
+    <div class="chips">
+      <span class="chip">Python</span>
+      <span class="chip">pandas</span>
+      <span class="chip">NumPy</span>
+      <span class="chip">PyTorch</span>
+      <span class="chip">scikit-learn</span>
+      <span class="chip">Selenium</span>
+      <span class="chip">BeautifulSoup</span>
+      <span class="chip">nba_api</span>
+      <span class="chip">matplotlib</span>
+      <span class="chip">seaborn</span>
+      <span class="chip">Jupyter</span>
+      <span class="chip">SQL</span>
+    </div>
+    <span class="lab" style="display:block;margin-top:26px">Methods</span>
+    <div class="chips">
+      <span class="chip m">k-means clustering</span>
+      <span class="chip m">LSTM / sequence models</span>
+      <span class="chip m">probability calibration</span>
+      <span class="chip m">fixed-effects regression</span>
+      <span class="chip m">instrumental variables</span>
+      <span class="chip m">empirical-Bayes pooling</span>
+      <span class="chip m">Monte Carlo simulation</span>
+      <span class="chip m">bootstrap intervals</span>
+      <span class="chip m">out-of-sample backtesting</span>
+      <span class="chip m">web scraping / ETL</span>
+    </div>
+  </div>
+</section>
+
+<section class="toc">
+  <div class="wrap">
+    <span class="lab">The four articles &mdash; newest first</span>
+    <div class="toc-grid">
+      <a class="tocard" href="#bridges">
+        <div class="toc-top">
+          <span class="lab">04 &middot; June 2026</span>
+          <span class="method-tag">PyTorch LSTM</span>
+        </div>
+        <h3>Mikal Bridges: How Probable Was The Iron Man&rsquo;s Streak?</h3>
+        <div class="covart cov-bridges"></div>
+        <p>An LSTM trained on 63 player-seasons puts his chance of missing any given game at 3&ndash;4% all year, never close to the 15% alarm line.</p>
+        <span class="go">Read the analysis &darr;</span>
+      </a>
+      <a class="tocard" href="#gleague">
+        <div class="toc-top">
+          <span class="lab">03 &middot; January 2026</span>
+          <span class="method-tag">24-season trend analysis</span>
+        </div>
+        <h3>G-League Call-Ups: A Way to Find Hidden Gems?</h3>
+        <div class="covart cov-gleague"></div>
+        <p>Twenty-four seasons of call-ups. Teams really do pick the productive players &mdash; but only about a third of them hold their minutes once they arrive.</p>
+        <span class="go">Read the analysis &darr;</span>
+      </a>
+      <a class="tocard" href="#westbrook">
+        <div class="toc-top">
+          <span class="lab">02 &middot; May 2025</span>
+          <span class="method-tag">on/off lineup analysis</span>
+        </div>
+        <h3>Russell Westbrook and His Resurgence with the Denver Nuggets</h3>
+        <div class="covart cov-westbrook"></div>
+        <p>A 128.68 offensive rating beside Joki&#263; and Murray, a career-best 51.0% eFG, and a career-worst turnover rate &mdash; all in the same season.</p>
+        <span class="go">Read the analysis &darr;</span>
+      </a>
+      <a class="tocard" href="#postup">
+        <div class="toc-top">
+          <span class="lab">01 &middot; December 2024</span>
+          <span class="method-tag">k-means clustering</span>
+        </div>
+        <h3>Should Guards be Posting Up More Often?</h3>
+        <div class="covart cov-postup"></div>
+        <p>Guards average 0.96 points per post-up possession, and the efficient ones turn out to be shorter and heavier than you&rsquo;d expect &mdash; yet they almost never do it.</p>
+        <span class="go">Read the analysis &darr;</span>
+      </a>
+    </div>
+    <p class="toc-more">Below them, two independent projects: <a href="#starfit">a usage-elasticity study</a> of whether five stars fit on one team, and <a href="#availability">an availability model</a> that goes back and rebuilds article&nbsp;04 properly.</p>
+  </div>
+</section>
+
+<!-- ==================== 4. BRIDGES ==================== -->
+<article class="case" id="bridges">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">Article 04 &middot; June 11, 2026</span>
+      <span class="method-tag">PyTorch LSTM</span>
+    </div>
+    <h2>Mikal Bridges: How Probable Was The Iron Man&rsquo;s Streak?</h2>
+    <a class="readlink" href="https://sportsanalytics.studentorg.berkeley.edu/articles/bridges-iron-man-streak.html" target="_blank" rel="noopener">Read on the SAGB site &rarr;</a>
+    <div class="covart cov-bridges" role="img" aria-label="Mikal Bridges in a Knicks jersey beside a graphic listing the longest consecutive-games-played streaks in NBA history, with Bridges 8th at 638"></div>
+
+    <div class="block">
+      <span class="lab">The question</span>
+      <p>Bridges has played 638 straight games in an era built around resting people. How improbable is that &mdash; and can a model estimate, game by game, the chance a player sits out the next one using nothing but workload?</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Data</span>
+      <p>Pulled through <code>nba_api</code>: full game logs for every player on a Mike Brown or Tom Thibodeau roster across their head-coaching careers, at roughly 11,700 player-game rows per coach, plus team schedules for all those seasons. Rest days had to be derived rather than read &mdash; I left-joined each team&rsquo;s schedule onto the player&rsquo;s game log, so a game on the schedule with no minutes attached <em>is</em> a missed game. Rate limits meant sleeping between requests and caching every pull to CSV.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Method</span>
+      <p>A PyTorch LSTM &mdash; five input features, 16 hidden units, one layer, sequence length five &mdash; predicting whether a player misses his next game from minutes played, rest days, home/away, five-game rolling minutes, and field-goal attempts. The scaler was fit on training data only. Training used 63 player-seasons of Brown&rsquo;s wings, around 5,000 games, holding out Harrison Barnes, Kevin Huerter and Trey Lyles from 2023&ndash;24 entirely. Raw sigmoid scores were Platt-scaled through a logistic regression so the outputs read as calibrated probabilities rather than arbitrary confidence. Bridges&rsquo; own season is inference only &mdash; he never missed a game, so he offers the model no positive examples to learn from.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">What I found</span>
+      <ol class="finds">
+        <li>Only <b>18 of 582</b> players &mdash; about <b>3%</b> &mdash; played all 82 games in 2025&ndash;26. Bridges sits <b>8th all-time</b> at 638 consecutive games.</li>
+        <li>His modelled risk never came close to the <b>15%</b> decision threshold: <b>2.93%</b> entering game 16, drifting to <b>4.41%</b> entering game 82.</li>
+        <li>On the three held-out players the model classified <b>287 of 304</b> games correctly at that threshold, catching <b>30 of 36</b> real absences against <b>11</b> false alarms.</li>
+        <li>The coaching change was a non-event for durability. Under both Brown and Thibodeau, <b>82%</b> of starters played 55+ games and <b>68%</b> played 65+.</li>
+      </ol>
+    </div>
+
+    <div class="figs">
+      <figure class="wide"><div class="imgbox"><img src="{{c4a}}" alt="Histogram of games played by starters on Mike Brown teams with an interval breakdown table" width="1368" height="696"></div><figcaption>Games played by starters under Mike Brown, with the interval breakdown. The Thibodeau version is nearly identical &mdash; which was the point.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c4b}}" alt="Boxplots with overlaid points of minutes played against days of rest for wings under both coaches" width="1300" height="430"></div><figcaption>Minutes against days of rest for wings only, Brown beside Thibodeau.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c4c}}" alt="Line chart of predicted absence risk across Trey Lyles's 2023-24 season with actual missed games marked" width="1398" height="574"></div><figcaption>Held-out backtest, Trey Lyles 2023&ndash;24. Predicted risk spikes over the 15% line exactly where the real absences (dashed) fall.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c4d}}" alt="Violin plot of predicted risk split by whether the game was played, beside a confusion matrix at the 15 percent threshold" width="1366" height="588"></div><figcaption>Predicted risk separated by outcome, and the confusion matrix at the 15% threshold: 257 played and 30 missed games called correctly, 11 false alarms, 6 absences missed.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c4e}}" alt="Line chart of Mikal Bridges predicted absence risk across the 2025-26 season, flat and far below the threshold" width="1400" height="570"></div><figcaption>Bridges&rsquo; whole 2025&ndash;26 season. The risk line never leaves the floor &mdash; the visual argument of the article.</figcaption></figure>
+    </div>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>Three things. The reported numbers come from a plain binary cross-entropy loss on a heavily imbalanced target &mdash; I wrote a class-weighted version and never actually trained with it. The holdout is three players from a single team-season, which is enough to show the risk curve tracks real absences but far too small to quote a stable AUC, so I don&rsquo;t quote one. And the model sees workload only: no injury history, no travel, no team rest policy &mdash; meaning it cannot tell &ldquo;rested&rdquo; apart from &ldquo;hurt,&rdquo; which is the distinction a team would actually pay for.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ==================== 3. G-LEAGUE ==================== -->
+<article class="case" id="gleague">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">Article 03 &middot; January 9, 2026</span>
+      <span class="method-tag">24-season trend analysis</span>
+    </div>
+    <h2>G-League Call-Ups: A Way to Find Hidden Gems?</h2>
+    <a class="readlink" href="https://sportsanalytics.studentorg.berkeley.edu/articles/g-league-call-ups.html" target="_blank" rel="noopener">Read on the SAGB site &rarr;</a>
+    <div class="covart cov-gleague" role="img" aria-label="Three NBA players in Rockets, Trail Blazers and Warriors jerseys in front of an NBA G League logo"></div>
+
+    <div class="block">
+      <span class="lab">The question</span>
+      <p>Two questions, really: does the G-League actually supply NBA value, and are teams calling up the right players when they go looking?</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Data</span>
+      <p>Every G-League call-up from 2001&ndash;02 through 2024&ndash;25, scraped from gleague.nba.com across two different page formats and stitched into one table. Alongside it, Basketball-Reference advanced statistics for 2002&ndash;2025 &mdash; 14,885 player-seasons, scraped season by season &mdash; plus RotoWire injury counts by team, G-League per-player statistics, and both conferences&rsquo; standings. Joining call-ups to advanced stats meant reconciling roughly 286 name mismatches by hand.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Method</span>
+      <p>Call-up frequency by month and by season, cumulative and per-season trends, team-level call-up counts set against injury load, then overlaid distributions comparing each player&rsquo;s G-League production to what they did in the NBA. Win-share distributions and boxplots measured what the call-ups were actually worth.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">What I found</span>
+      <ol class="finds">
+        <li>Call-ups cluster in <b>March (158)</b> and <b>December (148)</b> historically, and barely happen in October <b>(6)</b>.</li>
+        <li>2021&ndash;22 spiked to <b>164</b> call-ups under COVID hardship exceptions &mdash; <b>95</b> in December 2021 alone.</li>
+        <li>2024&ndash;25 saw <b>79</b> call-ups across <b>67</b> players. The five busiest teams &mdash; led by the 76ers at <b>10</b> &mdash; were all carrying heavy injury loads.</li>
+        <li>The value is thin. Most call-ups land between <b>0.0 and 0.25</b> win shares for the season.</li>
+        <li>Teams do select on production: called-up players averaged <b>31.4</b> G-League minutes per game against <b>27.2</b> for those never called, with a hard floor around <b>17.0</b>. But only <b>36%</b> carried even half their G-League minutes into the NBA.</li>
+      </ol>
+    </div>
+
+    <div class="figs">
+      <figure><div class="imgbox"><img src="{{c3a}}" alt="Bar chart of historical G-League call-ups by calendar month" width="728" height="626"></div><figcaption>Call-ups by month, all seasons. March and December dominate; October is nearly empty.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c3b}}" alt="Horizontal bar chart of call-ups by NBA team in the 2024-25 season" width="902" height="600"></div><figcaption>Call-ups by team, 2024&ndash;25. The leaders are the injured teams.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c3c}}" alt="Overlaid histograms of minutes per game in the G-League versus the NBA" width="666" height="594"></div><figcaption>Minutes per game, G-League against NBA: 31.7 drops to 12.9.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c3d}}" alt="Boxplot of win shares for 2024-25 G-League call-ups" width="620" height="548"></div><figcaption>Win shares for 2024&ndash;25 call-ups &mdash; a tight box just above zero.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c3e}}" alt="Overlaid histograms of G-League minutes per game for players called up versus not called up" width="696" height="642"></div><figcaption>G-League minutes for players who were called up against those who weren&rsquo;t. The selection signal is real but modest, and 71% of players never called up fell below the call-up average.</figcaption></figure>
+    </div>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>The win-share comparisons pool players across 24 seasons with no era adjustment, and the 2021&ndash;22 hardship spike is a structural break that my trend lines treat as ordinary variation &mdash; it should be modelled as its own regime or excluded. The 286 hand-fixed name mismatches also mean the join isn&rsquo;t reproducible from the raw files without my edits.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ==================== 2. WESTBROOK ==================== -->
+<article class="case" id="westbrook">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">Article 02 &middot; May 22, 2025</span>
+      <span class="method-tag">on/off lineup analysis</span>
+    </div>
+    <h2>Russell Westbrook and His Resurgence with the Denver Nuggets</h2>
+    <a class="readlink" href="https://sportsanalytics.studentorg.berkeley.edu/articles/russell-westbrook-resurgence.html" target="_blank" rel="noopener">Read on the SAGB site &rarr;</a>
+    <div class="covart cov-westbrook" role="img" aria-label="Russell Westbrook celebrating in a Denver Nuggets jersey"></div>
+
+    <div class="block">
+      <span class="lab">The question</span>
+      <p>Westbrook arrived in Denver written off as finished. Was his 2024&ndash;25 an actual revival, or just what happens when you stand next to Nikola Joki&#263;?</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Data</span>
+      <p>Assembled by hand from five sources rather than scraped: with-or-without-you lineup combinations from PBP&nbsp;Stats, shooting percentiles from Cleaning the Glass, LEBRON impact ratings from BBall-Index, team ratings and league averages from Basketball-Reference, and efficiency metrics from nbarapm. Reconciling Excel&rsquo;s date mangling and Basketball-Reference&rsquo;s sort-tooltip column names took most of the cleaning effort.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Method</span>
+      <p>Deliberately descriptive &mdash; there is no model here. Lineup-level offensive and net ratings were benchmarked against the computed league average, career trends were plotted against league-average reference lines, and Westbrook was placed in an age cohort of 35-to-37-year-old shot creators on offensive versus defensive impact.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">What I found</span>
+      <ol class="finds">
+        <li>Westbrook alongside Joki&#263; and Jamal Murray produced a <b>128.68</b> offensive rating &mdash; about <b>+14</b> on league average &mdash; and a net rating of <b>+5.68</b>.</li>
+        <li>He posted a career-best <b>51.0%</b> effective field goal percentage and <b>64.7%</b> at the rim.</li>
+        <li>The cost was real: a career-worst <b>18.9%</b> turnover rate, which put him in the <b>2nd percentile</b> among point guards for creation-adjusted turnovers.</li>
+        <li>Denver&rsquo;s rank in rim shot-making moved from <b>20th to 6th</b>, and high-value assists from <b>27th to 16th</b>, year over year.</li>
+      </ol>
+    </div>
+
+    <div class="figs">
+      <figure><div class="imgbox"><img src="{{c2a}}" alt="Horizontal bar chart of offensive rating for Westbrook lineup combinations against league average" width="792" height="361"></div><figcaption>Offensive rating by lineup combination, against the league-average line.</figcaption></figure>
+    </div>
+    <div class="figs duo">
+      <figure><div class="imgbox"><img src="{{c2b}}" alt="Line chart of Westbrook career effective field goal percentage with a league-average reference line" width="789" height="436"></div><figcaption>Career effective FG% &mdash; 2024&ndash;25 is the high point.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c2c}}" alt="Line chart of Westbrook career turnover percentage with a league-average reference line" width="792" height="428"></div><figcaption>Career turnover rate &mdash; the same season is his worst.</figcaption></figure>
+    </div>
+    <div class="figs">
+      <figure><div class="imgbox"><img src="{{c2d}}" alt="Scatter plot of offensive against defensive LEBRON rating for players aged 35 to 37" width="397" height="395"></div><figcaption>Offensive against defensive impact, among 35&ndash;37-year-old shot creators.</figcaption></figure>
+    </div>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>These on/off splits are unadjusted for opponent strength or garbage time, and Westbrook&rsquo;s minutes with Joki&#263; were never randomly assigned &mdash; so what I measured are associations, not effects. With one season of lineup data the honest version of this article puts error bars on every rating, or drops the causal language entirely.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ==================== 1. POST-UPS ==================== -->
+<article class="case" id="postup">
+  <div class="wrap">
+    <div class="case-head">
+      <span class="lab">Article 01 &middot; December 10, 2024</span>
+      <span class="method-tag">k-means clustering</span>
+    </div>
+    <h2>Should Guards be Posting Up More Often?</h2>
+    <a class="readlink" href="https://sportsanalytics.studentorg.berkeley.edu/articles/guards-post-up.html" target="_blank" rel="noopener">Read on the SAGB site &rarr;</a>
+    <div class="covart cov-postup" role="img" aria-label="Jalen Brunson of the Knicks backing down a defender with the ball"></div>
+
+    <div class="block">
+      <span class="lab">The question</span>
+      <p>Modern offenses have written the post-up off as a relic. For guards specifically &mdash; who almost never post up &mdash; is that verdict actually supported by their own efficiency numbers?</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Data</span>
+      <p>Four seasons of Synergy Sports play-type tracking (2020&ndash;21 through 2023&ndash;24) scraped from nba.com/stats with Selenium, since the tables are JavaScript-rendered and invisible to a plain HTTP request. Merged against player bios, then filtered to a qualifying threshold of 10 minutes and 10 post-up possessions per game &mdash; 266 player-seasons after cleaning. Shooting splits by court zone and by five-foot range came from two further scrapes.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">Method</span>
+      <p>k-means clustering with <em>k</em>&nbsp;=&nbsp;3, chosen from an elbow curve over <em>k</em>&nbsp;=&nbsp;1&ndash;10, run on points per possession against height and again on score frequency against height. The clusters were then used to define an efficient-guard cohort, whose post-up shooting was compared against their own three-point shooting across every zone of the floor.</p>
+    </div>
+
+    <div class="block">
+      <span class="lab">What I found</span>
+      <ol class="finds">
+        <li>Guards average <b>0.96</b> points per possession on post-ups &mdash; they score on roughly half of them.</li>
+        <li>The efficient cohort skews shorter and heavier, not taller: <b>9 of the top 12</b> post-up guards weigh over 200&nbsp;lbs.</li>
+        <li>Kyrie Irving leads at <b>1.43</b> PPP, with Bradley Beal and RJ Barrett both at <b>1.20</b>.</li>
+        <li>For most guards, post-up FG% clears <b>42%</b> while their three-point percentage sits under <b>39%</b> &mdash; and yet post-ups stay in the low single digits as a share of their offense.</li>
+      </ol>
+    </div>
+
+    <div class="figs">
+      <figure><div class="imgbox"><img src="{{c1a}}" alt="Histogram of post-up points per possession for guards, centred near 0.96" width="463" height="351"></div><figcaption>Distribution of post-up points per possession across qualifying guards.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c1b}}" alt="Scatter plot of points per possession against height, coloured by three k-means clusters" width="495" height="351"></div><figcaption>k-means clusters (<em>k</em>&nbsp;=&nbsp;3) over points per possession and height.</figcaption></figure>
+      <figure class="wide"><div class="imgbox"><img src="{{c1c}}" alt="Table of the twelve most efficient post-up guards with height, weight, frequency and FG%" width="686" height="405"></div><figcaption>The twelve most efficient post-up guards. Nine of them weigh over 200&nbsp;lbs &mdash; and Mikal Bridges, at 1.19 PPP, is the player article&nbsp;04 above would follow eighteen months later.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c1d}}" alt="Scatter plot comparing post-up field goal percentage against three-point percentage" width="415" height="342"></div><figcaption>Post-up FG% against three-point FG%. Most guards sit where the post-up is the better shot.</figcaption></figure>
+      <figure><div class="imgbox"><img src="{{c1e}}" alt="Bar chart of field goal percentages by location on the court" width="582" height="467"></div><figcaption>Shooting percentage by court location, for the efficient cohort.</figcaption></figure>
+    </div>
+
+    <div class="limits">
+      <span class="lab">What I&rsquo;d do differently</span>
+      <p>I pulled three-point efficiency from the 25&ndash;29&nbsp;ft column alone and left out the 20&ndash;24&nbsp;ft band, which overstates the gap between the post-up and the three. The player-to-team join was also on name only, so multi-team seasons fanned out and I capped the result by slicing rather than keying on player-season.</p>
+    </div>
+  </div>
+</article>
+
+{{INDEPENDENT}}
+
+<footer>
+  <div class="wrap">
+    <p>All four articles were written for the <a href="https://sportsanalytics.studentorg.berkeley.edu/" target="_blank" rel="noopener">Sports Analytics Group at Berkeley</a>, where they were published between December 2024 and June 2026. Charts are the figures as published.</p>
+    <p>Every figure quoted on this page comes from the published article or from the notebook output behind it.</p>
+  </div>
+</footer>
