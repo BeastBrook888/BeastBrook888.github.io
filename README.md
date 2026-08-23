@@ -7,7 +7,7 @@ A single-page portfolio of four articles published with the
 Each entry carries its research question, data sources, method, headline findings,
 the published charts, and an honest note on what it gets wrong.
 
-**Live site:** https://COLIN_GITHUB_USERNAME.github.io
+**Live site:** https://beastbrook888.github.io
 
 ## Layout
 
