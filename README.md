@@ -32,11 +32,6 @@ base64 WebP, so `index.html` works from any location — including opened direct
 from disk. The only external request is Google Fonts, which degrades to system
 fonts if unavailable.
 
-## Editing your contact details
-
-They live near the top of `src/template.html`, in the block marked
-`FILL IN YOUR CONTACT DETAILS HERE`. Change them there and rebuild.
-
 ## Where the charts come from
 
 All 24 figures are the charts **as published**, not re-plotted. The four SAGB
