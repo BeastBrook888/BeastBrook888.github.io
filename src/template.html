@@ -197,6 +197,17 @@ article[id]{scroll-margin-top:22px}
   text-transform:uppercase; color:var(--cool); background:var(--cool-soft);
   border:1px solid var(--cool); border-radius:2px; padding:4px 8px;
 }
+/* project status. Same geometry as .method-tag; the glyph and the word carry the
+   meaning, so this never depends on colour alone (CVD, print, forced-colours). */
+.status{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; border-radius:2px; padding:4px 8px;
+  display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+}
+.status .gl{font-size:9px; line-height:1}
+.status.active{color:var(--hot); background:var(--hot-soft); border:1px solid var(--hot)}
+.status.done{color:var(--muted); background:var(--surface-2); border:1px solid var(--hair-strong)}
+
 .readlink{font-family:var(--mono); font-size:12.5px; margin-top:14px; display:inline-block}
 
 .block{margin-top:30px}
