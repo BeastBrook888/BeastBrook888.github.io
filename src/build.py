@@ -22,6 +22,14 @@ ROOT = SRC.parent
 html = (SRC / "template.html").read_text()
 html = html.replace("{{INDEPENDENT}}", (SRC / "independent.html").read_text())
 
+# Archived SAGB article text, so the site does not depend on that site staying up.
+# Regenerate with: python3 src/archive_articles.py
+for key in sorted(set(re.findall(r"\{\{ARCHIVE:([a-z0-9-]+)\}\}", html))):
+    p = SRC / "articles" / f"{key}.html"
+    if not p.exists():
+        sys.exit(f"missing archived article: {p} (run src/archive_articles.py)")
+    html = html.replace("{{ARCHIVE:%s}}" % key, p.read_text())
+
 for key in sorted(set(re.findall(r"\{\{(c\d[a-z])\}\}", html))):
     img = SRC / "charts" / f"{key}.webp"
     if not img.exists():

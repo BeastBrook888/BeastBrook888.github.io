@@ -309,6 +309,78 @@ footer p+p{margin-top:9px}
   .contactrow{animation-delay:.2s}
   @keyframes rise{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
 }
+
+/* ===================== tabs, archived articles ===================== */
+/* Panels are visible by default so the page is complete without JavaScript;
+   script adds .tabs-live to the wrapper, which is what enables hiding. */
+.tabwrap{margin:44px 0 8px}
+.tabbar{display:flex; flex-wrap:wrap; gap:6px; border-bottom:1px solid var(--hair); padding-bottom:0}
+.tab{
+  appearance:none; background:none; border:1px solid transparent; border-bottom:none;
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--muted); cursor:pointer;
+  padding:10px 15px; border-radius:3px 3px 0 0; margin-bottom:-1px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{
+  color:var(--ink); background:var(--surface);
+  border-color:var(--hair); border-bottom:1px solid var(--surface);
+}
+.tab:focus-visible{outline:2px solid var(--cool); outline-offset:2px}
+.tct{
+  font-size:10px; font-weight:600; color:var(--muted);
+  background:var(--surface-2); border-radius:99px; padding:1px 6px; letter-spacing:.04em;
+}
+.tab[aria-selected="true"] .tct{color:var(--cool); background:var(--cool-soft)}
+.tabnote{margin:12px 0 0; font-size:13.5px; color:var(--muted); max-width:70ch}
+.tabs-live .tabpanel[hidden]{display:none}
+
+details.archive{
+  margin:26px 0 0; border-top:1px solid var(--hair); padding-top:4px;
+}
+details.archive summary{
+  cursor:pointer; font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  padding:10px 0; list-style:none;
+}
+details.archive summary::-webkit-details-marker{display:none}
+details.archive summary::before{content:"+ "; color:var(--hot)}
+details.archive[open] summary::before{content:"– "}
+details.archive summary:hover{color:var(--ink)}
+details.archive summary:focus-visible{outline:2px solid var(--cool); outline-offset:2px}
+.archbody{
+  max-width:var(--col); padding:6px 0 22px;
+  font-family:var(--serif); font-size:16.5px; line-height:1.72; color:var(--ink-2);
+}
+.archbody h3{
+  font-family:var(--display); font-size:18px; letter-spacing:-.008em;
+  margin:30px 0 8px; color:var(--ink);
+}
+.archbody h4{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 18px;
+}
+.archbody p{margin:0 0 14px}
+.archbody ul,.archbody ol{margin:0 0 14px; padding-left:22px}
+.archbody li{margin-bottom:7px}
+.archbody table{border-collapse:collapse; font-family:var(--sans); font-size:13.5px; margin:0 0 16px}
+.archbody th,.archbody td{border-bottom:1px solid var(--hair); padding:7px 12px; text-align:left}
+.archbody th{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.archnote{
+  font-family:var(--sans); font-size:12.5px; color:var(--muted);
+  background:var(--surface-2); border-left:2px solid var(--hair-strong);
+  padding:10px 14px; margin:0 0 22px;
+}
+.figmark{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--hair-strong);
+}
+p.figmark{margin:0 0 14px}
+@media (max-width:640px){
+  .tab{padding:9px 11px; font-size:11px}
+  .archbody{font-size:15.5px}
+}
 </style>
 
 <header class="hero">
@@ -445,6 +517,16 @@ footer p+p{margin-top:9px}
 </section>
 
 <!-- ==================== 4. BRIDGES ==================== -->
+<div class="tabwrap" id="tabs">
+  <div class="tabbar" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="t-art" aria-controls="p-art" aria-selected="true">Articles <span class="tct">4</span></button>
+    <button class="tab" role="tab" id="t-prj" aria-controls="p-prj" aria-selected="false">Independent projects <span class="tct">2</span></button>
+  </div>
+  <p class="tabnote">Everything below is held in this page. The four articles include an
+  archived copy of their full text, so they remain readable if the original site goes away.</p>
+</div>
+
+<div class="tabpanel" id="p-art" role="tabpanel" aria-labelledby="t-art">
 <article class="case" id="bridges">
   <div class="wrap">
     <div class="case-head">
@@ -493,6 +575,237 @@ footer p+p{margin-top:9px}
       <p>Three things. The reported numbers come from a plain binary cross-entropy loss on a heavily imbalanced target &mdash; I wrote a class-weighted version and never actually trained with it. The holdout is three players from a single team-season, which is enough to show the risk curve tracks real absences but far too small to quote a stable AUC, so I don&rsquo;t quote one. And the model sees workload only: no injury history, no travel, no team rest policy &mdash; meaning it cannot tell &ldquo;rested&rdquo; apart from &ldquo;hurt,&rdquo; which is the distinction a team would actually pay for.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody"><p class="archnote">Archived copy, retrieved 2026-08-31 from the Sports Analytics Group at Berkeley. Figures appear above; markers show where they sat in the original.</p>
+<h4>By Colin Rondon | June 11, 2026</h4>
+ <span><span class="figmark">[figure]</span></span>
+ <p class="figmark">[figure]</p>
+ <h3>Introduction</h3>
+ <p>Even in the day and age of load management, Mikal Bridges is known for his durability, having never missed a single game in his 8-year NBA career or even his high school and college career. However, his durability was tested last season when he joined the New York Knicks in a trade. Why? Coach Tom Thibodeau. Thibodeau, known for coaching Derrick Rose during his MVP years, and sadly, his career-altering ACL injury year, often relied too much on his starters, tiring them out through a long 82-game season. Aside from Derrick Rose, 5 other notable players were injured for a significant time while playing for him: </p>
+ <ul>
+ <li><strong>Joakim Noah (Chicago Bulls):</strong> During the 2014 playoffs, he was forced to play through plantar fasciitis and knee deterioration he had been facing during the regular season <strong>(35.4 minutes per game / MPG)</strong>, which limited his playing time during the next 2 seasons and prevented him from returning to All-Star form at just age 30.</li>
+ <li><strong>Luol Deng (Chicago Bulls):</strong> In January 2012, he had a torn wrist ligament that needed surgery, yet he delayed this to play on. Additionally, in 2013 <strong>(36.8 MPG)</strong>, a botched spinal tap for suspected meningitis forced him to sit out the 2013 playoffs. In just his late 20s, he had lost the efficiency and defensive lateral quickness he was known for.</li>
+ <li><strong>Zach LaVine (Minnesota Timberwolves):</strong> In February 2017, he injured his left ACL and ended up missing the last 35 games of that 2016-17 season <strong>(37.2 MPG)</strong>, plus the first half of the 2017-18 season.</li>
+ <li><strong>Jimmy Butler (Minnesota Timberwolves):</strong> In February 2018 <strong>(36.7 MPG)</strong>, he tore his right meniscus and missed 6 weeks before returning just before the 2018 playoffs which he helped the Timberwolves reach. Although he’s kept up his all-star play, he has since never played more than 65 games to keep himself healthy for the playoffs.</li>
+ <li><strong>Julius Randle (New York Knicks):</strong> In January 2024 <strong>(35.4 MPG)</strong>, he dislocated his right shoulder, which he got much-needed surgery for in April, and missed the final 36 games of that regular season plus the full 2024 playoffs.</li>
+ </ul>
+ <p>Nevertheless, even with Bridges being a league leader in minutes per game (MPG) during the 2024-25 regular season (3rd with 37.0 MPG), it was surprising that he kept his streak of consecutive games played. Even with his new head coach Mike Brown being more forgiving, playing him 32.8 MPG this season, his streak still survived. However, I still want to analyze how probable was it throughout the season that he kept his streak?</p>
+ <h3>How Crazy is Mikal Bridges’ Streak of Games Played?</h3>
+ <p>Many don’t understand how outrageous Mikal Bridges’ streak of games played is:</p>
+ <p>Among the players in the top 10 for consecutive regular season games played at any point in their career, 8 out of 10 of them did not play in the 2000s. </p>
+ <p>Sources: Wikipedia “List of NBA players with 500 consecutive games played”, Statmuse</p>
+ <table>
+ <thead>
+ <tr>
+ <th>Rank</th>
+ <th>Name</th>
+ <th>Consecutive Games</th>
+ <th>Streak Start</th>
+ <th>Streak End</th>
+ <th>MPG During Streak</th>
+ <th>How Streak Ended</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>1</td>
+ <td>A.C. Green</td>
+ <td>1,192</td>
+ <td>November 19, 1986</td>
+ <td>April 18, 2001</td>
+ <td>29.3</td>
+ <td>Retirement (Never missed a game due to injury)</td>
+ </tr>
+ <tr>
+ <td>2</td>
+ <td>Randy Smith</td>
+ <td>906</td>
+ <td>February 18, 1972</td>
+ <td>March 13, 1983</td>
+ <td>28.2</td>
+ <td>Retirement</td>
+ </tr>
+ <tr>
+ <td>3</td>
+ <td>Red (Johnny) Kerr</td>
+ <td>844</td>
+ <td>October 31, 1954</td>
+ <td>November 4, 1965</td>
+ <td>N/A**</td>
+ <td>Retirement</td>
+ </tr>
+ <tr>
+ <td>4</td>
+ <td>Michael Cage</td>
+ <td>736</td>
+ <td>April 23, 1989</td>
+ <td>April 14, 1998</td>
+ <td>24.7</td>
+ <td>Hamstring injury</td>
+ </tr>
+ <tr>
+ <td>5</td>
+ <td>Dolph Schayes^</td>
+ <td>706</td>
+ <td>February 17, 1952</td>
+ <td>December 26, 1961</td>
+ <td>N/A**</td>
+ <td>Shattered cheek bone</td>
+ </tr>
+ <tr>
+ <td>6</td>
+ <td>Bill Laimbeer</td>
+ <td>685</td>
+ <td>October 24, 1980</td>
+ <td>January 27, 1989</td>
+ <td>33.0</td>
+ <td>Suspension</td>
+ </tr>
+ <tr>
+ <td>7</td>
+ <td>Harry Gallatin^</td>
+ <td>682</td>
+ <td>November 20, 1948</td>
+ <td>March 9, 1958</td>
+ <td>N/A*</td>
+ <td>Retirement</td>
+ </tr>
+ <tr>
+ <td>8</td>
+ <td>Mikal Bridges</td>
+ <td>638</td>
+ <td>October 17, 2018</td>
+ <td>Present</td>
+ <td>33.3</td>
+ <td>N/A (ongoing)</td>
+ </tr>
+ <tr>
+ <td>9</td>
+ <td>Andre Miller</td>
+ <td>632</td>
+ <td>January 26, 2003</td>
+ <td>December 5, 2010</td>
+ <td>35.0</td>
+ <td>Suspension</td>
+ </tr>
+ <tr>
+ <td>T-10</td>
+ <td>John Stockton^</td>
+ <td>609</td>
+ <td>February 13, 1990</td>
+ <td>April 20, 1997</td>
+ <td>36.1</td>
+ <td>Knee injury</td>
+ </tr>
+ <tr>
+ <td>T-10</td>
+ <td>Jack Twyman^</td>
+ <td>609</td>
+ <td>November 5, 1955</td>
+ <td>October 29, 1963</td>
+ <td>N/A</td>
+ <td>Broke two bones in his hand</td>
+ </tr>
+ </tbody>
+ </table>
+ <p>
+ ^has been inducted into the Naismith Memorial Basketball Hall of Fame <br>
+ *(total minutes not tracked before 1951-1952 season) <br>
+ **hard to obtain
+ </p>
+ <p>Nowadays, you rarely see an NBA player stay healthy for 14 years, let alone for an 82-game season. Of the 582 players who logged minutes in the NBA, only 18 of them played all 82 games: that’s only 3% of the NBA!</p>
+ <p>Even if we lower the threshold to 65 games, the minimum number of games an NBA player needs to play in a season to be eligible for post-season awards, a graph from Thinking Basketball’s video titled “When the solution doesn’t address the problem” shows that only about 31-32% of the NBA played 65 games this season. The last time 50% of the NBA played at least 65 games in a season was around 2016, a decade ago!</p>
+ <p>All of this just goes to show how impressive Mikal Bridges is ready and present for every NBA game that he can participate in.</p>
+ <h3>Context: Mike Brown and His Teams</h3>
+ <p>Mike Brown, the current head coach of the New York Knicks, has been a head coach for 11 years. The most notable stars that he coached before the Knicks are LeBron James in his early Cleveland Cavaliers days, Kobe Bryant towards the end of his Lakers career, Pau Gasol in the middle of his career, De’Aaron Fox and Domantas Sabonis who led the Sacramento Kings to their first playoff appearance in 16 years. As a head coach, all of the teams that he had coached other than the 2013-14 Cavaliers and the 2023-2025 Sacramento Kings had made the playoffs.</p>
+ <p>While Mike Brown has coached many wing players, not many are very similar to Mikal Bridges: Bridges is a 2-way player who can be a 3rd option on offense and the 1st or 2nd point-of-attack defender. A few players who may be considered similar to him are past-his-prime Cavaliers Luol Deng, a young Keegan Murray, and one of Bridges’ teammates, OG Anunoby.</p>
+ <p>Later on in this article, I attempt to build a recurrent neural network model, a Long Short-Term Memory (LSTM) model, to predict if Mikal Bridges’ streak of games played will continue based on several factors. Since Mikal Bridges is a very unique player, I want to compare him to other players playing the same / a similar position who also played a significant amount of minutes per game under coach Mike Brown. However, since the biggest change from last season to this season is his head coach, who controls how many minutes and touches he gets, let’s first look at relevant statistics for players who played under coach Mike Brown:</p>
+ <h3>Statistics About Mike Brown Starters and Comparison to Tom Thibodeau Teams</h3>
+ <p>One way I limited which players to compare to Mikal Bridges is filtering for “starters” by only selecting players who played 25 or more minutes per game in a season. </p>
+ <p>The histogram below shows how many games Mike Brown starters played in their respective seasons. From this, we can see that:</p>
+ <ul>
+ <li>51 out of 62 (~82%) starters played at least 2/3 (~55 games) of the season <strong>(red line)</strong></li>
+ <li>42 out of 62 (~68%) starters played at least 65 games of the season <strong>(orange line)</strong></li>
+ </ul>
+ <p class="figmark">[figure]</p>
+ 
+ <p>If we compare this to Tom Thibodeau teams with the histogram below, we see the following:</p>
+ <ul>
+ <li>51 out of 62 (~82%) starters played at least 2/3 (~55 games) of the season <strong>(red line)</strong></li>
+ <li>42 out of 62 (~68%) starters played at least 65 games of the season <strong>(green line)</strong></li>
+ </ul>
+ <p class="figmark">[figure]</p>
+ 
+ <p>This result is not as surprising as you might think, since his reliance on starters has only affected a certain portion of players. So, both players under Mike Brown and Tom Thibodeau (as head coaches) are generally healthy.</p>
+ <p>Looking at the dot plots below, we can also see that more than half of Mike Brown’s starters and Tom Thibodeau’s starters played two-thirds or more of their season, even if they play a varying amount of minutes, and even if they don’t have much rest between games, as the next graph shows.</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>The graphs below shows that neither Mike Brown nor Tom Thibodeau do NOT automatically let players rest more for back-to-backs (0.0 rest days column). These graphs also show other interesting findings:</p>
+ <ul>
+ <li>The whiskers of the few rest days (0-3, other than 1) for Thibodeau’s players are noticeably taller compared to those for Brown’s players</li>
+ <li>Thibodeau’s 0 rest days column has a noticeably dark cluster from the 0 to 5 minutes played range, which Mike Brown’s 0 rest days column does not have, which can imply Thibodeau’s reluctance to give minutes to players deeper on the bench compared to Brown even if the game is the 2nd night of a back-to-back.</li>
+ <li>In the 0 rest days column for both charts, there are noticeably darker clusters around the 35 minute mark for the Mike Brown chart and the 40 minute mark for the Thibodeau chart, so this may suggest that both coaches do give a lot of run to certain starters on the 2nd night of back-to-backs, but Thibodeau pushes that group of starters more than Brown does</li>
+ </ul>
+ <p class="figmark">[figure]</p>
+ 
+ <p>Let’s filter the previous graph for wings, the position of Mikal Bridges:</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>Based on the graphs above, the median number of minutes for Mike Brown players for games with 0, 4, 6 rest days prior is actually higher than that of Tom Thibodeau players, while the inverse is true for games with 1 to 3, 5, and 7 rest days prior.</p>
+ <p>From all these analyses, although Mike Brown is a more merciful coach than Tom Thibodeau in terms of letting his starters rest more, the difference between them is not as much as casual fans might think based on the discourse around Tom Thibodeau. After all, this year’s New York Knicks team does not have a lot of wings that Mike Brown has trusted, since among the top 20 5-man combinations / lineups they had, 7 do not have O.G. Anunoby (67 games played), 9 do not have Josh Hart (66 games played), and only 3 of them do not have Mikal Bridges:</p>
+ <ul>
+ <li>9th (47:08 minutes) - O. Anunoby | M. Bridges | J. Brunson | M. Robinson | L. Shamet</li>
+ <li>10th (45:22 minutes) - O. Anunoby | J. Brunson | J. Hart | L. Shamet | K. Towns</li>
+ <li>19th (33:26 minutes) - J. Brunson | M. Diawara | J. Hart | M. Robinson | L. Shamet</li>
+ </ul>
+ <p>For context, only 3 of Mike Brown’s lineups have surpassed 100 minutes played together:</p>
+ <ul>
+ <li>1st (540:45 minutes) - O. Anunoby | M. Bridges | J. Brunson | J. Hart | K. Towns</li>
+ <li>2nd (122:38 minutes) - M. Bridges | J. Brunson | J. Hart | M. McBride | K. Towns <strong>(No Anunoby!)</strong></li>
+ <li>3rd (119:29 minutes) - O. Anunoby | M. Bridges | J. Brunson | L. Shamet | K. Towns <strong>(No Hart!)</strong></li>
+ </ul>
+ <h3>Predicting the Probability of Missing the Next Game</h3>
+ <p>With all of the context and exploration out of the way, let’s talk about what factors the Long Short-Term Memory (LSTM) model, a recurrent neural network, looks at to analyze the probability of a player missing their next game:</p>
+ <ul>
+ <li><strong>MIN_ROLLING_5:</strong> This refers to the rolling average of minutes they play in a 5-game stretch, in order to provide a baseline fatigue measure for the next game with recent context incorporated. <strong>Above 33</strong> for even a role player can signify that they have been “stretched” to their limit <strong>because two-way wings in my dataset average around 22.7 minutes per game</strong>.</li>
+ <li><strong>MIN (Minutes Played):</strong> This refers to the number of minutes they played in a game, and is used together with MIN_ROLLING_5 to flag any stretch of games with many minutes.</li>
+ <li><strong>REST_DAYS:</strong> This refers to the number of days a player gets to rest between games. Having less or no rest days before a game can take a toll on a player and risk their physical health.</li>
+ <li><strong>FGA (Field Goals Attempted):</strong> This refers to the number of shots that a player took in a game, including both misses and makes. This is a good contextual statistic because the physical toll of 30 minutes is different on a spot-up shooter versus a shot creator.</li>
+ <li><strong>IS_AWAY (is the away team):</strong> This refers to whether a player’s team was playing at an opposing team’s court, with the normal flag of 1 meaning it was an away game, and 0 meaning it was a home game. Because NBA travel schedules can be brutal on a player’s sleep rhythm, this can show another factor that took a physical toll on a player’s health.</li>
+ </ul>
+ <p><strong>IMPORTANT NOTE:</strong> To clarify the “Backtest” graphs below, they do present the chance for a player to miss each of the 82 games in an NBA season, and <strong>absence risk probabilities above the red threshold line of 15% or up to 20% are values that the line spike up to before an injury or a missed game.</strong></p>
+ <h3>Testing With Select Players</h3>
+ <p>Let’s first test the prediction powers of our LSTM model on some players from one of Mike Brown’s recent teams: the 2023-24 Sacramento Kings. We’ll test with 3 different players: </p>
+ <p>First, let’s look at Harrison Barnes, the most similar to Mikal Bridges because he also played 82 games in the 2023-24 season:</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>Harrison Barnes only crossed the 15% risk threshold towards the end of the season, which nowadays is inflated because coaches rest their starters either to keep them healthy for the playoffs or to evaluate their younger players who got little playing time during the regular season.</p>
+ <p>Next, let’s look at Kevin Huerter, who missed more games and only played 64 games mostly due to a season-ending injury of his left shoulder on March 18, 2024:</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>He was generally healthy for most of the season and only had a predicted risk probability spike above the 15% risk threshold at the 11th game of the season, which he sat out due to a left finger sprain.</p>
+ <p>Finally, let’s look at Trey Lyles, who only played 58 games due to a left knee injury on October 18, 2023, <strong>6 days before the season started</strong>, and an MCL strain on March 16, 2024, a month before the season ended:</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>This graph shows that the model is pretty accurate with projecting the duration that an injured player like Trey Lyles misses, with the predicted absence risk dropping greatly after he returns.</p>
+ <p>To better present how well the model did its predictions with the 3 test players, let’s look at the charts below:</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>The first visualization, the violin + swarm plot, shows that the model is good at predicting a low absence risk for games that the 3 above players actually played and a high absence risk (at least higher than 15%) for games that they did miss.</p>
+ <p>The second visualization, the confusion matrix, shows that there were not many false negatives and false positives recorded. The model predicted that only 11 out of 30 (36.7%) of actual missed games were played. However, as there is a class imbalance with a majority of the dataset (268 / 304, ~88%) being games played, in the future, we could add players with more missed games to the dataset.</p>
+ <h3>Backtest with Mikal Bridges</h3>
+ <p>Let’s now look at the results and backtest graph for Mikal Bridges, our original test subject:</p>
+ <p class="figmark">[figure]</p>
+ <p class="figmark">[figure]</p>
+ 
+ <p>As you can see, throughout the whole 2025-26 regular season, Mikal Bridges’ predicted absence risk percentage never even got close to the dangerous 15% risk threshold. The spikes in this graph don’t even reach 6%. This really showcases his durability compared to other NBA players who played with Mike Brown as their head coach.</p>
+ <h3>Conclusion</h3>
+ <p>While the LSTM model that I built is not the best tool to predict how healthy an NBA player is when he plays for coach Mike Brown, partly because it doesn’t count in factors like miles run on the court or role on the court (ex. Primary ball handler, 3-and-D, Glass Cleaner), it gives good insight as to how well Mike Brown manages his players’ health while winning games.</p>
+ <p>Mikal Bridges is an anomaly. Because of load management, we will never see a player stay on the court like him, especially a 2-way player that plays many minutes and is very important to his team. Even if casual fans keep finding ways to discredit Mikal for this very impossible feat, we should appreciate his commitment to the game of basketball and showing up for his fans.</p>
+</div>
+  </details>
 </article>
 
 <!-- ==================== 3. G-LEAGUE ==================== -->
@@ -545,6 +858,92 @@ footer p+p{margin-top:9px}
       <p>The win-share comparisons pool players across 24 seasons with no era adjustment, and the 2021&ndash;22 hardship spike is a structural break that my trend lines treat as ordinary variation &mdash; it should be modelled as its own regime or excluded. The 286 hand-fixed name mismatches also mean the join isn&rsquo;t reproducible from the raw files without my edits.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody"><p class="archnote">Archived copy, retrieved 2026-08-31 from the Sports Analytics Group at Berkeley. Figures appear above; markers show where they sat in the original.</p>
+<h4>By Colin Rondon | January 09, 2026</h4>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As teams nowadays look to shake up their rosters much more than back in the days, one of their sources for finding players to add is the G-League, the NBA’s developmental league. Used to develop young players, give practice runs to their recently rehabbed veterans, or just scout for good young players, the G-League is more than just the lesser-known middle child of basketball leagues. Just like the NBA draft, it has produced hidden gems like 4x DPOY Rudy Gobert plus 2019 champs and all-stars Pascal Siakam and Fred VanVleet. One of its former teams, the G-League Ignite, even served as a way for high school prospects to forego college and develop straight towards the NBA draft, producing young ballers like Jalen Green, Scoot Henderson, and Jonathan Kuminga. Hence, it might be worth giving it more attention than it currently gets. NBA teams have been adding “G-League Call-Ups” to their team since the 2001-02 NBA season, yet this term is not very well-known, so what is this all about? </p>
+ <p><b>Context</b></p>
+ <p>For those who are not familiar with what G-League “call-ups” are, think of an NBA team calling a G-League player to go up to the big leagues. At any point during the regular season, players in the G-League are eligible to sign a contract with an NBA team, whether temporary or for the rest of the season. This is because G-League players signed contracts with the league, not their individual team.</p>
+ <p>There are 3 types of contracts that G-League call-ups sign: the “Standard” contract, which lets the player play for an NBA team for the rest of the season, the “10-Day” contract, which usually serves as a trial period for the player to prove they belong on the roster, and the “Two-Way” contract, where the player splits their time during the season between a G-League team and its parent NBA team (for a maximum of 50 games). Normally, a G-League player can be signed by any NBA team, but if they are on a two-way contract, they can only play for the NBA team that is the parent of the G-League team they play for</p>
+ <p>Since a call-up is considered a roster change, just like a free agency signing or trade, call-ups can only be done during the regular season of the NBA, which you’ll see in the next section.</p>
+ <p><b>Historical Trends with G-League Call-Ups</b></p>
+ <p>The bar chart below describes how many G-League call-ups happened during each month of the NBA season. </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As you can see, most teams don’t need to make call-ups until later in the season, with most happening in December and March. The most number of call-ups happens in March usually because rebuilding teams usually don’t care about their record by this time in the season, so they might want their young prospects to get more reps against NBA competition without caring about wins. Playoff contending teams who have secured a playoff spot by this time, a.k.a. top seeds might also want to give their star players more rest at the end of the season, so they MAY call up G-League players to take some or all playing time off the shoulders of these stars, or to even develop their own young prospects they might have.</p>
+ <p>Now, the two graphs below show the number of G-League call-ups since the 2001-02 NBA season when these were first implemented, with the first showing the number per season, and the second showing a cumulative sum since the start of call-ups.</p>
+ <span><span class="figmark">[figure]</span></span>
+ <span><span class="figmark">[figure]</span></span>
+ <p>We can see that since the G-League was postponed at the same time as the NBA due to the COVID-19 pandemic and it did not resume until February 9, 2021, the number of call-ups during the 2019-20 and 2020-21 seasons decreased compared to surrounding seasons. The 2021-22 season has a record 164 call-ups because there was an outbreak of the COVID-19 variant Omicron in December 2021. Since the NBA had already dealt with postponing the 2019-20 season for around 7 months, to not deal with another postponement, they instituted a “special hardship exception”. This allowed NBA teams to replace players lost to the virus with 10-day contracts if their roster dropped below 13 players. This meant that in December 2021, the league saw a record of 95 G-League call-ups, the highest number the league has ever seen for any month, let alone any season.</p>
+ <p><b>How Useful do NBA Teams Find G-League Call-Ups?</b></p>
+ <p>Even if the G-League is not well-known among the NBA fans, NBA teams on the other hand have been utilizing its players for a while. There were 79 call-ups during the previous 2024-25 NBA season, with 67 unique players that were called-up.</p>
+ <p>As the chart below shows, disregarding COVID-19-disrupted seasons, at least half of the league has made at least 1 call-up since the 2009-10 season, which was 15 years ago. Additionally, at least two-thirds of the league made at least one call-up since 2017-18. Hence, a majority of the league sees some value in G-League prospects.</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Another good way to illustrate call-ups’ contributions to NBA teams is through win shares. For context, win shares is an advanced statistic that estimates the number of wins a player contributed to their team's total for the season. A value of 9.0-12.0 is usually for an all-star / superstar, 6.0-9.0 for solid starters, 3.0-6.0 for role players, and 0.0-2.0 for deep bench players.</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As you can see in the chart above, G-League call-ups typically have no tangible effect on NBA teams’ records. Most G-League call-ups are expected to be roster-spot fillers who may get playing time only during garbage minutes, not superstars who turn around the team. <span>This chart suggests that call-ups were more valuable to NBA teams 12 years ago than they are now, but that may be skewed due to the lesser number of call-ups made at that time.</span></p>
+ <p>(The values of average win shares for the 2019-20 and 2020-21 seasons are 0 because all of the call-ups were seen as roster-spot fillers who did not play enough to qualify for the “Advanced Statistics” page on Basketball Reference)</p>
+ <p><b>An Analysis of Call-Ups During the 2024-25 NBA Season</b></p>
+ <p>What kind of value do NBA teams see in G-League prospects? The chart below might answer that. It shows how many G-League call-ups all 30 NBA teams made during the 2024-25 season:</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>The top 5 teams are all not surprises when you look at their injury history for that season - all of them ranked within the top 10 NBA teams with most players injured and were teams that were at the bottom of their conferences in terms of records:</p>
+ <span><span class="figmark">[figure]</span></span>
+ <ol>
+ <li>1. Philadelphia 76ers:
+ <ul>
+ <li>a. Aging and injury-prone superstars: Joel Embiid (19 games played / GP) and Paul George (41 GP)</li>
+ <li>b. Season-ending injury: Tyrese Maxey (52 GP)</li>
+ </ul>
+ </li>
+ <li>2. New Orleans Pelicans:
+ <ul>
+ <li>a. injury-prone Zion Williamson (30 GP)</li>
+ <li>two stars lost to season-ending injuries: Dejounte Murray (31 GP) and Brandon Ingram (18 GP)</li>
+ </ul>
+ </li>
+ <li>3. Charlotte Hornets:
+ <ul>
+ <li>a. Injury-prone and lost to season-ending injury: LaMelo Ball (47 GP)</li>
+ <li>b. Brandon Miller (27 GP)</li>
+ </ul>
+ </li>
+ <li>4. Toronto Raptors:
+ <ul>
+ <li>a. Immanuel Quickley (33 GP)</li>
+ </ul>
+ </li>
+ <li>5. Brooklyn Nets:
+ <ul>
+ <li>a. Cam Thomas (25 GP)</li>
+ </ul>
+ </li>
+ </ol>
+ <p>This shows that while G-League call-ups have potential to turn around a teams’ fortunes, most NBA teams mostly see them more as injury replacements.</p>
+ <p>To further illustrate this point, let’s compare the basic statistics of call-ups in the G-League versus in the NBA:</p>
+ <span class="figmark">[figure]</span>
+ <span class="figmark">[figure]</span>
+ <span class="figmark">[figure]</span>
+ <span class="figmark">[figure]</span>
+ <p>As you can see by the histograms above, all 3 pairs of histograms are barely overlaid, exhibiting the big drop-off in these statistics that G-Leaguers see when they play in the NBA. Just over 1/3 of G-League call-ups get to play 50% or more of the time per game that they did in the G-League, just less than 1/4 of them get 50% or more of their shot attempts in the G-League, and just over 1/10 of them get to score 50% or more of the points they did in the G-League.</p>
+ <span class="figmark">[figure]</span>
+ <span class="figmark">[figure]</span>
+ <p>Finally, as you can see by the visualizations above, the amount of win shares that G-League call-ups contribute is also minimal. Most call-ups fall within the 0.0 to 0.25 range for win shares, while a select few are close to 1.0 win shares. Regardless, none even reached the 3.0 win shares minimum that typical role players have.</p>
+ <p><b>Are G-League Teams Calling Up the Right Players?</b></p>
+ <p>For an interesting investigation, let’s compare the basic statistics of G-League players that did get called up versus those that did not:</p>
+ <p>Each overlaid histogram below will show the distribution of called-up players in blue, and the distribution of not called-up players in orange. We will look at minutes per game, points per game, and field goals attempted per game</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>This first histogram is not surprising, as most NBA teams prefer to call up players who have a long enough sample size of play time with meaningful output.</p>
+ <p>Since the minimum minutes per game of a call-up from last season is 17 minutes per game, from now on, let’s filter just for players who got at least 17 minutes per game, since we know that NBA teams are much less likely to call up G-League benchwarmers.</p>
+ <span class="figmark">[figure]</span>
+ <span class="figmark">[figure]</span>
+ <p>As you can see above, most NBA teams want to see really meaningful output from the G-League prospects that they pick. Unless a G-League player exhibit talents or skills, like hustle or good instincts, that are not accounted for in counting stats, he has a slim to no chance of getting called up to the NBA.</p>
+ <p>Although there have been hidden gems here and there in the G-League waiting to be called up by an NBA team, most call-ups do not get the playing time and/or shots to blossom into stars, let alone have the potential to be one.</p>
+ <p><b>Conclusion</b></p>
+ <p>While it’s very rare to get miracles like Pascal Siakam and Rudy Gobert from the G-League, this league is full of gym rats waiting for their chance to showcase their talent on a bigger stage. The amount of basketball talent is growing exponentially, and the NBA only has so many spots for them. It’s a matter of time before the G-League has its next beast waiting to be unleashed.</p>
+</div>
+  </details>
 </article>
 
 <!-- ==================== 2. WESTBROOK ==================== -->
@@ -599,6 +998,106 @@ footer p+p{margin-top:9px}
       <p>These on/off splits are unadjusted for opponent strength or garbage time, and Westbrook&rsquo;s minutes with Joki&#263; were never randomly assigned &mdash; so what I measured are associations, not effects. With one season of lineup data the honest version of this article puts error bars on every rating, or drops the causal language entirely.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody"><p class="archnote">Archived copy, retrieved 2026-08-31 from the Sports Analytics Group at Berkeley. Figures appear above; markers show where they sat in the original.</p>
+<h4>By Colin Rondon | May 22, 2025</h4>
+ <span><span class="figmark">[figure]</span></span>
+ <p>With the NBA regular season almost coming to an end, we can now fully evaluate the season that players across the league have had. One player that deserves a closer look for his positive contributions is Russell Westbrook of the Denver Nuggets.
+ </p>
+ <p>Just as most in the NBA community cast off Russell Westbrook as officially past his prime when he signed with the Denver Nuggets, his 5th team in 6 years, the 9x All-Star significantly revamped his game. Despite playing alongside former MVP Nikola Jokic and all-star caliber guard Jamal Murray, two players who slow the game down and need the ball in their hands in different ways to be effective, he managed to find his fit. However, because he is on a smaller market team and starting less often, fans don’t seem to care as much about this resurgence. Hence, this article is here to recognize his growth and give him his flowers.
+ </p>
+ <p><i>Quick Note: These statistics and rankings are updated up to April 8, 2025, the day that their head coach Michael Malone got fired
+ </i></p>
+ <h3>Team Overview</h3>
+ <p>First, let’s look at Westbrook’s influence on the Denver Nuggets’ success.
+ </p>
+ <h4>General Lineup Data</h4>
+ <p>One of the initial question marks with the Nuggets’ signing of Russell Westbrook was his fit alongside Nikola Jokic and Jamal Murray. Below is a bar chart showing the offensive rating of different lineup combinations with these 3 players on and off the court:</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Most of the lineup combinations with Russell Westbrook have an above-average offensive rating, above the league average of <b>114.60 </b>(marked by the purple line). When they are all on the court together, their offensive rating is still at a good high of 128.68 (+14 from the average) and a net rating of 5.68, as shown by the next bar chart below. Meanwhile, when he plays with just Jokic, their offensive rating is 122.87 and their net rating is 9.88. This generally shows that he fits in just fine with the two other Nuggets’ stars. 
+ </p>
+ <p>Although the offensive rating of lineups with just Russell Westbrook is very low at 98.51, the Nuggets don’t have consistent good creators/shooters outside of their stars and an inconsistent Michael Porter Jr. For this reason, lineups without Murray or Jokic on the floor haven't exactly been a winning formula in the past 5 seasons, holding a -7.84 net rating in 3,425 minutes, which is ~20% of the minutes over those years.</p>
+ <span><span class="figmark">[figure]</span></span>
+ <h4>Team Strengths</h4>
+ <p>Russell Westbrook is known for his athleticism that allows him to attack the rim and his playmaking that helps him enable his teammates to take and make good shots, and that has shown. Comparing last season versus this season, the Nuggets have the following ranks (among all NBA teams) in rim and assist stats:
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <ul> <i>Definitions of Statistics from Above Table:</i>
+ <li><b>Rim Shot Making: </b>How well a team shoots at the rim relative to their shot quality
+ </li>
+ <li><b>High Value Assists: </b>How many assists on 3-pointers, rim shots, and free throws a team gets (assists on the best shots via analytics)
+ </li>
+ </ul>
+ <p>As you can see, Russell Westbrook has helped the Nuggets either slightly or drastically in important categories of the Nuggets’ offense. On his own, Westbrook is shooting a career-best 64.7% at the rim on 7.5 attempts per 100 possessions, the 2nd lowest frequency in his career.</p>
+ <p>However, there are some confounding factors that could explain the change in these ranks. First, the Denver Nuggets have Nikola Jokic, one of the most efficient players in terms of shots at the rim, and he’s only getting better, solidifying his case for potentially his 4th MVP award. He currently has a rim field goal percentage (FG%) of 72.0% on 7.9 attempts per 100 possessions, which is in the 68th percentile of centers. Second, Christian Braun has improved greatly with his new starting role, going from 20.2 minutes per game (MPG) and only starting 4 games last season, to averaging a career-high 33.8 MPG and starting 73 out of Denver’s 75 games thus far. In terms of shooting at the rim, he is shooting a career high 71.8% at the rim on 7.7 attempts per 100 possessions, which is comparable to Jokic’s great stats. Lastly, Denver has increased their pace greatly from last season, going from 97.43, good for 26th in the league, to 100.75, good for 6th in the league.</p>
+ <p>Although these rank increases cannot be fully attributed to Westbrook, one interesting amplifying variable is Aaron Gordon’s scoring at the rim this season, which is where he does the majority of his scoring (47% of his shots). According to nbarapm.com, this season, Aaron Gordon is shooting a career-worst 63.6% at the rim on 6.7 attempts per 100 possessions. His rim FG% is in the 28th percentile for power forwards, which is bad especially since they have an easier time at the rim compared to guards, plus his value to Denver’s offense is as a lob threat and rim finisher. Despite playing in just 47 of Denver’s 75 games as of April 5, 2025, and on way less minutes per game (down from 31.3 last season to 27.9 this season), he is hurting the Nuggets’ rim scoring statistics.
+ </p>
+ <p>While Denver has benefitted from Jokic’s usual high efficiency at the rim and the blossoming of Christian Braun in his new starting role, the addition of the rim-punishing Russell Westbrook has been a great help to Denver’s great improvement in inside scoring.
+ </p>
+ <p><b>Thriving on the Nuggets but Not the Lakers or Clippers: Why?
+ </b></p>
+ <p>Jamal Murray is the typical star that Westbrook has often played alongside: he creates his own shot and for others via isolations and as the pick-and-roll ball handler. On the other hand, Jokic and the Denver Nuggets have an offense that complements Westbrook’s strengths: Jokic operates more as a creation hub. He uses his post-up skills not only to score himself, but also as gravity to create for others. Additionally, the Denver Nuggets have a constant movement, read-and-react system with players cutting, spacing out, and sharing the ball to find good shots. While they aren’t a high-speed transition team, they have an excellent half-court offense that breaks down defenses more methodically with movement and mismatches. Here, Westbrook has thrived both as an off-ball cutter and a playmaker that can find his cutting teammates.
+ </p>
+ <p>Compare that to Westbrook’s teams during the previous 2 seasons with the Los Angeles Lakers and Clippers, two big-market teams with multiple ball-dominant stars, bad spacing, and a lack of movement, and his fit with the Nuggets seems much easier. These characteristics were especially apparent with the Lakers when he played there, as LeBron James and Anthony Davis were below-average 3-point shooters. Additionally, their offensive system had him mostly sitting in the corner at a time when his own 3-point shooting was also below-average, allowing defenses to sag off of him and clog the driving lanes for the other two superstars. According to bball-index.com, the 2021-22 Lakers were ranked 28th in the league for Catch-and-Shoot (C&S) 3-Point Shooting Talent, 26th for C&S 3-Point Shot Making, and 26th for “Assisted Shooting Talent.” Additionally, the 2022-23 Lakers were ranked 25th in the league for 3-Point Shooting Talent and 27th in C&S 3-Point Shot Making Efficiency. Therefore, not only was Westbrook’s fit with the Lakers bad, but the roster construction in terms of long-distance shooting talent was horrendous. Westbrook was the scapegoat for the Lakers’ lack of success while he played there, but this shows he wasn’t as much to blame.
+ </p>
+ <ul> <i>Definitions of Statistics from above paragraph (via bball-index.com):
+ </i>
+ <li><b>3-Point Shot Making: </b>Shooting ability given the difficulty of shots based on data for openness, self-creation, and player movement before the shot
+ </li>
+ <li><b>3-Point Shooting Talent: </b>Combination of BBall-index’s shooting statistics (shot-making, quality, self-creation) that captures 3-point shooting ability in a neutral environment
+ </li>
+ </ul>
+ <p>He then moved on to the Los Angeles Clippers, where he seemed to fit in a bit better. He would set screens, crash the boards, and lead fastbreaks occasionally, but the Clippers’ offense still relied on isolations and mismatch hunting for their superstars Kawhi Leonard, and Paul George, plus James Harden for just the 2023-24 season. This still left Westbrook in the corner or somewhere where defenders could sag off of him because they knew he wasn’t going to move around. With the Clippers’ 3 superstars getting injured too often or having bad playoff closeout games, Westbrook didn’t find much playoff success with the Clippers either. According to bball-index.com, although the 2022-23 Clippers had good rankings in overall shot creation and 3-point shot making (6th in the league for both), they had a -0.12 for “Overall Shot Quality”, ranking 22nd in the league and 0.89 Isolation Points Per Possession, ranking 21st in the league
+ </p>
+ <h3>Westbrook's Offensive Overview</h3>
+ <p>Since we know Russell Westbrook contributes much more on the offensive end than the defensive end, we’ll look at only his offensive progress and contributions to the Denver Nuggets.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>When looking at just basic stats (as of April 8, 2025), Russell Westbrook has pretty much improved across the board from the previous season: a 2.2 increase in points per game and a 1.7 increase in assists with just a 1.2 increase in field goals attempted and only 5.7 more minutes played per game. However, according to nbarapm.com, his Points Per 75 Possessions has decreased by 1.1 points from 17.9 down to 16.8. So, while the basic stats say he improved, with more context, he has an increased offensive role and is using more possessions with less efficiency.
+ </p>
+ <p>Additionally, based on this line chart, Westbrook is having his second-best effective field-goal percentage (51.0%) season. Even though he’s never really been above league average (54.3% for the current season), this is a big step up for Westbrook who was often known to be or labeled as an “inefficient shot-chucker”.</p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Unfortunately, as shown in the line chart below, he had his highest turnover percentage of his career (18.9%), and he’s always been way over league average (12.7% for the current season), committing 4.1 turnovers per 75 possessions. 
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>According to nbarapm.com, Westbrook has a 13.8% creation-adjusted TOV rate, per 75 possessions (cTOV%), which regrettably puts him in the 2nd percentile of point guards. Meanwhile, he has a 8.1% scoring turnover percentage (sTOV%) which regrettably puts him in the 19th percentile of point guards.
+ </p>
+ <ul> For context, he started almost 50% of Denver’s games and played significant opening minutes and has had to score more, especially during the latter half of the season, because Jamal Murray was out with a hamstring injury for a while (injured for 6 of Denver's Last 8 games of the season). Since Westbrook has started more games with the Nuggets than any of his last 2 seasons, these percentage changes can be explained by how the Nuggets have been utilizing him more than the Lakers and Clippers did. For comparison, those turnover values and percentages per 75 possessions are below:
+ <li>2024 Clippers: 3.4 TOV per 75 (14th percentile), 6.7% sTOV% (39th percentile), 11.4% cTOV% (14th percentile)
+ </li>
+ <li>2024 Clippers: 3.4 TOV per 75 (14th percentile), 6.7% sTOV% (39th percentile), 11.4% cTOV% (14th percentile)
+ <li>Note: no statistics available for separate stints</li>
+ </li>
+ <li>
+ 2022 Lakers: 4.0 TOV per 75 (15th percentile), 7.4% sTOV% (24th percentile), 12.1% cTOV% (15th percentile)
+ </li>
+ </ul>
+ <ul> <i>Definitions of Statistics from Above Table:</i>
+ <li><b>Creation-Adjusted Turnover Rate (cTOV%): </b>How often a player turns the ball over given their offensive load difficulty
+ </li>
+ <li><b>Scoring Turnover Percentage (sTOV%): </b>How often a player turns the ball per possession, excluding passing
+ </li>
+ </ul>
+ <p>The graph below also shows his LEBRON over the years. You can see a dip to a negative LEBRON rating starting in 2022, but it rises back up to positive in late 2024 / early 2025, which is about when he started playing with the Denver Nuggets. This shows that his impact has improved compared to his time with the Lakers and Clippers, especially for an NBA player in his late 30s.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <h3>How Does He Compare to Other 35-37 Year Old Players?
+ </h3>
+ <p>For a player who many believe to have his best days behind him, Russell Westbrook fares better than several other shot creators his age. The chart below from bball-index.com shows the O-LEBRON and D-LEBRON of Westbrook and players around his age (he is 36 years old this season, so we compare him to 35-37 year old players for a bigger sample size) whose primary offensive role was labeled “Shot Creator” by bball-index.com.
+ </p>
+ <p>Russell Westbrook is no LeBron James, who has surpassed his expectations into his old age, but he does not fall into the bottom left corner of the graph (high negative O-LEBRON and D-LEBRON) like NBA fans might suggest. He also fares better than or is comparable to players like Carmelo Anthony, Joe Johnson, and Chauncey Billups in their older seasons, showing Westbrook still has more gas in the tank.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Russell Westbrook is no LeBron James, who has surpassed his expectations into his old age, but he does not fall into the bottom left corner of the graph (high negative O-LEBRON and D-LEBRON) like NBA fans might suggest. He also fares better than or is comparable to players like Carmelo Anthony, Joe Johnson, and Chauncey Billups in their older seasons, showing Westbrook still has more gas in the tank.
+ </p>
+ <h3>Conclusion
+ </h3>
+ <p>While Russell Westbrook isn’t the MVP-caliber player he once was with the Oklahoma City Thunder, it is about time we give him his flowers for beating the allegations that he is past his prime and staying more than useful on a team contending for a championship. He has a decent shot of removing himself from the rare and unfortunate list of eight NBA players in history who has won an MVP but not a championship, and he can do so as a legitimate contributor to a contending team.
+ </p>
+</div>
+  </details>
 </article>
 
 <!-- ==================== 1. POST-UPS ==================== -->
@@ -650,8 +1149,134 @@ footer p+p{margin-top:9px}
       <p>I pulled three-point efficiency from the 25&ndash;29&nbsp;ft column alone and left out the 20&ndash;24&nbsp;ft band, which overstates the gap between the post-up and the three. The player-to-team join was also on name only, so multi-team seasons fanned out and I capped the result by slicing rather than keying on player-season.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody"><p class="archnote">Archived copy, retrieved 2026-08-31 from the Sports Analytics Group at Berkeley. Figures appear above; markers show where they sat in the original.</p>
+<h4>By Colin Rondon | December 10, 2024</h4>
+ <span><span class="figmark">[figure]</span></span>
+ <p><b>Introduction</b></p>
+ <p>The post-up is a basketball move where the player faces their back to their defender and backs them down to create space for a close-to-the-basket hook shot or a fadeaway shot. This is often reserved for the big men like Shaquille O’Neal or Tim Duncan who are strong enough to push smaller players to get closer to the basket, and sometimes skilled shot-makers like Kobe Bryant and DeMar DeRozan.
+ </p>
+ <p>This move has seen a steep fall-off in recent years through how frequently it is done. For the previous 2023-2024 NBA season, the average frequency percentage (Freq%) for the post-up for all NBA teams was just 4.17% Analytics have proven that any shot other than the 3-point shot or a shot at the rim are inefficient and not worth shooting. We saw this almost work with the 2018-2019 Houston Rockets (James Harden & Chris Paul) who unleashed 3 pointers 52% of the time, more than half of their shots, and made it to game 7 in the Western Conference Finals, where they missed 27 straight 3-pointers.
+ </p>
+ <p>However, the skillset of NBA guards has expanded since the late 2000’s when the guard position evolved from the pure John Stockton role of prioritizing running the offense and setting up teammates with good looks, to the scorer-playmaker hybrids like Russell Westbrook or the pure scorers like Derrick Rose. Prominent guards in the league today are resurrecting the once frowned-upon post-up, whether it be last season's MVP candidates like Jalen Brunson, Shai Gilgeous-Alexander, Luka Doncic, or other prolific guards like Devin Booker and Anthony Edwards,. 
+ </p>
+ <p><b>This made me wonder if the post-up is a viable play for guards. </b>You often see players resort to the 10-dribble combo at the end of the shot clock, ending in a step-back or contested three, but what if they tried posting up more so they could use their strength to back down a weaker or smaller defender and create space off of a fadeaway or spin into a post hook?
+ </p>
+ <p><b>Data Exploration</b></p>
+ <p>In my data investigation, I found that not many guards qualified for Synergy’s restriction of both 10 minutes played per game and 10 possessions per play type to qualify, so I combined data from the previous 4 seasons (the 2020’s) to also use a K-means clustering model and attempt to find characteristics of a good post-up guard.
+ </p>
+ <p>Let’s look at a few key statistics when it comes to efficiency for a specific play type: points per possession (PPP), frequency percentage (Freq%), and score frequency percentage (Score Freq%). The first statistic quantifies how much output a player gets from each post-up that they do, the second ensures we have some context when looking at how many points they generate through post-ups, and the third is a good summary of how much they convert on their post-ups in any way, whether it be a free-throw, and-one, or a regular 2-pointer. Keep in mind that this does NOT count assists that they may generate off of kick-outs from double-teams; the Score Freq% only considers points the player scores themselves.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Looking at the histogram above, there are a good number of guards who can score an average of 1 point per post-up. In fact, the mean PPP of all guards in my dataset is 0.96, and that’s basically scoring on a post-up 50% of the time. That’s pretty good!
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Although a lot of guards can score 42% of the time on post-ups, they don't do it often. We’ll look back at this later.
+ </p>
+ <p>(Note: I used 42% as my threshold of “good” because a good 3-point shooter is usually set at 39% and above. Since it is a closer shot than the 3-point shot but can be difficult on turnaround shots, the threshold is only slightly above that of 3-point shooting.)
+ </p>
+ <p><b>Characteristics of “Good” Post-up guards?</b></p>
+ <p>I want to investigate if there are any characteristics that stand out from “good” post-up guards. I’ll define “good” as >= 1.0 PPP.
+ </p>
+ <p>First, we’ll look at the full distribution, then we’ll get into the K-means clustering process to look at any common characteristics.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Unsurprisingly, many players are not getting many post-ups. We’ll look at this with more context later.
+ </p>
+ <p><b>K-Means Clustering</b></p>
+ <p>I decided to divide the dataset into 3 clusters, firstly because my calculations suggested it would be a good number, and secondly, because I wanted to look at 3 different groups:
+ </p>
+ <ul>
+ <li><b>Really short guards</b> (green cluster)
+ <ul>
+ a.) height < 195cm.
+ b.) or height < 6'4.75"
+ </ul>
+ </li>
+ <li><b>The (approximately) typical-height guards</b> (blue cluster)
+ <ul>
+ a.) 195cm < height < 200 cm.
+ b.) or 6'4.75" <= height <- 6'6.75"
+ </ul>
+ </li>
+ <li>And <b>the tall guards</b> (blue cluter)
+ <ul>
+ a.) height >= 200cm.
+ b.) or height > 6'6.75"
+ </ul>
+ </li>
+ <span><span class="figmark">[figure]</span></span>
+ <p>The centroids, or the black dots which represent the average of each cluster, surprisingly show that the shortest guards are best at the post-up. Interesting!
+ </p>
+ <p>Let’s look at both the blue and green clusters, the shortest guards and typical-height guards.
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>With the average weight of guards and guard-forwards averaging out to 205.60 lbs., it is unsurprising that the majority of the high-PPP guards on the “shorter” end are heavier than average. This might explain how a lot of Cluster 3 guards, the shortest ones in our dataset, are scoring better on post-ups then Cluster 2 guards: if they don’t have the height advantage, they have the weight advantage. If they can’t tower over their defender’s contest, they can push their defender to create enough space for an easier shot.
+ </p>
+ <p>Let’s look at the top 12 PPP post-up guards <b>from the 2023-2024 season that meet the criteria of our clusters of interest, blue and green:</b></p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Some expected names are here like DeMar DeRozan, whose bread-and-butter is the turnaround fadeaway, plus Devin Booker and Kyrie Irving who like that shot too. However, some surprising names pop up like De’Aaron Fox and Bradley Beal. Those guys are on the shorter end, and they aren’t first-to-mind for fadeaway or post-up shots. Unsurprisingly, a majority of these players (9 out of 12) are over 200 pounds.
+ </p>
+ <p>Now, let’s look at how often these players do the post-up compared to how much their team does, <b>with the bar chart sorted by player frequency %:</b>
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As expected, the majority of these players do the post-up less than their teams run it. Why might this be? Among this majority are players who are on teams that have better post-up personnel like 
+ </p>
+ <ul>
+ <li><b>Devin Booker and Bradley Beal:</b> the Phoenix Suns ranks 10th in the league with 5.0% post-up frequency with the help of Kevin Durant (9.2% post-up frequency, 92nd in the league)
+ </li>
+ <li><b>Anthony Edwards: </b>the Minnesota Timberwolves ranks 8th in the league with 5.4% post-up frequency with the help of Karl-Anthony Towns (13.6% post-up frequency, 38th in the league) and Rudy Gobert (10.2% post-up frequency, 18th in the league)
+ </li>
+ </ul>
+ <p>Meanwhile, the other players are on teams that don’t have the personnel or have stars who the coaches think aren’t fit for the move, and therefore shy away from the post-up in general:
+ </p>
+ <ul>
+ <li><b>Mikal Bridges:</b> he was the first option on offense for the Brooklyn Nets, who ranked last in the league in post-up frequency with 1.5%
+ </li>
+ </ul>
+ <p>For context. the highest post-up FREQ% is by the Denver Nuggets with 7.8%, who have Nikola Jokic, a master of the post-up.
+ </p>
+ <p>If teams don’t run the post-up so much, how much do the players value it, especially compared to other types of shots like 3-pointers, mid-rangers, and paint shots?
+ </p>
+ <p><b>Shot-Type Analysis</b></p>
+ <p>Returning to the introduction, let’s do a comparison of <b>2023-2024</b> NBA guards’ post-up field goal percentage (post-up FG%) versus their 3-point field goal percentage (3FG%).
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>There are 4 sections in this graph divided by the 39% 3FG% and 42% post-up FG% lines, and we can see that the bottom right one, the one where 3FG% < 39% and post-up FG% > 42%, is where the majority of NBA guards fall. <b>At the surface-level, this looks like the post-up is a better option than the 3-pointer, but as proven below, because so many more players take more 3-pointers than post-ups (91 in the dataset) compared to how many take more post-ups than 3-pointers (41), we can’t conclude here just yet.</b>
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Let’s do the same comparison but for the top 12 high PPP post-up guards <b>of 2023-24:</b>
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As shown above, all of these players have a much higher post-up FG% compared to that for 3-pointers. Does that mean the post-up is a way more viable shot than the 3-pointer? No. When we look at the chart below, we might see why there’s this disparity in field-goal percentage:
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>Now, let’s look at this data together with their percentages and attempts for all other types of shots (looking at their shot diets). For context, the restricted area is the half-circle under the hoop, and above the break refers to 3-pointers taken anywhere other than the corners
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>As expected, their paint field goal percentage is the highest since that is the closest shot to the hoop, but, a majority of these players have their second-best field goal percentage in their post-ups (a few only slightly higher or lower to that of non-RA paint shots). For how much they shoot 3-pointers at a lower rate, even if it’s one extra point, maybe they could diversify their shot diet more. Let’s look at their attempts all over the court:
+ </p>
+ <span><span class="figmark">[figure]</span></span>
+ <p>These shot diets show that there is hope for analytics not purely dominating the NBA, since DeMar DeRozan, Shai-Gilgeous Alexander, RJ Barrett, and Devin Booker don’t have their 2nd-most shot-type attempted as the 3-pointer. But, they all still rarely rely on the post-up, with it being their least-taken shot other than the corner 3 for a few. Looking at how efficient these players are at the post-up, maybe they could diversify their shot diet.
+ </p>
+ <p><b>Implications and Possible Improvements</b></p>
+ <p>Now, although we’ve proved that the post-up can be a useful skill for guards, this obviously only applies to the strong guards that have the green light from their coach. Many of the names of high-PPP post-up guards are superstars or second options that the coaches rely on to score.
+ </p>
+ <p>
+ The post-up can slow down the game, which is what most teams might not want. However, it can generate good mismatches or kick-outs for open shots. Plus, when you see how many difficult 3-pointers players choose to take over posting up, a less predictable move that has the potential to create them more space, this is a skill that guards should develop when they develop or have the muscle. This investigation was not meant to prove the post-up should be the primary choice for the play to run every possession, but that it is a useful skill for guards to pull out of their bag when necessary, which is more often than you might think.
+ </p>
+ <p>This investigation could be improved by creating more calculated thresholds for what a “good” post-up field-goal percentage is, as well as looking into more context like the personnel and play-style that each team has that could lead to high or low post-up frequency percentages.
+ </p>
+ </ul>
+</div>
+  </details>
 </article>
 
+</div>
+
+<div class="tabpanel" id="p-prj" role="tabpanel" aria-labelledby="t-prj">
 <section class="section-head">
   <div class="wrap">
     <span class="lab">Beyond the club</span>
@@ -741,6 +1366,7 @@ footer p+p{margin-top:9px}
 </article>
 
 
+</div>
 
 <footer>
   <div class="wrap">
@@ -748,3 +1374,65 @@ footer p+p{margin-top:9px}
     <p>Every figure quoted on this page comes from the published article or from the notebook output behind it.</p>
   </div>
 </footer>
+
+<script>
+/* Tabs. The panels are already visible in the markup, so a reader without
+   JavaScript sees the whole page; this only adds the ability to filter.
+   Deep links keep working: any #anchor inside a panel activates that panel first,
+   which matters because the existing arc-steps nav points into both. */
+(function(){
+  var wrap = document.getElementById('tabs');
+  if (!wrap) return;
+  var tabs = [].slice.call(wrap.querySelectorAll('.tab'));
+  var panels = tabs.map(function(t){ return document.getElementById(t.getAttribute('aria-controls')); });
+  if (panels.some(function(p){ return !p; })) return;   // markup changed; leave it open
+  wrap.classList.add('tabs-live');
+
+  function select(i, focus){
+    tabs.forEach(function(t, k){
+      t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+      t.setAttribute('tabindex', k === i ? '0' : '-1');
+      panels[k].hidden = k !== i;
+    });
+    if (focus) tabs[i].focus();
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(i); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      select((i + d + tabs.length) % tabs.length, true);
+    });
+  });
+
+  function panelOf(el){
+    for (var i = 0; i < panels.length; i++) if (panels[i].contains(el)) return i;
+    return -1;
+  }
+  function reveal(hash){
+    if (!hash || hash.length < 2) return false;
+    var el = document.getElementById(hash.slice(1));
+    if (!el) return false;
+    var i = panelOf(el);
+    if (i < 0) return false;
+    select(i);
+    return true;
+  }
+
+  select(0);
+  if (reveal(location.hash)) {
+    // the browser already tried to scroll while the panel was hidden
+    requestAnimationFrame(function(){
+      var el = document.getElementById(location.hash.slice(1));
+      if (el) el.scrollIntoView();
+    });
+  }
+  window.addEventListener('hashchange', function(){ reveal(location.hash); });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) reveal(a.getAttribute('href'));
+  });
+})();
+</script>

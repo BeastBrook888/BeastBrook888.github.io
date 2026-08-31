@@ -309,6 +309,78 @@ footer p+p{margin-top:9px}
   .contactrow{animation-delay:.2s}
   @keyframes rise{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
 }
+
+/* ===================== tabs, archived articles ===================== */
+/* Panels are visible by default so the page is complete without JavaScript;
+   script adds .tabs-live to the wrapper, which is what enables hiding. */
+.tabwrap{margin:44px 0 8px}
+.tabbar{display:flex; flex-wrap:wrap; gap:6px; border-bottom:1px solid var(--hair); padding-bottom:0}
+.tab{
+  appearance:none; background:none; border:1px solid transparent; border-bottom:none;
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--muted); cursor:pointer;
+  padding:10px 15px; border-radius:3px 3px 0 0; margin-bottom:-1px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{
+  color:var(--ink); background:var(--surface);
+  border-color:var(--hair); border-bottom:1px solid var(--surface);
+}
+.tab:focus-visible{outline:2px solid var(--cool); outline-offset:2px}
+.tct{
+  font-size:10px; font-weight:600; color:var(--muted);
+  background:var(--surface-2); border-radius:99px; padding:1px 6px; letter-spacing:.04em;
+}
+.tab[aria-selected="true"] .tct{color:var(--cool); background:var(--cool-soft)}
+.tabnote{margin:12px 0 0; font-size:13.5px; color:var(--muted); max-width:70ch}
+.tabs-live .tabpanel[hidden]{display:none}
+
+details.archive{
+  margin:26px 0 0; border-top:1px solid var(--hair); padding-top:4px;
+}
+details.archive summary{
+  cursor:pointer; font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  padding:10px 0; list-style:none;
+}
+details.archive summary::-webkit-details-marker{display:none}
+details.archive summary::before{content:"+ "; color:var(--hot)}
+details.archive[open] summary::before{content:"– "}
+details.archive summary:hover{color:var(--ink)}
+details.archive summary:focus-visible{outline:2px solid var(--cool); outline-offset:2px}
+.archbody{
+  max-width:var(--col); padding:6px 0 22px;
+  font-family:var(--serif); font-size:16.5px; line-height:1.72; color:var(--ink-2);
+}
+.archbody h3{
+  font-family:var(--display); font-size:18px; letter-spacing:-.008em;
+  margin:30px 0 8px; color:var(--ink);
+}
+.archbody h4{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 18px;
+}
+.archbody p{margin:0 0 14px}
+.archbody ul,.archbody ol{margin:0 0 14px; padding-left:22px}
+.archbody li{margin-bottom:7px}
+.archbody table{border-collapse:collapse; font-family:var(--sans); font-size:13.5px; margin:0 0 16px}
+.archbody th,.archbody td{border-bottom:1px solid var(--hair); padding:7px 12px; text-align:left}
+.archbody th{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.archnote{
+  font-family:var(--sans); font-size:12.5px; color:var(--muted);
+  background:var(--surface-2); border-left:2px solid var(--hair-strong);
+  padding:10px 14px; margin:0 0 22px;
+}
+.figmark{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--hair-strong);
+}
+p.figmark{margin:0 0 14px}
+@media (max-width:640px){
+  .tab{padding:9px 11px; font-size:11px}
+  .archbody{font-size:15.5px}
+}
 </style>
 
 <header class="hero">
@@ -445,6 +517,16 @@ footer p+p{margin-top:9px}
 </section>
 
 <!-- ==================== 4. BRIDGES ==================== -->
+<div class="tabwrap" id="tabs">
+  <div class="tabbar" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="t-art" aria-controls="p-art" aria-selected="true">Articles <span class="tct">4</span></button>
+    <button class="tab" role="tab" id="t-prj" aria-controls="p-prj" aria-selected="false">Independent projects <span class="tct">2</span></button>
+  </div>
+  <p class="tabnote">Everything below is held in this page. The four articles include an
+  archived copy of their full text, so they remain readable if the original site goes away.</p>
+</div>
+
+<div class="tabpanel" id="p-art" role="tabpanel" aria-labelledby="t-art">
 <article class="case" id="bridges">
   <div class="wrap">
     <div class="case-head">
@@ -493,6 +575,11 @@ footer p+p{margin-top:9px}
       <p>Three things. The reported numbers come from a plain binary cross-entropy loss on a heavily imbalanced target &mdash; I wrote a class-weighted version and never actually trained with it. The holdout is three players from a single team-season, which is enough to show the risk curve tracks real absences but far too small to quote a stable AUC, so I don&rsquo;t quote one. And the model sees workload only: no injury history, no travel, no team rest policy &mdash; meaning it cannot tell &ldquo;rested&rdquo; apart from &ldquo;hurt,&rdquo; which is the distinction a team would actually pay for.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody">{{ARCHIVE:bridges-iron-man-streak}}</div>
+  </details>
 </article>
 
 <!-- ==================== 3. G-LEAGUE ==================== -->
@@ -545,6 +632,11 @@ footer p+p{margin-top:9px}
       <p>The win-share comparisons pool players across 24 seasons with no era adjustment, and the 2021&ndash;22 hardship spike is a structural break that my trend lines treat as ordinary variation &mdash; it should be modelled as its own regime or excluded. The 286 hand-fixed name mismatches also mean the join isn&rsquo;t reproducible from the raw files without my edits.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody">{{ARCHIVE:g-league-call-ups}}</div>
+  </details>
 </article>
 
 <!-- ==================== 2. WESTBROOK ==================== -->
@@ -599,6 +691,11 @@ footer p+p{margin-top:9px}
       <p>These on/off splits are unadjusted for opponent strength or garbage time, and Westbrook&rsquo;s minutes with Joki&#263; were never randomly assigned &mdash; so what I measured are associations, not effects. With one season of lineup data the honest version of this article puts error bars on every rating, or drops the causal language entirely.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody">{{ARCHIVE:russell-westbrook-resurgence}}</div>
+  </details>
 </article>
 
 <!-- ==================== 1. POST-UPS ==================== -->
@@ -650,9 +747,18 @@ footer p+p{margin-top:9px}
       <p>I pulled three-point efficiency from the 25&ndash;29&nbsp;ft column alone and left out the 20&ndash;24&nbsp;ft band, which overstates the gap between the post-up and the three. The player-to-team join was also on name only, so multi-team seasons fanned out and I capped the result by slicing rather than keying on player-season.</p>
     </div>
   </div>
+
+  <details class="archive">
+    <summary>Full article &mdash; archived copy</summary>
+    <div class="archbody">{{ARCHIVE:guards-post-up}}</div>
+  </details>
 </article>
 
+</div>
+
+<div class="tabpanel" id="p-prj" role="tabpanel" aria-labelledby="t-prj">
 {{INDEPENDENT}}
+</div>
 
 <footer>
   <div class="wrap">
@@ -660,3 +766,65 @@ footer p+p{margin-top:9px}
     <p>Every figure quoted on this page comes from the published article or from the notebook output behind it.</p>
   </div>
 </footer>
+
+<script>
+/* Tabs. The panels are already visible in the markup, so a reader without
+   JavaScript sees the whole page; this only adds the ability to filter.
+   Deep links keep working: any #anchor inside a panel activates that panel first,
+   which matters because the existing arc-steps nav points into both. */
+(function(){
+  var wrap = document.getElementById('tabs');
+  if (!wrap) return;
+  var tabs = [].slice.call(wrap.querySelectorAll('.tab'));
+  var panels = tabs.map(function(t){ return document.getElementById(t.getAttribute('aria-controls')); });
+  if (panels.some(function(p){ return !p; })) return;   // markup changed; leave it open
+  wrap.classList.add('tabs-live');
+
+  function select(i, focus){
+    tabs.forEach(function(t, k){
+      t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+      t.setAttribute('tabindex', k === i ? '0' : '-1');
+      panels[k].hidden = k !== i;
+    });
+    if (focus) tabs[i].focus();
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(i); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      select((i + d + tabs.length) % tabs.length, true);
+    });
+  });
+
+  function panelOf(el){
+    for (var i = 0; i < panels.length; i++) if (panels[i].contains(el)) return i;
+    return -1;
+  }
+  function reveal(hash){
+    if (!hash || hash.length < 2) return false;
+    var el = document.getElementById(hash.slice(1));
+    if (!el) return false;
+    var i = panelOf(el);
+    if (i < 0) return false;
+    select(i);
+    return true;
+  }
+
+  select(0);
+  if (reveal(location.hash)) {
+    // the browser already tried to scroll while the panel was hidden
+    requestAnimationFrame(function(){
+      var el = document.getElementById(location.hash.slice(1));
+      if (el) el.scrollIntoView();
+    });
+  }
+  window.addEventListener('hashchange', function(){ reveal(location.hash); });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) reveal(a.getAttribute('href'));
+  });
+})();
+</script>
