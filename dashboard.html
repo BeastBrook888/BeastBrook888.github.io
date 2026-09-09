@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Defensive and possession analysis of the projected 2026-27 Philadelphia 76ers, built from rebuilt play-by-play lineups.">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Sixers Defensive Fit</title>
+<title>Sixers Star-Fit Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -159,7 +159,7 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
 <body>
 <div class="wrap">
 <header>
-  <div class="eyebrow">Matchup-level defensive analysis &middot; 2017-18 &rarr; 2025-26</div>
+  <div class="eyebrow">Matchup, lineup and tracking data &middot; 2017-18 &rarr; 2025-26</div>
   <h1>Who actually gets hunted on the projected Sixers?</h1>
   <p class="lede">The hypothesis was that Embiid and Jaylen Brown are the solid defenders while
   Maxey and LeBron are liabilities. Nine seasons of NBA matchup data say that's right about
@@ -167,6 +167,11 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
   Three independent methods were run against each other. They first disagreed completely &mdash;
   then pooling five seasons of rebuilt lineups showed most of that disagreement was noise, and
   all three now agree on who the best defender is.</p>
+  <p class="lede" style="margin-top:14px">Late in the project the tracking endpoint opened, and
+  the second half of the page is what that changed. Usage rate &mdash; the proxy every earlier
+  conclusion rested on &mdash; had the wrong man at the centre of it. Measured by how long he
+  actually holds the ball, <b>Embiid is last of the five, not second</b>, in each of the last
+  three seasons.</p>
   <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
   <div><b>Premise confirmed 5 September 2026.</b> All five &mdash; Maxey, Embiid, LeBron,
   Jaylen Brown and VJ Edgecombe &mdash; appear on Basketball-Reference's 2026-27 Philadelphia
@@ -475,13 +480,114 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
 
 <section>
   <div class="shead">
+    <div class="eyebrow">A fourth dataset &middot; new</div>
+    <h2>Rim defence, measured independently</h2>
+    <p class="note">Player tracking counts every shot at the rim and who was defending it. This
+    shares no code and no input data with the matchup work above, so it is a genuine second
+    opinion rather than a restatement. <b>Horizontal</b> is how many rim attempts a player
+    defends per 36 minutes &mdash; that is exposure, not skill. <b>Vertical</b> is how many of
+    them drop; lower is better.</p>
+  </div>
+  <div class="chartbox" id="c-rim"><div class="tip" hidden></div></div>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>The most reliable shooting-defence metric in the project.</b> Rim FG% allowed
+    correlates <b>+0.72</b> year to year, against <b>+0.50</b> for the matchup metric this study
+    treats as primary and <b>+0.10</b> for the perimeter version that had to be dropped. Rim
+    defence is simply the most measurable part of defence: close to the basket the defender's
+    identity is unambiguous, and out on the perimeter it is not. <em>Not exactly like-for-like
+    &mdash; the matchup figures span nine seasons and different gates &mdash; so read the
+    ordering, not the decimals.</em></div></div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Player</th><th>Rim FGA/36</th><th>Volume %ile</th><th>Rim FG% allowed</th>
+      <th>Stop %ile</th><th>BLK/36</th></tr></thead>
+    <tbody id="tbl-rim"></tbody>
+  </table></div>
+  <p class="note"><b>Contest is not deterrence.</b> This counts shots <em>taken</em> against a
+  defender. A rim protector who frightens everyone into passing out records <em>few</em>
+  attempts &mdash; and so does a guard nobody bothers to post up. Volume alone cannot separate
+  them. Deterrence is measured instead by what happens to opponent attempt <em>rates</em> when a
+  player is on the floor, which is the drop-coverage section above: Embiid's presence moves rim
+  attempts down 2.0 points into mid-range and floaters, with three-point rate down 2.3 and
+  opponent FG% down 0.9. <b>The two methods agree, and only Embiid clears both.</b></p>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Part two &middot; offence</div>
+    <h2>Usage was the wrong measurement</h2>
+    <p class="note">Every conclusion this project drew about ball-dominance used <b>usage rate</b>,
+    which counts a putback and a nineteen-second isolation identically. That was flagged as the
+    central limitation from the first day and could not be fixed until the tracking endpoint
+    opened. <b>Time of possession</b> is the honest version: how many minutes a player actually
+    holds the ball. Measuring it moved Embiid from second of the five to last.</p>
+  </div>
+  <div class="chartbox" id="c-dom"><div class="tip" hidden></div></div>
+  <div class="premise" style="border-left-color:var(--warn)"><span aria-hidden="true">&#9888;</span>
+    <div><b>This reversed the study's central attribution.</b> Embiid finishes a large share of
+    possessions without holding the ball long &mdash; he runs no pick-and-roll as ball-handler and
+    22% post-ups, and a post-up is a short possession that ends in a shot. The player who has to
+    give something up is <b>Maxey</b>, not Embiid.</div></div>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>It is not a one-season artifact.</b> Ball-holding correlates <b>+0.93</b>, <b>+0.90</b>
+    and <b>+0.86</b> across the three season pairs &mdash; about as stable as a basketball
+    statistic gets. Embiid is last of the group in all three seasons and Maxey first in all three,
+    and per-36 normalisation removes the minutes Embiid missed to injury.</div></div>
+  <div class="chartbox" id="c-stab"><div class="tip" hidden></div></div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Part two &middot; offence</div>
+    <h2>How much ball is there, actually?</h2>
+    <p class="note">Five players at 36 minutes occupy 180 of a game's 240 player-minutes, so they
+    are entitled to <b>75%</b> of their team's possession time &mdash; not all of it. The question
+    is whether these five want more than that.</p>
+  </div>
+  <div class="chartbox" id="c-bud"><div class="tip" hidden></div></div>
+  <div class="premise" style="border-left-color:var(--warn)"><span aria-hidden="true">&#9888;</span>
+    <div><b>The denominator had to be fixed twice.</b> A first attempt summed per-game player
+    averages across a roster and produced 36.8 minutes &mdash; wrong, because each average is over
+    that player's own games; the tell was team minutes coming to 382 instead of 240. A second
+    version compared the five against a <em>whole team's</em> total, which assumes they play all
+    240 player-minutes. The corrected figure is <b>154%</b>, not the 112% reported earlier.</div></div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Player</th><th>ToP/36 now</th><th>Share of the five</th>
+      <th>Proportional cut</th><th>Lands at</th><th>Which is</th></tr></thead>
+    <tbody id="tbl-bud"></tbody>
+  </table></div>
+  <p class="note">A proportional cut pushes every one of the five to roughly a league-average
+  ball-holding role &mdash; which is the real cost of the fit, and the reason proportional sharing
+  is probably the wrong answer. Note also that the overhang is <b>stable across three seasons and
+  three different teams</b>: held to the four players present in all of them, it reads 160%, 162%,
+  156%. It is a property of these players, not of one roster.</p>
+  <details>
+    <summary>Two data problems found while building this</summary>
+    <div class="inner"><ul class="lim" style="padding:14px 16px 16px 34px">
+      <li><b>The NBA's team-level endpoint is corrupt for 2024-25.</b> It reports <b>1.69&times;</b>
+      the sum of its own player rows &mdash; one team in possession for 35 minutes of a 48-minute
+      game, which would put both teams together at about 70. The same reconciliation check passes
+      at 1.003 and 1.005 for the other two seasons, so the player rows are sound and the team row
+      is the broken one. Every denominator here is rebuilt from player rows.</li>
+      <li><b>There is a league-wide level shift between 2024-25 and 2025-26.</b> Possession time
+      per team rose from 20.8 to 24.1 minutes with 26 of 30 teams up. A 16% move in one year is
+      more likely a change in how a touch is measured than a change in how basketball is played,
+      but that cannot be settled from the data. Consequence: <b>levels are never compared across
+      that boundary</b> &mdash; everything shown is a within-season ratio or percentile, both of
+      which survive a level shift because numerator and denominator move together.</li>
+    </ul></div>
+  </details>
+</section>
+
+<section>
+  <div class="shead">
     <div class="eyebrow">Limits</div>
     <h2>What this cannot tell you</h2>
   </div>
   <ul class="lim">
-    <li><b>No tracking data.</b> stats.nba.com is IP-blocked from the machine this ran on, so
-    contests, rim deterrence and time-of-possession are unavailable. "His presence discouraged the
-    shot" is not measurable here &mdash; only what happened to the man he was assigned.</li>
+    <li><b>Tracking data is now in</b> &mdash; the endpoint that was blocked for the whole of
+    this project opened on 8 September 2026. Rim contests and time-of-possession are measured in
+    the two sections above. What is still <em>not</em> directly measurable from the matchup data is
+    "his presence discouraged the shot"; that comes from on/off attempt rates instead.</li>
     <li><b>Assignments are nominal.</b> Scoring attribution is internally exact (verified to 0.0000),
     but <em>who was responsible</em> is NBA's attribution, imperfect on switches and zone. A help
     defender who roams off his man wears his man's open looks.</li>
@@ -490,19 +596,20 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
     <li><b>Embiid's samples are thin and post-surgery</b> &mdash; 38 games in 2025-26, 19 in
     2023-24.</li>
     <li><b>Edgecombe is one rookie season</b> on the softest assignments of the five.</li>
-    <li><b>The adjusted plus-minus is one season only.</b> That forces heavy shrinkage &mdash;
-    Embiid's estimate is 62% prior, 38% his own play &mdash; so his near-zero dRAPM means
-    <em>too few possessions</em>, not <em>average defender</em>. Multi-year would fix this and is
-    the obvious next step.</li>
+    <li><b>Single-season APM was too shrunk to use</b> &mdash; Embiid's estimate was 62% prior,
+    38% his own play. Pooling five seasons of rebuilt lineups fixed it, and the pooled version is
+    what appears here; the single-season numbers are retained only for the comparison.</li>
     <li><b>2.15% of team-periods could not be resolved</b> and were dropped, so ~4.7% of scoring
     falls outside a usable segment.</li>
     <li><b>Possessions are estimated</b>, not counted &mdash; FGA &minus; OREB + TOV + 0.44&middot;FTA,
     where 0.44 is a league-average constant.</li>
-    <li><b>Opponent shot-profile allowed is still not built.</b> The lineups now exist to support
-    it, but that analysis has not been run.</li>
-    <li><b>The staggering test rests on 16 teams.</b> Thirteen seasons of reconstruction was not
-    enough; the star threshold had to be loosened to 24% usage to reach even that. Treat the null
-    as "no large effect visible", not as "no effect".</li>
+    <li><b>Opponent shot-profile allowed rests on raw on/off</b> &mdash; it holds the guard fixed
+    and nothing else, so it is not adjusted for who replaces a player or for opponent quality.
+    Direction is informative; magnitudes are approximate.</li>
+    <li><b>The staggering test rests on 23 teams</b> drawn from 27 seasons, and the star
+    threshold had to be loosened to 24% usage to reach even that. The estimate moved from
+    &minus;0.157 to &minus;0.201 as comps were added, which signals underpowered rather than
+    converged. Treat the null as "no large effect visible", not as "no effect".</li>
     <li><b>Pooled RAPM assumes a player's impact is stable across the window.</b> That is least
     true for LeBron, who ages from 36 to 41 inside it. One coefficient per player is the price of
     the extra data.</li>
@@ -519,6 +626,7 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
 
 <script>
 const DATA = {
+"track": {"five":[{"player":"Jaylen Brown","usg":36.2,"top36":5.76,"pctl":82,"spt":4.97,"touch36":69.2,"mpg":34.4,"gp":71,"usgRank":1,"topRank":2},{"player":"Joel Embiid","usg":33.5,"top36":4.33,"pctl":69,"spt":3.38,"touch36":77.2,"mpg":31.6,"gp":38,"usgRank":2,"topRank":5},{"player":"Tyrese Maxey","usg":29.4,"top36":7.96,"pctl":96,"spt":5.79,"touch36":82.5,"mpg":38.0,"gp":70,"usgRank":3,"topRank":1},{"player":"LeBron James","usg":27.2,"top36":4.45,"pctl":70,"spt":3.79,"touch36":71.1,"mpg":33.2,"gp":60,"usgRank":4,"topRank":4},{"player":"VJ Edgecombe","usg":20.1,"top36":5.25,"pctl":79,"spt":4.76,"touch36":66.3,"mpg":35.0,"gp":75,"usgRank":5,"topRank":3}],"series":{"Joel Embiid":[{"season":"2023-24","top36":3.64},{"season":"2024-25","top36":3.22},{"season":"2025-26","top36":4.33}],"Jaylen Brown":[{"season":"2023-24","top36":3.87},{"season":"2024-25","top36":4.2},{"season":"2025-26","top36":5.76}],"Tyrese Maxey":[{"season":"2023-24","top36":7.09},{"season":"2024-25","top36":7.26},{"season":"2025-26","top36":7.96}],"VJ Edgecombe":[{"season":"2025-26","top36":5.25}],"LeBron James":[{"season":"2023-24","top36":5.29},{"season":"2024-25","top36":5.57},{"season":"2025-26","top36":4.45}]},"rel":[{"pair":"2023-24\u21922024-25","r":0.933,"n":256},{"pair":"2024-25\u21922025-26","r":0.897,"n":257},{"pair":"2023-24\u21922025-26","r":0.858,"n":218}],"budget":{"demand":27.7,"entitlement":18.1,"ratio":154,"over":9.7,"four":[{"season":"2023-24","demand":19.88,"entitlement":12.41,"ratio":160},{"season":"2024-25","demand":20.24,"entitlement":12.49,"ratio":162},{"season":"2025-26","demand":22.49,"entitlement":14.45,"ratio":156}],"cuts":[{"player":"Tyrese Maxey","now":7.96,"cut":2.77,"after":5.19,"afterPctl":79},{"player":"Jaylen Brown","now":5.76,"cut":2.01,"after":3.75,"afterPctl":64},{"player":"VJ Edgecombe","now":5.25,"cut":1.83,"after":3.42,"afterPctl":59},{"player":"LeBron James","now":4.45,"cut":1.55,"after":2.9,"afterPctl":49},{"player":"Joel Embiid","now":4.33,"cut":1.51,"after":2.82,"afterPctl":48}],"teamTop":{"2023-24":20.68,"2024-25":20.82,"2025-26":24.09},"teamRaw":{"2023-24":20.66,"2024-25":35.02,"2025-26":24.1}},"rim":{"five":[{"player":"Joel Embiid","vol":6.95,"volPctl":95,"pct":57.4,"stopPctl":85,"blk36":1.37},{"player":"Jaylen Brown","vol":1.67,"volPctl":1,"pct":67.2,"stopPctl":39,"blk36":0.42},{"player":"Tyrese Maxey","vol":1.61,"volPctl":0,"pct":65.5,"stopPctl":51,"blk36":0.76},{"player":"VJ Edgecombe","vol":2.47,"volPctl":21,"pct":63.4,"stopPctl":62,"blk36":0.51},{"player":"LeBron James","vol":2.06,"volPctl":5,"pct":59.5,"stopPctl":78,"blk36":0.65}],"cloud":[[2.23,76.8],[3.35,70.2],[3.39,64.6],[3.14,65.6],[3.78,66.8],[6.62,54.5],[5.19,54.0],[10.99,53.3],[6.27,63.0],[1.83,61.8],[5.72,64.1],[2.19,69.8],[3.92,69.5],[2.75,76.2],[2.54,75.9],[5.52,50.5],[2.37,63.4],[4.58,64.5],[2.91,57.3],[2.4,77.3],[2.24,64.0],[4.22,60.2],[3.29,65.5],[2.76,63.1],[3.3,55.6],[4.17,71.1],[2.92,75.7],[2.28,73.3],[2.66,56.8],[3.09,60.5],[2.59,77.4],[2.72,76.9],[6.44,49.8],[2.21,76.0],[3.43,78.0],[2.21,70.4],[3.35,71.6],[2.3,72.3],[3.29,62.1],[2.24,68.0],[2.17,67.7],[3.63,65.4],[6.48,46.4],[2.15,77.1],[2.16,61.3],[3.26,62.8],[2.53,72.7],[5.1,58.0],[4.41,58.6],[4.02,64.3],[2.86,63.2],[7.47,53.4],[4.85,60.0],[2.17,76.8],[2.27,69.0],[4.81,61.2],[2.48,75.0],[3.6,65.2],[2.65,75.8],[4.2,66.7],[5.56,58.4],[3.14,62.6],[7.34,59.9],[2.13,61.7],[3.38,57.7],[1.82,66.9],[2.58,59.6],[2.01,59.0],[2.25,66.0],[5.14,62.1],[8.07,52.6],[1.72,67.0],[2.96,63.4],[2.58,73.1],[4.71,57.9],[1.97,66.9],[6.99,54.0],[3.04,72.1],[3.71,65.9],[4.11,74.2],[2.65,71.4],[5.98,48.7],[2.64,59.5],[4.37,64.1],[3.49,51.5],[6.87,47.3],[3.27,67.7],[2.12,70.8],[4.8,67.2],[4.39,67.8],[2.23,73.0],[2.92,74.0],[2.14,70.5],[3.21,62.3],[4.61,54.1],[7.42,60.1],[6.03,40.1],[5.26,48.8],[1.9,56.7],[3.34,72.4],[3.69,55.6],[4.54,56.5],[5.64,72.1],[3.18,64.4],[3.87,72.5],[6.48,61.7],[1.85,79.3],[5.23,59.9],[2.36,70.4],[3.68,66.5],[5.39,56.7],[2.87,65.6],[2.15,69.6],[2.54,68.3],[1.55,79.6],[5.07,64.1],[2.94,70.9],[5.58,52.7],[3.31,59.8],[5.31,55.6],[4.13,55.8],[8.74,51.4],[2.45,73.4],[4.57,59.5],[2.28,64.9],[2.18,69.0],[2.51,67.8],[4.39,74.4],[2.74,65.7],[2.08,69.1],[5.38,60.2],[3.06,60.2],[4.7,75.5],[4.7,69.4],[2.96,66.2],[2.4,68.5],[3.42,72.4],[2.41,71.9],[3.44,57.6],[3.81,64.7],[3.22,75.7],[4.24,58.6],[2.74,69.4],[3.16,70.4],[4.5,66.1],[6.41,60.3],[3.6,55.9],[3.03,69.6],[2.69,77.1],[5.53,60.3],[7.0,62.1],[2.47,65.9],[2.97,65.4],[2.99,65.3],[2.67,60.8],[3.36,66.9],[6.07,72.8],[2.17,59.2],[1.63,75.6],[2.53,71.0],[2.97,68.1],[3.38,59.1],[6.3,52.6],[4.0,66.7],[6.0,71.8],[2.89,62.8],[4.47,59.1],[3.25,66.7],[4.38,66.7],[3.52,71.7],[6.0,65.2],[2.51,72.3],[7.71,53.8],[2.45,70.7],[6.41,63.1],[6.3,57.7],[5.92,61.0],[2.85,69.3],[5.98,65.7],[8.02,66.2],[3.54,70.1],[2.85,67.7],[2.9,64.1],[2.33,65.2],[4.96,50.9],[3.36,65.1],[4.71,58.6],[7.2,61.7],[6.69,56.9],[2.44,75.3],[4.41,58.6],[6.12,50.9],[5.7,57.4],[3.23,72.7],[3.09,70.8],[6.21,65.4],[6.28,61.9],[5.83,64.4],[2.87,65.8],[5.6,65.1],[3.41,70.6],[2.82,63.8],[5.61,67.3],[4.99,63.9],[6.29,73.4],[5.54,53.4],[2.98,65.2],[4.41,58.4],[4.05,66.0],[3.58,67.5],[3.1,74.8],[3.34,73.6],[3.64,61.4],[2.18,64.0],[4.13,55.3],[4.14,65.8],[5.42,61.4],[2.33,74.1],[7.08,56.2],[2.97,66.7],[3.86,75.4],[2.61,73.6],[5.89,47.0],[2.79,73.8],[6.21,53.9],[2.93,73.4],[1.99,69.3],[3.15,64.4],[7.4,51.2],[3.03,66.8],[2.32,66.4],[2.04,67.9],[5.42,67.3],[5.03,62.5],[2.75,66.7],[4.84,59.9],[1.96,74.4],[2.6,53.1],[2.83,63.1],[3.21,64.8],[2.4,60.5],[2.61,67.3],[2.28,68.5],[5.37,67.6],[2.93,70.4],[4.74,64.4],[2.67,68.5],[3.46,66.1],[2.3,72.0],[2.21,61.7],[3.14,72.9],[2.7,71.8],[3.53,70.1],[3.45,71.7],[2.77,66.4],[2.65,67.5],[6.16,48.9],[3.2,63.9],[2.82,68.1],[4.55,58.6],[3.1,71.5],[6.76,51.4],[3.54,67.6],[2.06,77.1],[2.36,70.2],[2.55,62.5]],"rel":[{"metric":"volume","pair":"2023-24\u21922024-25","r":0.911,"n":203},{"metric":"rim FG% allowed","pair":"2023-24\u21922024-25","r":0.715,"n":203},{"metric":"volume","pair":"2024-25\u21922025-26","r":0.914,"n":190},{"metric":"rim FG% allowed","pair":"2024-25\u21922025-26","r":0.722,"n":190}],"hist":{"Joel Embiid":[{"season":"2023-24","volPctl":98},{"season":"2024-25","volPctl":78},{"season":"2025-26","volPctl":95}],"Jaylen Brown":[{"season":"2023-24","volPctl":11},{"season":"2024-25","volPctl":8},{"season":"2025-26","volPctl":1}],"Tyrese Maxey":[{"season":"2023-24","volPctl":0},{"season":"2024-25","volPctl":0},{"season":"2025-26","volPctl":0}],"VJ Edgecombe":[{"season":"2025-26","volPctl":21}],"LeBron James":[{"season":"2023-24","volPctl":27},{"season":"2024-25","volPctl":24},{"season":"2025-26","volPctl":5}]},"lgVol":3.82,"lgPct":64.9,"nQual":271},"nQual":350,"lgTop":3.57},
  "form": [
   {
    "player": "Joel Embiid",
@@ -2475,7 +2583,9 @@ const txt=(s)=>document.createTextNode(s);
   const m=DATA.meta, host=document.getElementById("meta");
   [["Seasons",m.seasons],["Matchup rows",(m.rows/1e6).toFixed(2)+"M"],
    ["Games",m.games.toLocaleString()],["Defender-seasons",m.defseasons.toLocaleString()],
-   ["Split-half r","+"+m.splithalf.toFixed(2)]].forEach(([k,v])=>{
+   ["Split-half r","+"+m.splithalf.toFixed(2)],
+   ["Tracking seasons","3"],
+   ["Ball-holding r","+"+DATA.track.rel[0].r.toFixed(2)]].forEach(([k,v])=>{
     const d=document.createElement("div");
     d.innerHTML=`<span class="k">${k}</span><span class="v">${v}</span>`; host.appendChild(d);
   });
@@ -3319,6 +3429,230 @@ mount("c-po",(W,tip,box)=>{
     the league-wide shift is only ${fmt(p.lg_shift)}, so these are real movements. Faded rows
     have under 1,500 playoff possessions; Edgecombe's 11 games are one series.`;
 })();
+
+/* ================= tracking: rim defence ================= */
+mount("c-rim",(W,tip,box)=>{
+  const T=DATA.track.rim;
+  const H=Math.max(300,Math.min(370,W*.44)), m={t:20,r:24,b:52,l:56};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xs=T.cloud.map(d=>d[0]).concat(T.five.map(d=>d.vol));
+  const ys=T.cloud.map(d=>d[1]).concat(T.five.map(d=>d.pct));
+  const xd=[0,Math.ceil(Math.max(...xs))], yd=[Math.floor(Math.min(...ys)/5)*5,
+                                               Math.ceil(Math.max(...ys)/5)*5];
+  const x=v=>m.l+(v-xd[0])/(xd[1]-xd[0])*iw, y=v=>m.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Rim attempts defended per 36 minutes versus rim field-goal percentage allowed"});
+  for(let t=yd[0];t<=yd[1];t+=10){
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t+"%")]));
+  }
+  for(let t=xd[0];t<=xd[1];t+=2){
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-30,"text-anchor":"middle","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t)]));
+  }
+  g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(T.lgPct),y2:y(T.lgPct),stroke:C("--ink-3"),
+    "stroke-width":1.4,"stroke-dasharray":"5 4"}));
+  g.appendChild(el("text",{x:m.l+iw-4,y:y(T.lgPct)-7,"text-anchor":"end","font-size":10,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt("league "+T.lgPct+"%")]));
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-9,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("Rim attempts defended per 36  →  more exposure")]));
+  g.appendChild(el("text",{x:14,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 14 ${m.t+ih/2})`,"text-anchor":"middle"},[txt("Rim FG% allowed ↓ better")]));
+  T.cloud.forEach(d=>g.appendChild(el("circle",{cx:x(d[0]),cy:y(d[1]),r:3,
+    fill:C("--ink-3"),opacity:.24})));
+  /* one hue for the five, identity carried by the label -- five hues cannot clear the
+     all-pairs contrast floors against a grey cloud */
+  const MG=17, dots=T.five.map(f=>({f,dx:x(f.vol),dy:y(f.pct),
+    side:(x(f.vol)>m.l+iw*.72)?-1:1,nm:sn(f.player)}));
+  [-1,1].forEach(sd=>{
+    const grp=dots.filter(d=>d.side===sd).sort((a,b)=>a.dy-b.dy);
+    grp.forEach((d,i)=>{ d.ly = i===0 ? d.dy : Math.max(d.dy, grp[i-1].ly+MG); });
+    if(grp.length>1){ const dr=(grp[grp.length-1].ly-grp[grp.length-1].dy)/2;
+      grp.forEach(d=>d.ly-=dr); }
+  });
+  dots.forEach(d=>{
+    if(Math.abs(d.ly-d.dy)>3) g.appendChild(el("line",{x1:d.dx+d.side*9,y1:d.dy,
+      x2:d.dx+d.side*15,y2:d.ly,stroke:C("--ink-3"),"stroke-width":1,opacity:.5}));
+    const dot=el("circle",{cx:d.dx,cy:d.dy,r:8,fill:C("--accent"),stroke:C("--surface"),
+      "stroke-width":2});
+    dot.style.cursor="pointer";
+    const f=d.f;
+    dot.addEventListener("pointerenter",()=>showTip(tip,box,d.dx,d.dy-92,
+      `<div class="th">${f.player}</div>
+       <div class="tr"><span>Rim FGA/36</span><span>${f.vol.toFixed(2)}</span></div>
+       <div class="tr"><span>Volume %ile</span><span>${f.volPctl}</span></div>
+       <div class="tr"><span>Rim FG% allowed</span><span>${f.pct}%</span></div>
+       <div class="tr"><span>Stop %ile</span><span>${f.stopPctl}</span></div>`));
+    dot.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(dot);
+    g.appendChild(el("text",{x:d.dx+d.side*17,y:d.ly+4,"text-anchor":d.side<0?"end":"start",
+      "font-size":12,"font-weight":600,"font-family":"Archivo, sans-serif",
+      fill:C("--ink")},[txt(d.nm)]));
+  });
+  return g;
+});
+(function(){
+  const t=document.getElementById("tbl-rim"); if(!t) return;
+  const T=DATA.track.rim, byn={}; T.five.forEach(f=>byn[f.player]=f);
+  t.innerHTML=ORDER.map(p=>{
+    const f=byn[p]; if(!f) return "";
+    return `<tr><td>${p}</td><td class="num">${f.vol.toFixed(2)}</td>
+      <td class="num">${f.volPctl}</td>
+      <td class="num ${f.pct<T.lgPct?"pos":"neg"}">${f.pct}%</td>
+      <td class="num">${f.stopPctl}</td><td class="num">${f.blk36.toFixed(2)}</td></tr>`;
+  }).join("")+`<tr><td style="color:var(--ink-3)">League (${T.nQual} qualified)</td>
+    <td class="num" style="color:var(--ink-3)">${T.lgVol.toFixed(2)}</td>
+    <td class="num" style="color:var(--ink-3)">50</td>
+    <td class="num" style="color:var(--ink-3)">${T.lgPct}%</td>
+    <td class="num" style="color:var(--ink-3)">50</td><td class="num">&middot;</td></tr>`;
+})();
+
+/* ================= tracking: usage rank vs possession rank ================= */
+mount("c-dom",(W,tip,box)=>{
+  const F=DATA.track.five.slice();
+  const H=Math.max(280,Math.min(340,W*.40)), m={t:34,r:150,b:30,l:150};
+  const ih=H-m.t-m.b, n=F.length;
+  const yr=r=>m.t+(r-1)/(n-1)*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Rank by usage rate versus rank by time of possession"});
+  const xa=m.l, xb=W-m.r;
+  [["By usage rate",xa],["By time of possession",xb]].forEach(([lab,xx])=>
+    g.appendChild(el("text",{x:xx,y:16,"text-anchor":"middle","font-size":11.5,
+      "font-weight":600,fill:C("--ink-2"),"font-family":"Archivo, sans-serif"},[txt(lab)])));
+  F.forEach(f=>{
+    const y1=yr(f.usgRank), y2=yr(f.topRank);
+    const moved=f.topRank-f.usgRank;
+    const col = moved>0 ? C("--neg") : moved<0 ? C("--pos") : C("--ink-3");
+    g.appendChild(el("line",{x1:xa+9,y1,x2:xb-9,y2,stroke:col,"stroke-width":Math.abs(moved)?2.4:1.4,
+      opacity:Math.abs(moved)?.85:.4}));
+    [[xa,y1],[xb,y2]].forEach(([cx,cy])=>g.appendChild(el("circle",{cx,cy,r:6,fill:col,
+      stroke:C("--surface"),"stroke-width":2})));
+    g.appendChild(el("text",{x:xa-14,y:y1+4,"text-anchor":"end","font-size":12,
+      "font-weight":600,"font-family":"Archivo, sans-serif",fill:C("--ink")},
+      [txt(`${sn(f.player)}  ${f.usg.toFixed(1)}`)]));
+    g.appendChild(el("text",{x:xb+14,y:y2+4,"text-anchor":"start","font-size":12,
+      "font-weight":600,"font-family":"Archivo, sans-serif",fill:C("--ink")},
+      [txt(`${sn(f.player)}  ${f.top36.toFixed(1)}`)]));
+    const hit=el("rect",{x:xa,y:Math.min(y1,y2)-9,width:xb-xa,height:Math.abs(y2-y1)+18,
+      fill:"transparent"});
+    hit.style.cursor="pointer";
+    hit.addEventListener("pointerenter",()=>showTip(tip,box,(xa+xb)/2,Math.min(y1,y2)-96,
+      `<div class="th">${f.player}</div>
+       <div class="tr"><span>Usage rate</span><span>${f.usg.toFixed(1)}% (#${f.usgRank})</span></div>
+       <div class="tr"><span>Possession min/36</span><span>${f.top36.toFixed(2)} (#${f.topRank})</span></div>
+       <div class="tr"><span>League percentile</span><span>${f.pctl}</span></div>
+       <div class="tr"><span>Seconds per touch</span><span>${f.spt.toFixed(2)}</span></div>
+       <div class="tr"><span>Touches/36</span><span>${f.touch36.toFixed(1)}</span></div>`));
+    hit.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(hit);
+  });
+  return g;
+});
+
+/* ================= tracking: stability across seasons ================= */
+mount("c-stab",(W,tip,box)=>{
+  const S=DATA.track.series, seasons=["2023-24","2024-25","2025-26"];
+  const H=Math.max(260,Math.min(320,W*.38)), m={t:22,r:96,b:44,l:52};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const all=Object.values(S).flat().map(d=>d.top36);
+  const yd=[0,Math.ceil(Math.max(...all))];
+  const x=i=>m.l+(seasons.length===1?iw/2:i/(seasons.length-1)*iw);
+  const y=v=>m.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Time of possession per 36 minutes across three seasons"});
+  for(let t=0;t<=yd[1];t+=2){
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t)]));
+  }
+  seasons.forEach((sn2,i)=>g.appendChild(el("text",{x:x(i),y:H-24,"text-anchor":"middle",
+    "font-size":11,fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(sn2)])));
+  g.appendChild(el("text",{x:14,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 14 ${m.t+ih/2})`,"text-anchor":"middle"},[txt("Possession min / 36")]));
+  const ends=[];
+  ORDER.forEach(p=>{
+    const pts=(S[p]||[]).map(d=>({i:seasons.indexOf(d.season),v:d.top36}))
+                        .filter(d=>d.i>=0).sort((a,b)=>a.i-b.i);
+    if(!pts.length) return;
+    const col=PC(p);
+    if(pts.length>1) g.appendChild(el("path",{d:pts.map((d,j)=>(j?"L":"M")+x(d.i)+" "+y(d.v)).join(" "),
+      fill:"none",stroke:col,"stroke-width":2.4,"stroke-linejoin":"round"}));
+    pts.forEach(d=>{
+      const dot=el("circle",{cx:x(d.i),cy:y(d.v),r:5,fill:col,stroke:C("--surface"),"stroke-width":2});
+      dot.style.cursor="pointer";
+      dot.addEventListener("pointerenter",()=>showTip(tip,box,x(d.i),y(d.v)-64,
+        `<div class="th">${p}</div>
+         <div class="tr"><span>${seasons[d.i]}</span><span>${d.v.toFixed(2)} min/36</span></div>`));
+      dot.addEventListener("pointerleave",()=>hideTip(tip));
+      g.appendChild(dot);
+    });
+    ends.push({p,col,y:y(pts[pts.length-1].v),x:x(pts[pts.length-1].i)});
+  });
+  ends.sort((a,b)=>a.y-b.y).forEach((e,i,arr)=>{ if(i) e.y=Math.max(e.y,arr[i-1].y+15); });
+  ends.forEach(e=>g.appendChild(el("text",{x:e.x+12,y:e.y+4,"font-size":11.5,"font-weight":600,
+    "font-family":"Archivo, sans-serif",fill:e.col},[txt(sn(e.p))])));
+  return g;
+});
+
+/* ================= tracking: the budget ================= */
+mount("c-bud",(W,tip,box)=>{
+  const B=DATA.track.budget;
+  const rows=B.four.map(f=>({lab:f.season+"  (4 players)",dem:f.demand,ent:f.entitlement,
+                             ratio:f.ratio}))
+    .concat([{lab:"2025-26  (all 5)",dem:B.demand,ent:B.entitlement,ratio:B.ratio,hi:1}]);
+  const H=Math.max(230,Math.min(300,W*.36)), m={t:26,r:104,b:40,l:150};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xd=Math.ceil(Math.max(...rows.map(r=>r.dem))/5)*5;
+  const x=v=>m.l+v/xd*iw;
+  const bh=Math.min(26,ih/rows.length*.58), step=ih/rows.length;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Possession time demanded versus the share the players' floor time entitles them to"});
+  for(let t=0;t<=xd;t+=5){
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-6,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-22,"text-anchor":"middle","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t)]));
+  }
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("Minutes of possession per game")]));
+  rows.forEach((r,i)=>{
+    const yy=m.t+i*step+step/2-bh/2;
+    /* entitlement drawn as a hollow track, demand as the filled bar on top of it, so the
+       overhang is the part of the bar that sticks out past the track */
+    g.appendChild(el("rect",{x:m.l,y:yy-3,width:x(r.ent)-m.l,height:bh+6,fill:"none",
+      stroke:C("--ink-3"),"stroke-width":1.4,"stroke-dasharray":"4 3",rx:3}));
+    const bar=el("rect",{x:m.l,y:yy,width:Math.max(1,x(r.dem)-m.l),height:bh,
+      fill:r.hi?C("--accent"):C("--ink-3"),opacity:r.hi?1:.55,rx:2});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x(r.dem),yy-70,
+      `<div class="th">${r.lab}</div>
+       <div class="tr"><span>Demanded</span><span>${r.dem.toFixed(1)} min</span></div>
+       <div class="tr"><span>Entitled to</span><span>${r.ent.toFixed(1)} min</span></div>
+       <div class="tr"><span>Ratio</span><span>${r.ratio}%</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-12,y:yy+bh/2+4,"text-anchor":"end","font-size":11.5,
+      fill:r.hi?C("--ink"):C("--ink-2"),"font-weight":r.hi?600:400,
+      "font-family":"Archivo, sans-serif"},[txt(r.lab)]));
+    g.appendChild(el("text",{x:x(r.dem)+10,y:yy+bh/2+4,"font-size":12,"font-weight":600,
+      fill:r.hi?C("--accent"):C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},
+      [txt(r.ratio+"%")]));
+  });
+  g.appendChild(el("text",{x:m.l,y:m.t-12,"font-size":10.5,fill:C("--ink-3"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("dashed = entitlement   solid = demand")]));
+  return g;
+});
+(function(){
+  const t=document.getElementById("tbl-bud"); if(!t) return;
+  t.innerHTML=DATA.track.budget.cuts.map(c=>
+    `<tr><td>${c.player}</td><td class="num">${c.now.toFixed(2)}</td>
+     <td class="num">${Math.round(100*c.now/DATA.track.budget.demand)}%</td>
+     <td class="num neg">&minus;${c.cut.toFixed(2)}</td>
+     <td class="num">${c.after.toFixed(2)}</td>
+     <td class="num" style="color:var(--ink-3)">${c.afterPctl}th %ile</td></tr>`).join("");
+})();
+
 </script>
 </body>
 </html>
