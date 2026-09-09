@@ -1,0 +1,3324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Defensive and possession analysis of the projected 2026-27 Philadelphia 76ers, built from rebuilt play-by-play lineups.">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Sixers Defensive Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#fbfcfd; --surface:#ffffff; --surface-2:#f4f6f9; --line:#dfe4ec; --line-2:#eaeef4;
+  --ink:#0d1218; --ink-2:#454f5d; --ink-3:#6b7685;
+  --accent:#1c5cab; --accent-soft:#e8f0fb;
+  --good:#0ca30c; --crit:#d03b3b; --warn:#fab219;
+  --pos:#2a78d6;  /* below baseline = good */
+  --neg:#d03b3b;  /* above baseline = bad  */
+  --mid:#f0efec;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --grid:#e6eaf1;
+  --shadow:0 1px 2px rgba(13,18,24,.05), 0 4px 16px rgba(13,18,24,.045);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#101317; --surface:#171b21; --surface-2:#1d232b; --line:#2b323c; --line-2:#232931;
+    --ink:#f2f5f8; --ink-2:#b3bcc9; --ink-3:#8b95a3;
+    --accent:#3987e5; --accent-soft:#16233a;
+    --good:#0ca30c; --crit:#d03b3b; --warn:#fab219;
+    --pos:#3987e5; --neg:#e66767; --mid:#383835;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+    --grid:#262d36;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#101317; --surface:#171b21; --surface-2:#1d232b; --line:#2b323c; --line-2:#232931;
+  --ink:#f2f5f8; --ink-2:#b3bcc9; --ink-3:#8b95a3;
+  --accent:#3987e5; --accent-soft:#16233a;
+  --good:#0ca30c; --crit:#d03b3b; --warn:#fab219;
+  --pos:#3987e5; --neg:#e66767; --mid:#383835;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --grid:#262d36;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:44px 24px 96px; display:flex; flex-direction:column; gap:56px}
+h1,h2,h3,.disp{font-family:Archivo,"IBM Plex Sans",sans-serif; text-wrap:balance}
+h1{font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-.026em; line-height:1.05; margin:0}
+h2{font-size:23px; font-weight:600; letter-spacing:-.014em; margin:0}
+h3{font-size:16px; font-weight:600; letter-spacing:-.006em; margin:0}
+p{margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3)}
+.lede{font-size:17px; color:var(--ink-2); max-width:66ch}
+.note{font-size:13.5px; color:var(--ink-3); max-width:74ch}
+section{display:flex; flex-direction:column; gap:20px}
+.shead{display:flex; flex-direction:column; gap:7px; border-top:1px solid var(--line); padding-top:20px}
+
+/* header */
+header{display:flex; flex-direction:column; gap:18px}
+.premise{display:flex; gap:11px; align-items:flex-start; background:var(--surface-2);
+  border:1px solid var(--line); border-left:2.5px solid var(--warn);
+  border-radius:var(--r); padding:13px 16px; font-size:13.5px; color:var(--ink-2); max-width:78ch}
+.premise b{color:var(--ink); font-weight:600}
+.metastrip{display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--line);
+  border-radius:var(--r); overflow:hidden; background:var(--surface)}
+.metastrip div{flex:1 1 150px; padding:13px 17px; border-right:1px solid var(--line-2);
+  display:flex; flex-direction:column; gap:2px}
+.metastrip div:last-child{border-right:none}
+.metastrip .k{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3)}
+.metastrip .v{font-family:Archivo,sans-serif; font-size:21px; font-weight:600;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+
+/* verdict cards */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px 17px 17px; display:flex; flex-direction:column; gap:12px; box-shadow:var(--shadow)}
+.card .nm{font-family:Archivo,sans-serif; font-size:17px; font-weight:600; letter-spacing:-.01em}
+.chip{display:inline-flex; align-items:center; gap:5px; align-self:flex-start;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500; letter-spacing:.055em;
+  text-transform:uppercase; padding:3.5px 8px; border-radius:5px; border:1px solid transparent}
+.chip.ok{color:var(--good); background:color-mix(in srgb,var(--good) 11%,transparent);
+  border-color:color-mix(in srgb,var(--good) 28%,transparent)}
+.chip.bad{color:var(--crit); background:color-mix(in srgb,var(--crit) 11%,transparent);
+  border-color:color-mix(in srgb,var(--crit) 28%,transparent)}
+.chip.neu{color:var(--ink-2); background:var(--surface-2); border-color:var(--line)}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.big{font-family:Archivo,sans-serif; font-size:31px; font-weight:700; letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums; line-height:1}
+.big small{font-size:12px; font-weight:500; color:var(--ink-3); letter-spacing:0; margin-left:5px}
+.meter{height:6px; background:var(--surface-2); border-radius:99px; overflow:hidden; position:relative}
+.meter i{display:block; height:100%; border-radius:99px}
+.kv{display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-3)}
+.kv b{color:var(--ink-2); font-weight:500; font-family:"IBM Plex Mono",monospace;
+  font-variant-numeric:tabular-nums}
+
+/* charts */
+figure{margin:0; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:18px 18px 14px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:14px}
+figcaption{font-size:13px; color:var(--ink-3); max-width:78ch}
+.chartbox{width:100%; position:relative}
+.chartbox svg{display:block; width:100%; height:auto; overflow:visible}
+.legend{display:flex; flex-wrap:wrap; gap:7px 16px; align-items:center}
+.lg{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--ink-2)}
+.lg i{width:11px; height:3px; border-radius:2px; flex:none}
+.lg.sq i{width:10px;height:10px;border-radius:2.5px}
+.tip{position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--surface); border:1px solid var(--line); border-radius:8px;
+  padding:9px 11px; font-size:12px; box-shadow:var(--shadow); z-index:5; min-width:150px}
+.tip .th{font-family:Archivo,sans-serif; font-weight:600; font-size:12.5px; margin-bottom:6px}
+.tip .tr{display:flex; justify-content:space-between; gap:14px; line-height:1.55}
+.tip .tr span:last-child{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+@media (prefers-reduced-motion:reduce){.tip{transition:none}}
+
+/* tables */
+.tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--r); background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:13px; min-width:660px}
+th,td{padding:9px 13px; text-align:right; border-bottom:1px solid var(--line-2); white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.075em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500; background:var(--surface-2);
+  position:sticky; top:0}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-2)}
+td.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+details{border:1px solid var(--line); border-radius:var(--r); background:var(--surface)}
+details summary{cursor:pointer; padding:12px 16px; font-size:13.5px; font-weight:500;
+  font-family:Archivo,sans-serif}
+details summary:focus-visible{outline:2px solid var(--accent); outline-offset:-2px; border-radius:var(--r)}
+details[open] summary{border-bottom:1px solid var(--line)}
+details .inner{padding:0}
+details .tblwrap{border:none; border-radius:0}
+ul.lim{margin:0; padding-left:19px; display:flex; flex-direction:column; gap:9px;
+  font-size:14px; color:var(--ink-2); max-width:80ch}
+ul.lim b{color:var(--ink); font-weight:600}
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:14px}
+footer{border-top:1px solid var(--line); padding-top:20px; font-size:12.5px; color:var(--ink-3);
+  display:flex; flex-direction:column; gap:6px}
+code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--surface-2);
+  padding:1.5px 5px; border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Matchup-level defensive analysis &middot; 2017-18 &rarr; 2025-26</div>
+  <h1>Who actually gets hunted on the projected Sixers?</h1>
+  <p class="lede">The hypothesis was that Embiid and Jaylen Brown are the solid defenders while
+  Maxey and LeBron are liabilities. Nine seasons of NBA matchup data say that's right about
+  three of five &mdash; and that the man opponents should attack is <b>LeBron, not Maxey</b>.
+  Three independent methods were run against each other. They first disagreed completely &mdash;
+  then pooling five seasons of rebuilt lineups showed most of that disagreement was noise, and
+  all three now agree on who the best defender is.</p>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+  <div><b>Premise confirmed 5 September 2026.</b> All five &mdash; Maxey, Embiid, LeBron,
+  Jaylen Brown and VJ Edgecombe &mdash; appear on Basketball-Reference's 2026-27 Philadelphia
+  roster. Every earlier version of this page carried this as an unverified assumption; it is
+  now checked. The roster also brings <b>Dean Wade</b>, who is 5th in the league by pooled
+  dRAPM, and <b>Anfernee Simons</b>, a sixth high-usage guard who is a defensive negative.</div></div>
+  <div class="metastrip" id="meta"></div>
+</header>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">The verdict</div>
+    <h2>Five defenders, ranked</h2>
+    <p class="note"><b>dFG%adj</b> is how the players each man guarded shot against him, versus how
+    those same players shot against everyone else &mdash; negative is good. Ranked within archetype,
+    because comparing a centre's shot diet to a guard's is meaningless.</p>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Method</div>
+    <h2>Why the naive version of this is wrong</h2>
+    <p class="note">Centres get charged their man's blended FG% while actually facing rim attempts,
+    so the untreated metric ranked small guards best and every good centre worst &mdash; it was
+    measuring position, not defence. With a single blended baseline it correlated &minus;0.73 with
+    the share of threes a defender faces. Splitting 2s from 3s cut that to &minus;0.36; only
+    residualising on top got it to &minus;0.01. The chart below plots those last two stages. Each
+    confound was found by a face-validity check, not assumed.</p>
+  </div>
+  <div class="two">
+    <figure>
+      <h3>The positional bias, before and after</h3>
+      <div class="chartbox" id="c-conf"><div class="tip" id="t-conf"></div></div>
+      <div class="legend" id="l-conf"></div>
+      <figcaption>Mean dFG% by the shot diet a defender faced. Even with 2P/3P baselines already
+      split, interior defenders are still penalised +4.1 points for doing their job. Residualising
+      removes the remaining gradient.</figcaption>
+    </figure>
+    <figure>
+      <h3>Does the metric predict itself?</h3>
+      <div class="chartbox" id="c-rel"><div class="tip" id="t-rel"></div></div>
+      <figcaption>Year-over-year correlation, same player, consecutive seasons (n=1,936 pairs).
+      A metric that is pure noise sits at zero. <b>dFG3% was dropped</b> at r=+0.10. Split-half
+      reliability of the primary metric within a season is r=+0.64.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Season by season</div>
+    <h2>Consistency is the whole argument</h2>
+    <p class="note">Single-season intervals are wide, so no one year proves anything. What does carry
+    weight: Embiid is below the zero line in <b>all nine seasons</b> and LeBron is above it in
+    <b>all nine</b>, across three different teams.</p>
+  </div>
+  <figure>
+    <div class="chartbox" id="c-traj"><div class="tip" id="t-traj"></div></div>
+    <div class="legend" id="l-traj"></div>
+    <figcaption>dFG%adj by season. Below the zero line = held his matchups under their baseline.
+    Hover for the bootstrap interval, which resamples games rather than matchup rows.</figcaption>
+  </figure>
+  <details>
+    <summary>Table view &mdash; every season, with bootstrap intervals</summary>
+    <div class="inner"><div class="tblwrap"><table id="tbl-traj"></table></div></div>
+  </details>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Burden vs quality</div>
+    <h2>Edgecombe was never tested</h2>
+    <p class="note">Assignment burden says how featured the men a defender guarded were &mdash; it
+    measures the difficulty of the job, not how well he did it. Brown carried the heaviest load of
+    the five. Edgecombe carried the lightest by a wide margin, which is what makes his average
+    rookie grade the least informative number on this page.</p>
+  </div>
+  <figure>
+    <div class="chartbox" id="c-scat"><div class="tip" id="t-scat"></div></div>
+    <figcaption>Horizontal: assignment burden (1.0 = the men he guarded shot exactly as much against
+    him as against everyone else). Vertical: within-archetype percentile for shooting defence.
+    Up and to the right is a hard job done well.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Cross-check</div>
+    <h2>Where the second method disagrees</h2>
+    <p class="note">On/off is reported as a check, not a verdict: it systematically penalises
+    high-minute starters, whose on-court minutes face opposing starters while their bench minutes
+    face benches. Negative means the team defended better with him on the floor.</p>
+  </div>
+  <div class="tblwrap"><table id="tbl-oo"></table></div>
+  <div class="two">
+    <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+      <div><b>Agree on Embiid and Brown.</b> Embiid is best by both methods and by a wide margin
+      &mdash; negative in all nine matchup seasons and all ten on/off seasons. Neither method makes
+      Brown elite.</div></div>
+    <div class="premise" style="border-left-color:var(--crit)"><span aria-hidden="true">&#8800;</span>
+      <div><b>Disagree on LeBron and Maxey.</b> Matchup data ranks LeBron worst of the five; on/off
+      ranks him second-best. Maxey is the mirror image. Both left unresolved rather than
+      reconciled.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Lineup exposure</div>
+    <h2>What a hunt target costs</h2>
+    <p class="note">Points per 100 possessions above baseline as an opponent shifts a share of its
+    attacks off the lineup's two best defenders and onto its worst. It prices the
+    <b>reallocation</b>, not the absolute level &mdash; and in both scenarios the target is LeBron.</p>
+  </div>
+  <figure>
+    <div class="chartbox" id="c-exp"><div class="tip" id="t-exp"></div></div>
+    <div class="legend" id="l-exp"></div>
+    <figcaption>Illustrative model at 88 opponent FGA per 100 possessions and 2.22 points per made
+    field goal. Read the shape, not the decimals. Embiid's presence is worth roughly 2.4 points per
+    100 here &mdash; and he played 38 games last season, so the weaker of the two defences is the
+    more common one.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Third method</div>
+    <h2>Rebuilding the lineups changed the answer</h2>
+    <p class="note">On-court five-man units were reconstructed from play-by-play
+    substitutions, then intersected between both teams into segments where both lineups
+    are constant, then fed to a ridge-regularised adjusted plus-minus. Unlike raw on/off,
+    <b>both teams' fives are in the design</b> — which is precisely the starter-vs-bench
+    artifact that made on/off unusable.</p>
+  </div>
+  <div class="metastrip" id="meta2"></div>
+  <figure>
+    <h3>Three methods, three orderings</h3>
+    <div class="chartbox" id="c-bump"><div class="tip" id="t-bump"></div></div>
+    <div class="legend" id="l-bump"></div>
+    <figcaption id="cap-bump">Rank 1 is the best defender of the five by each method, with dRAPM
+    now pooled over five seasons. All three agree on Embiid at the top; they still disagree about
+    who is <em>worst</em>.</figcaption>
+  </figure>
+  <div class="two">
+    <figure>
+      <h3>Does the reconstruction hold up?</h3>
+      <div class="tblwrap"><table id="tbl-val"></table></div>
+      <figcaption>Validated against Basketball-Reference game logs — an independent source.
+      Unresolvable periods (2.15%) are dropped rather than guessed, which is where the
+      missing ~2% of minutes goes.</figcaption>
+    </figure>
+    <figure>
+      <h3>…and why it still can't rank them</h3>
+      <div class="chartbox" id="c-rapm"><div class="tip" id="t-rapm"></div></div>
+      <figcaption id="cap-rapm"></figcaption>
+    </figure>
+  </div>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>The earlier &ldquo;no consensus&rdquo; finding was largely single-season noise.</b>
+    Rank agreement went from +0.10 to <b>+0.50</b> against the matchup metric and from
+    &minus;0.20 to <b>+0.80</b> against on/off. The one-season dRAPM predicts its own pooled
+    counterpart at only +0.30 &mdash; which is the clearest evidence that it was measuring
+    mostly noise, and why it was reported as <em>no verdict</em> rather than as a contradiction
+    at the time.</div></div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">The offensive question</div>
+    <h2>Does staggering actually work?</h2>
+    <p class="note">The usage study concluded these five cannot fit inside the 100 usage points
+    a lineup has &mdash; even at each player's most deferential observed rate they sum to 132.5.
+    That made <b>minute allocation</b>, not ball-sharing, the implied lever. This tests whether
+    that holds historically: among teams that assembled three-plus high-usage players, did the
+    ones who kept them apart do better?</p>
+  </div>
+  <figure>
+    <div class="chartbox" id="c-stag"><div class="tip" id="t-stag"></div></div>
+    <figcaption id="cap-stag"></figcaption>
+  </figure>
+  <div class="two">
+    <figure>
+      <h3>What actually moves the needle</h3>
+      <div class="tblwrap"><table id="tbl-stag"></table></div>
+      <figcaption>Correlation with wins minus the preseason Vegas line &mdash; using the line
+      rather than raw wins matters, since a team with three stars ought to win a lot regardless.
+      Intervals are bootstrapped over teams. <b><span style="color:var(--warn)">*</span> Only one
+      interval excludes zero, out of five tested</b> &mdash; which is about what chance produces
+      at 95%, so it is not treated as a finding here.</figcaption>
+    </figure>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="premise" style="border-left-color:var(--crit)"><span aria-hidden="true">&#9888;</span>
+        <div><b>This is underpowered, and more history barely helps.</b> Doubling the window
+        from 13 seasons to <b>27</b> moved the comp count only from 16 to <b>23</b>. Teams that
+        newly assemble three high-usage players are <em>structurally rare</em> &mdash; roughly one
+        a year &mdash; so this test is limited by how the NBA works, not by how much data was
+        collected. The overlap estimate also moves with sample size (&minus;0.16 → &minus;0.11 →
+        &minus;0.20), which is what an underpowered estimate looks like. It rules out a
+        <em>large, obvious</em> staggering effect; it cannot settle the question at a realistic
+        effect size.</div></div>
+      <div class="premise"><span aria-hidden="true">&#8505;</span>
+        <div>The 2017-18 Rockets remain a real existence proof that staggering two ball-dominant
+        guards can work. This says it is not a general law.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Shot diet</div>
+    <h2>Do they want the same shots?</h2>
+    <p class="note">Usage counts a putback and a 19-second isolation identically, so it cannot
+    answer this. Shot locations can. Each player's attempts are split across 16 court zones and
+    compared pairwise &mdash; read against the league distribution of similarity, because
+    &ldquo;0.95&rdquo; means nothing on its own.</p>
+  </div>
+  <div class="two">
+    <figure>
+      <h3>Pairwise shot-zone similarity</h3>
+      <div class="chartbox" id="c-diet"><div class="tip" id="t-diet"></div></div>
+      <figcaption id="cap-diet"></figcaption>
+    </figure>
+    <figure>
+      <h3>How much do they create for themselves?</h3>
+      <div class="chartbox" id="c-mix"><div class="tip" id="t-mix"></div></div>
+      <figcaption>Share of made field goals nobody assisted. This is the measure that handles
+      post-ups correctly &mdash; an ACTION_TYPE rule based on dribble qualifiers put Embiid
+      <em>below</em> league average, because his face-up jumper out of a post-up carries no
+      qualifier and registers as a catch.</figcaption>
+    </figure>
+  </div>
+  <div class="premise" style="border-left-color:var(--crit)"><span aria-hidden="true">&#9888;</span>
+    <div><b>Maxey and Edgecombe are the sharpest fit problem in the shot data.</b> At
+    <b>0.989</b> they are more alike than 99% of league pairs &mdash; the backcourt meant to be
+    the future wants the same shots from the same places. Embiid is the opposite: the least
+    similar to everyone, and the least self-creating. He is the one who fits <em>alongside</em>
+    rather than <em>instead of</em>.</div></div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">What the lineup concedes</div>
+    <h2>The drop-coverage question, finally tested</h2>
+    <p class="note">Every shot is assigned to the segment it falls in, which names both fives
+    &mdash; so 638,659 shots are attributable to the five defending them. Early in this project
+    I predicted Embiid's drop coverage plus weak point-of-attack guards would leak pull-up threes
+    and floaters, and framed that as a risk.</p>
+  </div>
+  <figure>
+    <h3>Philadelphia with and without Embiid, holding the guard fixed</h3>
+    <div class="chartbox" id="c-drop"><div class="tip" id="t-drop"></div></div>
+    <div class="legend" id="l-drop"></div>
+    <figcaption>Change in the opponent's shot mix when Embiid is on the floor, restricted to
+    lineups containing Maxey. Bars right of zero mean opponents do more of it against Embiid.</figcaption>
+  </figure>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>The mechanism is real; my reading of it was wrong.</b> Embiid does push shots off
+    the rim into mid-range and floaters &mdash; the drop-coverage signature. But that is the
+    coverage <em>working</em>: those are the two least efficient zones in basketball,
+    three-point rate falls 2.3 points and opponent FG% falls 0.9. The pull-up three I warned
+    about barely moves. The real exposure is the reverse &mdash; rim attempts climb to 33.6%
+    when he sits.</div></div>
+  <details>
+    <summary>Table view &mdash; opponent shot profile by defender</summary>
+    <div class="inner"><div class="tblwrap"><table id="tbl-allowed"></table></div></div>
+  </details>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Two more methods</div>
+    <h2>On/off done properly, and the playoffs</h2>
+    <p class="note">Two tests the earlier work left open. On/off computed from the rebuilt
+    segments can do something Basketball-Reference cannot &mdash; <b>hold a teammate fixed</b>,
+    so the comparison is the same guard with and without Embiid rather than starters against
+    bench. And nine playoff seasons ask whether any of this survives in the games the roster
+    was actually assembled to win.</p>
+  </div>
+  <div class="two">
+    <figure>
+      <h3>Does Embiid's effect survive the bench objection?</h3>
+      <div class="chartbox" id="c-held"><div class="tip" id="t-held"></div></div>
+      <figcaption id="cap-held"></figcaption>
+    </figure>
+    <figure>
+      <h3>Regular season &rarr; playoffs</h3>
+      <div class="chartbox" id="c-po"><div class="tip" id="t-po"></div></div>
+      <figcaption id="cap-po"></figcaption>
+    </figure>
+  </div>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>Embiid gets better in the playoffs, not worse.</b> His shift of &minus;2.41 is the
+    largest favourable move of the five, against a league-wide shift of &minus;0.06. LeBron
+    (+1.93) and Brown (+1.14) both go the other way &mdash; and Brown's is on the largest
+    sample of the five, 125 games. This is now the fourth method agreeing that Embiid is the
+    best defender in the group.</div></div>
+  <div class="premise" style="border-left-color:var(--warn)"><span aria-hidden="true">&#9888;</span>
+    <div><b>One correction worth stating.</b> The first version of this comparison put the
+    playoff figure (raw) against the regular-season figure (residualised for shot mix) and
+    concluded Embiid <em>degrades</em> in the playoffs. Putting both on a raw basis reversed
+    it. Only the shift is interpretable here &mdash; the levels still carry the positional
+    bias, which cancels in the difference.</div></div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Limits</div>
+    <h2>What this cannot tell you</h2>
+  </div>
+  <ul class="lim">
+    <li><b>No tracking data.</b> stats.nba.com is IP-blocked from the machine this ran on, so
+    contests, rim deterrence and time-of-possession are unavailable. "His presence discouraged the
+    shot" is not measurable here &mdash; only what happened to the man he was assigned.</li>
+    <li><b>Assignments are nominal.</b> Scoring attribution is internally exact (verified to 0.0000),
+    but <em>who was responsible</em> is NBA's attribution, imperfect on switches and zone. A help
+    defender who roams off his man wears his man's open looks.</li>
+    <li><b>Perimeter shooting defence is effectively unmeasured</b> &mdash; dFG3% failed its
+    reliability test (r=+0.10) and was dropped, so nothing here rests on it.</li>
+    <li><b>Embiid's samples are thin and post-surgery</b> &mdash; 38 games in 2025-26, 19 in
+    2023-24.</li>
+    <li><b>Edgecombe is one rookie season</b> on the softest assignments of the five.</li>
+    <li><b>The adjusted plus-minus is one season only.</b> That forces heavy shrinkage &mdash;
+    Embiid's estimate is 62% prior, 38% his own play &mdash; so his near-zero dRAPM means
+    <em>too few possessions</em>, not <em>average defender</em>. Multi-year would fix this and is
+    the obvious next step.</li>
+    <li><b>2.15% of team-periods could not be resolved</b> and were dropped, so ~4.7% of scoring
+    falls outside a usable segment.</li>
+    <li><b>Possessions are estimated</b>, not counted &mdash; FGA &minus; OREB + TOV + 0.44&middot;FTA,
+    where 0.44 is a league-average constant.</li>
+    <li><b>Opponent shot-profile allowed is still not built.</b> The lineups now exist to support
+    it, but that analysis has not been run.</li>
+    <li><b>The staggering test rests on 16 teams.</b> Thirteen seasons of reconstruction was not
+    enough; the star threshold had to be loosened to 24% usage to reach even that. Treat the null
+    as "no large effect visible", not as "no effect".</li>
+    <li><b>Pooled RAPM assumes a player's impact is stable across the window.</b> That is least
+    true for LeBron, who ages from 36 to 41 inside it. One coefficient per player is the price of
+    the extra data.</li>
+  </ul>
+</section>
+
+<footer>
+  <div>Sources: NBA matchup box scores 2017-18&ndash;2025-26 (2,009,953 defender&times;offense rows,
+  10,637 games) and Basketball-Reference on/off for 34 team-seasons.</div>
+  <div>Reproduce: <code>def_metrics.py</code> &rarr; <code>def_boot.py</code> &rarr;
+  <code>fetch_onoff.py</code> &rarr; <code>def_synth.py</code> &rarr; <code>def_report.py</code></div>
+</footer>
+</div>
+
+<script>
+const DATA = {
+ "form": [
+  {
+   "player": "Joel Embiid",
+   "dFG": -5.0,
+   "pctl": 89,
+   "last": -4.2,
+   "lastPctl": 89,
+   "hunt": 1.51,
+   "load": 1.68,
+   "pp": 6554,
+   "games": 96
+  },
+  {
+   "player": "Tyrese Maxey",
+   "dFG": -0.9,
+   "pctl": 61,
+   "last": -0.82,
+   "lastPctl": 56,
+   "hunt": 1.64,
+   "load": 1.52,
+   "pp": 14529,
+   "games": 191
+  },
+  {
+   "player": "VJ Edgecombe",
+   "dFG": -0.87,
+   "pctl": 57,
+   "last": -0.87,
+   "lastPctl": 57,
+   "hunt": 1.2,
+   "load": 1.1,
+   "pp": 5220,
+   "games": 75
+  },
+  {
+   "player": "Jaylen Brown",
+   "dFG": -0.36,
+   "pctl": 59,
+   "last": -1.62,
+   "lastPctl": 68,
+   "hunt": 1.66,
+   "load": 1.57,
+   "pp": 14286,
+   "games": 204
+  },
+  {
+   "player": "LeBron James",
+   "dFG": 3.23,
+   "pctl": 23,
+   "last": 0.93,
+   "lastPctl": 41,
+   "hunt": 1.39,
+   "load": 1.43,
+   "pp": 14314,
+   "games": 200
+  }
+ ],
+ "series": {
+  "Jaylen Brown": [
+   {
+    "s": 2017,
+    "v": 1.34,
+    "lo": -2.19,
+    "hi": 4.66,
+    "pctl": 39,
+    "g": 67,
+    "pp": 4033,
+    "hunt": 1.15
+   },
+   {
+    "s": 2018,
+    "v": 1.96,
+    "lo": -1.55,
+    "hi": 5.61,
+    "pctl": 30,
+    "g": 74,
+    "pp": 4022,
+    "hunt": 1.22
+   },
+   {
+    "s": 2019,
+    "v": 4.7,
+    "lo": 1.27,
+    "hi": 8.29,
+    "pctl": 13,
+    "g": 50,
+    "pp": 3385,
+    "hunt": 1.31
+   },
+   {
+    "s": 2020,
+    "v": 1.86,
+    "lo": -1.96,
+    "hi": 5.72,
+    "pctl": 38,
+    "g": 58,
+    "pp": 4084,
+    "hunt": 1.62
+   },
+   {
+    "s": 2021,
+    "v": 3.08,
+    "lo": 0.09,
+    "hi": 5.96,
+    "pctl": 32,
+    "g": 66,
+    "pp": 4491,
+    "hunt": 1.61
+   },
+   {
+    "s": 2022,
+    "v": 1.96,
+    "lo": -0.98,
+    "hi": 4.57,
+    "pctl": 36,
+    "g": 67,
+    "pp": 5047,
+    "hunt": 1.68
+   },
+   {
+    "s": 2023,
+    "v": 2.42,
+    "lo": -0.61,
+    "hi": 5.52,
+    "pctl": 35,
+    "g": 70,
+    "pp": 4859,
+    "hunt": 1.52
+   },
+   {
+    "s": 2024,
+    "v": -0.5,
+    "lo": -3.28,
+    "hi": 2.27,
+    "pctl": 62,
+    "g": 63,
+    "pp": 4432,
+    "hunt": 1.46
+   },
+   {
+    "s": 2025,
+    "v": -1.62,
+    "lo": -4.15,
+    "hi": 0.99,
+    "pctl": 68,
+    "g": 71,
+    "pp": 4994,
+    "hunt": 1.87
+   }
+  ],
+  "Joel Embiid": [
+   {
+    "s": 2017,
+    "v": -4.03,
+    "lo": -6.87,
+    "hi": -1.0,
+    "pctl": 86,
+    "g": 62,
+    "pp": 3852,
+    "hunt": 1.2
+   },
+   {
+    "s": 2018,
+    "v": -5.55,
+    "lo": -8.08,
+    "hi": -2.98,
+    "pctl": 93,
+    "g": 61,
+    "pp": 4464,
+    "hunt": 1.16
+   },
+   {
+    "s": 2019,
+    "v": -7.14,
+    "lo": -11.68,
+    "hi": -2.7,
+    "pctl": 94,
+    "g": 44,
+    "pp": 2800,
+    "hunt": 1.24
+   },
+   {
+    "s": 2020,
+    "v": -3.37,
+    "lo": -6.82,
+    "hi": -0.08,
+    "pctl": 76,
+    "g": 51,
+    "pp": 3488,
+    "hunt": 1.33
+   },
+   {
+    "s": 2021,
+    "v": -5.05,
+    "lo": -7.87,
+    "hi": -2.19,
+    "pctl": 87,
+    "g": 68,
+    "pp": 4877,
+    "hunt": 1.46
+   },
+   {
+    "s": 2022,
+    "v": -3.86,
+    "lo": -7.03,
+    "hi": -0.93,
+    "pctl": 84,
+    "g": 66,
+    "pp": 4847,
+    "hunt": 1.52
+   },
+   {
+    "s": 2023,
+    "v": -5.07,
+    "lo": -8.8,
+    "hi": -1.42,
+    "pctl": 87,
+    "g": 39,
+    "pp": 2858,
+    "hunt": 1.63
+   },
+   {
+    "s": 2024,
+    "v": -7.12,
+    "lo": -11.16,
+    "hi": -3.7,
+    "pctl": null,
+    "g": 19,
+    "pp": 1195,
+    "hunt": 1.42
+   },
+   {
+    "s": 2025,
+    "v": -4.2,
+    "lo": -8.08,
+    "hi": -0.36,
+    "pctl": 89,
+    "g": 38,
+    "pp": 2499,
+    "hunt": 1.48
+   }
+  ],
+  "LeBron James": [
+   {
+    "s": 2017,
+    "v": 8.59,
+    "lo": 6.24,
+    "hi": 11.0,
+    "pctl": 1,
+    "g": 82,
+    "pp": 6202,
+    "hunt": 1.46
+   },
+   {
+    "s": 2018,
+    "v": 3.56,
+    "lo": 1.02,
+    "hi": 6.14,
+    "pctl": 15,
+    "g": 55,
+    "pp": 4127,
+    "hunt": 1.61
+   },
+   {
+    "s": 2019,
+    "v": 5.04,
+    "lo": 2.49,
+    "hi": 7.75,
+    "pctl": 10,
+    "g": 60,
+    "pp": 4310,
+    "hunt": 1.58
+   },
+   {
+    "s": 2020,
+    "v": 4.04,
+    "lo": 0.71,
+    "hi": 7.33,
+    "pctl": 16,
+    "g": 45,
+    "pp": 3103,
+    "hunt": 1.54
+   },
+   {
+    "s": 2021,
+    "v": 6.91,
+    "lo": 4.25,
+    "hi": 9.61,
+    "pctl": 5,
+    "g": 56,
+    "pp": 4394,
+    "hunt": 1.63
+   },
+   {
+    "s": 2022,
+    "v": 1.74,
+    "lo": -1.2,
+    "hi": 4.56,
+    "pctl": 42,
+    "g": 55,
+    "pp": 4262,
+    "hunt": 1.76
+   },
+   {
+    "s": 2023,
+    "v": 5.17,
+    "lo": 2.32,
+    "hi": 7.88,
+    "pctl": 8,
+    "g": 70,
+    "pp": 5231,
+    "hunt": 1.44
+   },
+   {
+    "s": 2024,
+    "v": 4.34,
+    "lo": 1.83,
+    "hi": 6.71,
+    "pctl": 15,
+    "g": 70,
+    "pp": 5049,
+    "hunt": 1.46
+   },
+   {
+    "s": 2025,
+    "v": 0.93,
+    "lo": -2.03,
+    "hi": 3.85,
+    "pctl": 41,
+    "g": 60,
+    "pp": 4033,
+    "hunt": 1.3
+   }
+  ],
+  "Tyrese Maxey": [
+   {
+    "s": 2020,
+    "v": -1.26,
+    "lo": -5.06,
+    "hi": 2.37,
+    "pctl": 57,
+    "g": 61,
+    "pp": 1819,
+    "hunt": 1.37
+   },
+   {
+    "s": 2021,
+    "v": 2.36,
+    "lo": -0.91,
+    "hi": 5.62,
+    "pctl": 40,
+    "g": 75,
+    "pp": 4917,
+    "hunt": 1.16
+   },
+   {
+    "s": 2022,
+    "v": 3.04,
+    "lo": -0.6,
+    "hi": 6.85,
+    "pctl": 26,
+    "g": 60,
+    "pp": 3812,
+    "hunt": 1.39
+   },
+   {
+    "s": 2023,
+    "v": -0.74,
+    "lo": -3.31,
+    "hi": 1.84,
+    "pctl": 61,
+    "g": 69,
+    "pp": 5138,
+    "hunt": 1.6
+   },
+   {
+    "s": 2024,
+    "v": -1.18,
+    "lo": -4.21,
+    "hi": 1.77,
+    "pctl": 70,
+    "g": 52,
+    "pp": 3936,
+    "hunt": 1.68
+   },
+   {
+    "s": 2025,
+    "v": -0.82,
+    "lo": -3.28,
+    "hi": 1.7,
+    "pctl": 56,
+    "g": 70,
+    "pp": 5454,
+    "hunt": 1.63
+   }
+  ],
+  "VJ Edgecombe": [
+   {
+    "s": 2025,
+    "v": -0.87,
+    "lo": -4.02,
+    "hi": 2.26,
+    "pctl": 57,
+    "g": 75,
+    "pp": 5220,
+    "hunt": 1.2
+   }
+  ]
+ },
+ "rel": [
+  {
+   "metric": "dFG_pct_adj",
+   "r": 0.499,
+   "label": "dFG% adj (primary)"
+  },
+  {
+   "metric": "dFG2_pct_adj",
+   "r": 0.479,
+   "label": "dFG2% adj"
+  },
+  {
+   "metric": "pts_saved_100_adj",
+   "r": 0.791,
+   "label": "pts saved /100"
+  },
+  {
+   "metric": "hunt_idx",
+   "r": 0.882,
+   "label": "assignment burden"
+  },
+  {
+   "metric": "dFG3_pct_adj",
+   "r": 0.104,
+   "label": "dFG3% adj (dropped)"
+  }
+ ],
+ "conf": [
+  {
+   "bucket": "Interior",
+   "before": 4.14,
+   "after": -0.07,
+   "pct3": 0.097
+  },
+  {
+   "bucket": "Big wing",
+   "before": -0.99,
+   "after": 0.19,
+   "pct3": 0.302
+  },
+  {
+   "bucket": "Wing",
+   "before": -1.42,
+   "after": 0.02,
+   "pct3": 0.422
+  },
+  {
+   "bucket": "Perimeter",
+   "before": -0.34,
+   "after": -0.08,
+   "pct3": 0.599
+  }
+ ],
+ "onoff": {
+  "Jaylen Brown": {
+   "byseason": [
+    {
+     "s": 2018,
+     "v": -2.6
+    },
+    {
+     "s": 2019,
+     "v": -0.1
+    },
+    {
+     "s": 2020,
+     "v": 3.2
+    },
+    {
+     "s": 2021,
+     "v": 1.4
+    },
+    {
+     "s": 2022,
+     "v": -3.7
+    },
+    {
+     "s": 2023,
+     "v": 2.9
+    },
+    {
+     "s": 2024,
+     "v": 3.8
+    },
+    {
+     "s": 2025,
+     "v": 5.2
+    },
+    {
+     "s": 2026,
+     "v": 4.3
+    }
+   ],
+   "career": 1.6
+  },
+  "Joel Embiid": {
+   "byseason": [
+    {
+     "s": 2017,
+     "v": -8.9
+    },
+    {
+     "s": 2018,
+     "v": -5.1
+    },
+    {
+     "s": 2019,
+     "v": -5.2
+    },
+    {
+     "s": 2020,
+     "v": -7.2
+    },
+    {
+     "s": 2021,
+     "v": -1.9
+    },
+    {
+     "s": 2022,
+     "v": -4.3
+    },
+    {
+     "s": 2023,
+     "v": -4.2
+    },
+    {
+     "s": 2024,
+     "v": -4.8
+    },
+    {
+     "s": 2025,
+     "v": -8.5
+    },
+    {
+     "s": 2026,
+     "v": -0.1
+    }
+   ],
+   "career": -5.02
+  },
+  "LeBron James": {
+   "byseason": [
+    {
+     "s": 2011,
+     "v": -4.3
+    },
+    {
+     "s": 2012,
+     "v": -1.6
+    },
+    {
+     "s": 2013,
+     "v": -3.4
+    },
+    {
+     "s": 2014,
+     "v": 2.1
+    },
+    {
+     "s": 2015,
+     "v": -4.3
+    },
+    {
+     "s": 2016,
+     "v": -2.1
+    },
+    {
+     "s": 2017,
+     "v": -2.5
+    },
+    {
+     "s": 2018,
+     "v": 6.0
+    },
+    {
+     "s": 2020,
+     "v": -4.8
+    },
+    {
+     "s": 2021,
+     "v": -3.2
+    },
+    {
+     "s": 2022,
+     "v": 2.6
+    },
+    {
+     "s": 2023,
+     "v": -2.4
+    },
+    {
+     "s": 2024,
+     "v": -1.7
+    },
+    {
+     "s": 2025,
+     "v": 4.2
+    },
+    {
+     "s": 2026,
+     "v": -2.2
+    }
+   ],
+   "career": -1.17
+  },
+  "Tyrese Maxey": {
+   "byseason": [
+    {
+     "s": 2021,
+     "v": 4.8
+    },
+    {
+     "s": 2022,
+     "v": 0.6
+    },
+    {
+     "s": 2023,
+     "v": 2.3
+    },
+    {
+     "s": 2024,
+     "v": 2.9
+    },
+    {
+     "s": 2025,
+     "v": 1.1
+    },
+    {
+     "s": 2026,
+     "v": -0.8
+    }
+   ],
+   "career": 1.82
+  },
+  "VJ Edgecombe": {
+   "byseason": [
+    {
+     "s": 2026,
+     "v": 0.3
+    }
+   ],
+   "career": 0.3
+  }
+ },
+ "expo": [
+  {
+   "scenario": "Projected five (Embiid available)",
+   "target": "LeBron James",
+   "pts": [
+    {
+     "phi": 0.0,
+     "v": -1.89,
+     "he": 0.0
+    },
+    {
+     "phi": 0.1,
+     "v": -1.34,
+     "he": 0.56
+    },
+    {
+     "phi": 0.2,
+     "v": -0.78,
+     "he": 1.11
+    },
+    {
+     "phi": 0.3,
+     "v": -0.22,
+     "he": 1.67
+    }
+   ]
+  },
+  {
+   "scenario": "Embiid out (four principals)",
+   "target": "LeBron James",
+   "pts": [
+    {
+     "phi": 0.0,
+     "v": 0.49,
+     "he": 0.0
+    },
+    {
+     "phi": 0.1,
+     "v": 0.85,
+     "he": 0.36
+    },
+    {
+     "phi": 0.2,
+     "v": 1.22,
+     "he": 0.73
+    },
+    {
+     "phi": 0.3,
+     "v": 1.58,
+     "he": 1.09
+    }
+   ]
+  }
+ ],
+ "meta": {
+  "rows": 2009953,
+  "games": 10637,
+  "seasons": 9,
+  "defseasons": 4995,
+  "splithalf": 0.64,
+  "stints": 53198,
+  "segments": 36939,
+  "mae_min": 0.75,
+  "coverage": 97.8,
+  "poss_per_game": 96.8,
+  "oreb_share": 21.6,
+  "seasons13": 27,
+  "cov_lo": 98.4,
+  "cov_hi": 99.3,
+  "mae_lo": 0.04,
+  "mae_hi": 0.75,
+  "mae_seasons": 13
+ },
+ "val": [
+  {
+   "player": "Tyrese Maxey",
+   "games": 70,
+   "bbref": 2661.1,
+   "recon": 2617.3,
+   "ratio": 0.984,
+   "mae": 0.63,
+   "p95": 5.0,
+   "dnp": 0,
+   "dnpmin": 0.0
+  },
+  {
+   "player": "Joel Embiid",
+   "games": 38,
+   "bbref": 1200.7,
+   "recon": 1175.3,
+   "ratio": 0.979,
+   "mae": 0.67,
+   "p95": 6.32,
+   "dnp": 0,
+   "dnpmin": 0.0
+  },
+  {
+   "player": "LeBron James",
+   "games": 60,
+   "bbref": 1989.0,
+   "recon": 1958.3,
+   "ratio": 0.985,
+   "mae": 0.51,
+   "p95": 4.89,
+   "dnp": 3,
+   "dnpmin": 7.8
+  },
+  {
+   "player": "Jaylen Brown",
+   "games": 71,
+   "bbref": 2442.9,
+   "recon": 2360.1,
+   "ratio": 0.966,
+   "mae": 1.17,
+   "p95": 9.84,
+   "dnp": 0,
+   "dnpmin": 0.0
+  },
+  {
+   "player": "VJ Edgecombe",
+   "games": 75,
+   "bbref": 2623.3,
+   "recon": 2565.9,
+   "ratio": 0.978,
+   "mae": 0.77,
+   "p95": 7.44,
+   "dnp": 0,
+   "dnpmin": 0.0
+  }
+ ],
+ "rapm": [
+  {
+   "player": "Joel Embiid",
+   "d": 2.77,
+   "o": 3.1,
+   "poss": 30481,
+   "pctl": 96,
+   "w": 0.88,
+   "d1": -0.04
+  },
+  {
+   "player": "Jaylen Brown",
+   "d": -0.63,
+   "o": 1.03,
+   "poss": 46471,
+   "pctl": 26,
+   "w": 0.92,
+   "d1": -0.09
+  },
+  {
+   "player": "VJ Edgecombe",
+   "d": 0.63,
+   "o": 1.0,
+   "poss": 10620,
+   "pctl": 65,
+   "w": 0.73,
+   "d1": 0.5
+  },
+  {
+   "player": "Tyrese Maxey",
+   "d": -0.33,
+   "o": 2.43,
+   "poss": 47614,
+   "pctl": 33,
+   "w": 0.92,
+   "d1": 0.4
+  },
+  {
+   "player": "LeBron James",
+   "d": 0.42,
+   "o": 2.33,
+   "poss": 44530,
+   "pctl": 59,
+   "w": 0.92,
+   "d1": 0.34
+  }
+ ],
+ "ranks": [
+  {
+   "player": "Joel Embiid",
+   "matchup": -4.998930445242716,
+   "onoff": -5.0200000000000005,
+   "d1": -0.0386075948993187,
+   "d5": 2.774456807936626,
+   "r_match": 1,
+   "r_onoff": 1,
+   "r_rapm1": 4,
+   "r_rapm": 1
+  },
+  {
+   "player": "Jaylen Brown",
+   "matchup": -0.3598172559778066,
+   "onoff": 1.6,
+   "d1": -0.0922429093648635,
+   "d5": -0.6337841554139123,
+   "r_match": 4,
+   "r_onoff": 4,
+   "r_rapm1": 5,
+   "r_rapm": 5
+  },
+  {
+   "player": "VJ Edgecombe",
+   "matchup": -0.8747894176866438,
+   "onoff": 0.3,
+   "d1": 0.5016406511401118,
+   "d5": 0.6290767458502593,
+   "r_match": 3,
+   "r_onoff": 3,
+   "r_rapm1": 1,
+   "r_rapm": 2
+  },
+  {
+   "player": "Tyrese Maxey",
+   "matchup": -0.9006691883771598,
+   "onoff": 1.8166666666666669,
+   "d1": 0.4003894595329014,
+   "d5": -0.3319810381666604,
+   "r_match": 2,
+   "r_onoff": 5,
+   "r_rapm1": 2,
+   "r_rapm": 4
+  },
+  {
+   "player": "LeBron James",
+   "matchup": 3.2273759497031156,
+   "onoff": -1.1733333333333331,
+   "d1": 0.3414943005023035,
+   "d5": 0.4186630844680867,
+   "r_match": 5,
+   "r_onoff": 2,
+   "r_rapm1": 3,
+   "r_rapm": 3
+  }
+ ],
+ "relx": {
+  "matchup_splithalf": 0.64,
+  "drapm_splithalf": 0.49,
+  "drapm_sd_qualified": 1.3,
+  "drapm_sd_half": 1.55,
+  "lam": 4000,
+  "core_range": 3.41,
+  "agree": {
+   "mo": 0.1,
+   "mr": 0.5,
+   "or": 0.8,
+   "mr1": 0.1,
+   "or1": -0.2,
+   "r1r5": 0.3
+  },
+  "old": {
+   "lam": 8000,
+   "sd": 0.66,
+   "splithalf": 0.417,
+   "sd_half": 0.5,
+   "range": 0.59,
+   "emb_w": 0.38
+  }
+ },
+ "val13": [
+  {
+   "season": 1999,
+   "coverage": 98.69,
+   "mae": null,
+   "team_games": 2378
+  },
+  {
+   "season": 2000,
+   "coverage": 98.89,
+   "mae": null,
+   "team_games": 2378
+  },
+  {
+   "season": 2001,
+   "coverage": 99.15,
+   "mae": null,
+   "team_games": 2378
+  },
+  {
+   "season": 2002,
+   "coverage": 98.93,
+   "mae": null,
+   "team_games": 2378
+  },
+  {
+   "season": 2003,
+   "coverage": 98.81,
+   "mae": null,
+   "team_games": 2378
+  },
+  {
+   "season": 2004,
+   "coverage": 98.81,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2005,
+   "coverage": 99.07,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2006,
+   "coverage": 99.02,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2007,
+   "coverage": 99.07,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2008,
+   "coverage": 98.97,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2009,
+   "coverage": 99.28,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2010,
+   "coverage": 99.2,
+   "mae": null,
+   "team_games": 2460
+  },
+  {
+   "season": 2011,
+   "coverage": 99.24,
+   "mae": null,
+   "team_games": 1980
+  },
+  {
+   "season": 2012,
+   "coverage": 99.04,
+   "mae": null,
+   "team_games": 2426
+  },
+  {
+   "season": 2013,
+   "coverage": 99.12,
+   "mae": 0.41,
+   "team_games": 2460
+  },
+  {
+   "season": 2014,
+   "coverage": 99.05,
+   "mae": 0.38,
+   "team_games": 2460
+  },
+  {
+   "season": 2015,
+   "coverage": 99.12,
+   "mae": 0.22,
+   "team_games": 2460
+  },
+  {
+   "season": 2016,
+   "coverage": 98.95,
+   "mae": 0.04,
+   "team_games": 2460
+  },
+  {
+   "season": 2017,
+   "coverage": 98.54,
+   "mae": 0.51,
+   "team_games": 2460
+  },
+  {
+   "season": 2018,
+   "coverage": 98.58,
+   "mae": 0.46,
+   "team_games": 2460
+  },
+  {
+   "season": 2019,
+   "coverage": 98.6,
+   "mae": 0.42,
+   "team_games": 2118
+  },
+  {
+   "season": 2020,
+   "coverage": 98.55,
+   "mae": 0.17,
+   "team_games": 2160
+  },
+  {
+   "season": 2021,
+   "coverage": 98.5,
+   "mae": 0.32,
+   "team_games": 2460
+  },
+  {
+   "season": 2022,
+   "coverage": 98.47,
+   "mae": 0.72,
+   "team_games": 2460
+  },
+  {
+   "season": 2023,
+   "coverage": 98.66,
+   "mae": 0.48,
+   "team_games": 2460
+  },
+  {
+   "season": 2024,
+   "coverage": 98.43,
+   "mae": 0.73,
+   "team_games": 2460
+  },
+  {
+   "season": 2025,
+   "coverage": 98.53,
+   "mae": 0.75,
+   "team_games": 2460
+  }
+ ],
+ "stag": {
+  "n": 23,
+  "corr": {
+   "overlap": -0.201,
+   "compression": -0.017,
+   "usg_prior_sum": -0.318,
+   "depth_bpm": 0.299,
+   "n_stars": -0.338
+  },
+  "ci": {
+   "overlap": [
+    -0.53,
+    0.11
+   ],
+   "compression": [
+    -0.56,
+    0.43
+   ],
+   "usg_prior_sum": [
+    -0.64,
+    0.09
+   ],
+   "depth_bpm": [
+    -0.2,
+    0.62
+   ],
+   "n_stars": [
+    -0.61,
+    -0.01
+   ]
+  },
+  "n_by": {
+   "overlap": 23,
+   "compression": 20,
+   "usg_prior_sum": 20,
+   "depth_bpm": 23,
+   "n_stars": 23
+  },
+  "stability": [
+   {
+    "lo": 2013,
+    "n": 13,
+    "r": -0.157
+   },
+   {
+    "lo": 2005,
+    "n": 17,
+    "r": -0.107
+   },
+   {
+    "lo": 1999,
+    "n": 23,
+    "r": -0.201
+   }
+  ],
+  "rows": [
+   {
+    "season": 1999,
+    "tri": "MIL",
+    "stars": 3,
+    "new": 3,
+    "overlap": 0.826,
+    "comp": null,
+    "depth": -2.04,
+    "ou": 42.5,
+    "wins": 42,
+    "resid": -0.5
+   },
+   {
+    "season": 1999,
+    "tri": "ORL",
+    "stars": 3,
+    "new": 3,
+    "overlap": 0.375,
+    "comp": null,
+    "depth": -1.72,
+    "ou": 29.5,
+    "wins": 41,
+    "resid": 11.5
+   },
+   {
+    "season": 2000,
+    "tri": "CHI",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.584,
+    "comp": -0.4,
+    "depth": -3.21,
+    "ou": 28.5,
+    "wins": 15,
+    "resid": -13.5
+   },
+   {
+    "season": 2002,
+    "tri": "DET",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.556,
+    "comp": -2.3,
+    "depth": -0.61,
+    "ou": 42.0,
+    "wins": 50,
+    "resid": 8.0
+   },
+   {
+    "season": 2003,
+    "tri": "NYK",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.429,
+    "comp": 4.6,
+    "depth": -0.61,
+    "ou": 33.5,
+    "wins": 39,
+    "resid": 5.5
+   },
+   {
+    "season": 2004,
+    "tri": "ORL",
+    "stars": 3,
+    "new": 3,
+    "overlap": 0.653,
+    "comp": -10.8,
+    "depth": -1.24,
+    "ou": 34.5,
+    "wins": 36,
+    "resid": 1.5
+   },
+   {
+    "season": 2009,
+    "tri": "DET",
+    "stars": 4,
+    "new": 2,
+    "overlap": 0.48,
+    "comp": 0.4,
+    "depth": -1.56,
+    "ou": 41.5,
+    "wins": 27,
+    "resid": -14.5
+   },
+   {
+    "season": 2010,
+    "tri": "SAC",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.507,
+    "comp": 0.5,
+    "depth": -0.4,
+    "ou": 27.5,
+    "wins": 24,
+    "resid": -3.5
+   },
+   {
+    "season": 2011,
+    "tri": "NYK",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.604,
+    "comp": -6.3,
+    "depth": 1.25,
+    "ou": 41.5,
+    "wins": 36,
+    "resid": -5.5
+   },
+   {
+    "season": 2012,
+    "tri": "BKN",
+    "stars": 3,
+    "new": 3,
+    "overlap": 0.486,
+    "comp": 3.7,
+    "depth": -0.61,
+    "ou": 44.5,
+    "wins": 49,
+    "resid": 4.5
+   },
+   {
+    "season": 2013,
+    "tri": "PHI",
+    "stars": 4,
+    "new": 2,
+    "overlap": 0.591,
+    "comp": -8.4,
+    "depth": -2.61,
+    "ou": 16.5,
+    "wins": 19,
+    "resid": 2.5
+   },
+   {
+    "season": 2014,
+    "tri": "CHI",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.522,
+    "comp": -3.7,
+    "depth": -0.75,
+    "ou": 55.5,
+    "wins": 50,
+    "resid": -5.5
+   },
+   {
+    "season": 2017,
+    "tri": "LAC",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.49,
+    "comp": -12.4,
+    "depth": -0.2,
+    "ou": 43.5,
+    "wins": 42,
+    "resid": -1.5
+   },
+   {
+    "season": 2019,
+    "tri": "LAC",
+    "stars": 4,
+    "new": 2,
+    "overlap": 0.501,
+    "comp": -2.0,
+    "depth": 0.57,
+    "ou": 53.5,
+    "wins": 49,
+    "resid": -4.5
+   },
+   {
+    "season": 2019,
+    "tri": "MIA",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.449,
+    "comp": -4.3,
+    "depth": 0.05,
+    "ou": 43.5,
+    "wins": 44,
+    "resid": 0.5
+   },
+   {
+    "season": 2019,
+    "tri": "UTA",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.536,
+    "comp": -0.4,
+    "depth": -0.09,
+    "ou": 53.5,
+    "wins": 44,
+    "resid": -9.5
+   },
+   {
+    "season": 2020,
+    "tri": "BKN",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.488,
+    "comp": 10.5,
+    "depth": 2.34,
+    "ou": 45.5,
+    "wins": 48,
+    "resid": 2.5
+   },
+   {
+    "season": 2020,
+    "tri": "MIN",
+    "stars": 4,
+    "new": 3,
+    "overlap": 0.508,
+    "comp": -0.8,
+    "depth": -0.7,
+    "ou": 29.5,
+    "wins": 23,
+    "resid": -6.5
+   },
+   {
+    "season": 2020,
+    "tri": "NYK",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.549,
+    "comp": 5.8,
+    "depth": 1.43,
+    "ou": 21.5,
+    "wins": 41,
+    "resid": 19.5
+   },
+   {
+    "season": 2022,
+    "tri": "UTA",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.468,
+    "comp": -14.5,
+    "depth": -0.82,
+    "ou": 23.5,
+    "wins": 37,
+    "resid": 13.5
+   },
+   {
+    "season": 2023,
+    "tri": "CHA",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.637,
+    "comp": null,
+    "depth": -2.82,
+    "ou": 31.5,
+    "wins": 21,
+    "resid": -10.5
+   },
+   {
+    "season": 2024,
+    "tri": "SAC",
+    "stars": 4,
+    "new": 2,
+    "overlap": 0.509,
+    "comp": 0.7,
+    "depth": -0.16,
+    "ou": 46.5,
+    "wins": 40,
+    "resid": -6.5
+   },
+   {
+    "season": 2025,
+    "tri": "ATL",
+    "stars": 3,
+    "new": 2,
+    "overlap": 0.706,
+    "comp": -12.7,
+    "depth": -0.59,
+    "ou": 46.5,
+    "wins": 46,
+    "resid": -0.5
+   }
+  ]
+ },
+ "diet": {
+  "pairs": [
+   {
+    "a": "Tyrese Maxey",
+    "b": "VJ Edgecombe",
+    "cos": 0.989,
+    "pctl": 99
+   },
+   {
+    "a": "Jaylen Brown",
+    "b": "VJ Edgecombe",
+    "cos": 0.975,
+    "pctl": 95
+   },
+   {
+    "a": "Jaylen Brown",
+    "b": "Tyrese Maxey",
+    "cos": 0.964,
+    "pctl": 90
+   },
+   {
+    "a": "LeBron James",
+    "b": "Tyrese Maxey",
+    "cos": 0.959,
+    "pctl": 88
+   },
+   {
+    "a": "LeBron James",
+    "b": "Jaylen Brown",
+    "cos": 0.958,
+    "pctl": 87
+   },
+   {
+    "a": "LeBron James",
+    "b": "VJ Edgecombe",
+    "cos": 0.956,
+    "pctl": 86
+   },
+   {
+    "a": "Joel Embiid",
+    "b": "Jaylen Brown",
+    "cos": 0.95,
+    "pctl": 83
+   },
+   {
+    "a": "LeBron James",
+    "b": "Joel Embiid",
+    "cos": 0.926,
+    "pctl": 72
+   },
+   {
+    "a": "Joel Embiid",
+    "b": "Tyrese Maxey",
+    "cos": 0.909,
+    "pctl": 64
+   },
+   {
+    "a": "Joel Embiid",
+    "b": "VJ Edgecombe",
+    "cos": 0.905,
+    "pctl": 63
+   }
+  ],
+  "lg_median": 0.872,
+  "mean": 0.949,
+  "mix": [
+   {
+    "player": "Joel Embiid",
+    "fga": 1863,
+    "unassisted": 39.6,
+    "offdrib": 53.9,
+    "catch": 36.8,
+    "offball": 9.2
+   },
+   {
+    "player": "Jaylen Brown",
+    "fga": 3917,
+    "unassisted": 57.2,
+    "offdrib": 78.6,
+    "catch": 17.4,
+    "offball": 4.0
+   },
+   {
+    "player": "VJ Edgecombe",
+    "fga": 1030,
+    "unassisted": 43.9,
+    "offdrib": 69.2,
+    "catch": 25.2,
+    "offball": 5.5
+   },
+   {
+    "player": "Tyrese Maxey",
+    "fga": 4011,
+    "unassisted": 58.0,
+    "offdrib": 83.0,
+    "catch": 14.9,
+    "offball": 2.0
+   },
+   {
+    "player": "LeBron James",
+    "fga": 3458,
+    "unassisted": 51.1,
+    "offdrib": 71.7,
+    "catch": 20.7,
+    "offball": 7.6
+   }
+  ],
+  "lg_mix": {
+   "unassisted": 33.1,
+   "offdrib": 57.9,
+   "catch": 32.2,
+   "offball": 9.9
+  }
+ },
+ "allowed": {
+  "rows": [
+   {
+    "player": "Joel Embiid",
+    "n": 5473,
+    "rim": 30.5,
+    "mid": 11.3,
+    "p3": 39.9,
+    "pull3": 10.49,
+    "flt": 9.7,
+    "fg": 46.1
+   },
+   {
+    "player": "Jaylen Brown",
+    "n": 12723,
+    "rim": 24.2,
+    "mid": 11.9,
+    "p3": 42.3,
+    "pull3": 11.82,
+    "flt": 8.72,
+    "fg": 45.3
+   },
+   {
+    "player": "VJ Edgecombe",
+    "n": 4651,
+    "rim": 31.3,
+    "mid": 10.6,
+    "p3": 41.4,
+    "pull3": 10.0,
+    "flt": 8.43,
+    "fg": 46.9
+   },
+   {
+    "player": "Tyrese Maxey",
+    "n": 12656,
+    "rim": 32.9,
+    "mid": 9.9,
+    "p3": 40.4,
+    "pull3": 10.28,
+    "flt": 8.75,
+    "fg": 47.6
+   },
+   {
+    "player": "LeBron James",
+    "n": 12667,
+    "rim": 27.2,
+    "mid": 10.4,
+    "p3": 41.8,
+    "pull3": 12.13,
+    "flt": 8.72,
+    "fg": 47.3
+   }
+  ],
+  "lg": {
+   "rim": 28.6,
+   "mid": 10.4,
+   "p3": 41.1,
+   "pull3": 10.69,
+   "flt": 8.88,
+   "fg": 47.1
+  },
+  "drop": [
+   {
+    "k": "rim%",
+    "on": 31.6,
+    "off": 33.6
+   },
+   {
+    "k": "mid%",
+    "on": 11.4,
+    "off": 9.2
+   },
+   {
+    "k": "3PA%",
+    "on": 38.9,
+    "off": 41.1
+   },
+   {
+    "k": "pull-up 3%",
+    "on": 10.45,
+    "off": 10.2
+   },
+   {
+    "k": "floater%",
+    "on": 9.6,
+    "off": 8.36
+   },
+   {
+    "k": "opp FG%",
+    "on": 47.0,
+    "off": 47.9
+   }
+  ]
+ },
+ "premise": {
+  "verified": true,
+  "date": "2026-09-05",
+  "source": "Basketball-Reference 2026-27 PHI roster",
+  "five": [
+   "LeBron James",
+   "Jaylen Brown",
+   "Joel Embiid",
+   "Tyrese Maxey",
+   "VJ Edgecombe"
+  ],
+  "adds": [
+   {
+    "player": "Dean Wade",
+    "usg": 10.0,
+    "drapm": 4.21,
+    "pctl": 99,
+    "note": "5th in the league by pooled dRAPM"
+   },
+   {
+    "player": "Kentavious Caldwell-Pope",
+    "usg": 17.8,
+    "drapm": 1.69,
+    "pctl": 88,
+    "note": "solid"
+   },
+   {
+    "player": "Anfernee Simons",
+    "usg": 23.8,
+    "drapm": -0.98,
+    "pctl": 17,
+    "note": "sixth high-usage guard, defensive negative"
+   }
+  ],
+  "gone": [
+   {
+    "player": "Paul George",
+    "usg": 23.2,
+    "note": "was a co-star control in the Maxey/Edgecombe models"
+   }
+  ]
+ },
+ "onoff_seg": {
+  "pooled": [
+   {
+    "player": "Joel Embiid",
+    "on_off": -5.1,
+    "d_on": 106.2,
+    "d_off": 111.3,
+    "poss": 31478
+   },
+   {
+    "player": "Tyrese Maxey",
+    "on_off": 2.4,
+    "d_on": 112.5,
+    "d_off": 110.1,
+    "poss": 25652
+   },
+   {
+    "player": "VJ Edgecombe",
+    "on_off": -1.2,
+    "d_on": 112.7,
+    "d_off": 113.9,
+    "poss": 5331
+   },
+   {
+    "player": "Jaylen Brown",
+    "on_off": 1.6,
+    "d_on": 108.3,
+    "d_off": 106.6,
+    "poss": 42158
+   },
+   {
+    "player": "LeBron James",
+    "on_off": -0.9,
+    "d_on": 110.1,
+    "d_off": 111.0,
+    "poss": 45833
+   }
+  ],
+  "byseason": {
+   "VJ Edgecombe": [
+    {
+     "s": 2025,
+     "v": -1.2
+    }
+   ],
+   "Joel Embiid": [
+    {
+     "s": 2016,
+     "v": -9.1
+    },
+    {
+     "s": 2017,
+     "v": -5.0
+    },
+    {
+     "s": 2018,
+     "v": -5.3
+    },
+    {
+     "s": 2019,
+     "v": -6.7
+    },
+    {
+     "s": 2020,
+     "v": -0.7
+    },
+    {
+     "s": 2021,
+     "v": -3.0
+    },
+    {
+     "s": 2022,
+     "v": -4.1
+    },
+    {
+     "s": 2023,
+     "v": -4.2
+    },
+    {
+     "s": 2024,
+     "v": -9.1
+    },
+    {
+     "s": 2025,
+     "v": 0.1
+    }
+   ],
+   "Jaylen Brown": [
+    {
+     "s": 2016,
+     "v": -0.6
+    },
+    {
+     "s": 2017,
+     "v": -2.2
+    },
+    {
+     "s": 2018,
+     "v": 0.6
+    },
+    {
+     "s": 2019,
+     "v": 3.3
+    },
+    {
+     "s": 2020,
+     "v": 1.5
+    },
+    {
+     "s": 2021,
+     "v": -3.3
+    },
+    {
+     "s": 2022,
+     "v": 2.4
+    },
+    {
+     "s": 2023,
+     "v": 3.4
+    },
+    {
+     "s": 2024,
+     "v": 4.3
+    },
+    {
+     "s": 2025,
+     "v": 4.0
+    }
+   ],
+   "LeBron James": [
+    {
+     "s": 2016,
+     "v": -3.3
+    },
+    {
+     "s": 2017,
+     "v": 4.5
+    },
+    {
+     "s": 2018,
+     "v": -1.3
+    },
+    {
+     "s": 2019,
+     "v": -4.3
+    },
+    {
+     "s": 2020,
+     "v": -3.9
+    },
+    {
+     "s": 2021,
+     "v": 1.0
+    },
+    {
+     "s": 2022,
+     "v": -0.7
+    },
+    {
+     "s": 2023,
+     "v": -1.1
+    },
+    {
+     "s": 2024,
+     "v": 3.8
+    },
+    {
+     "s": 2025,
+     "v": -2.9
+    }
+   ],
+   "Tyrese Maxey": [
+    {
+     "s": 2020,
+     "v": 5.0
+    },
+    {
+     "s": 2021,
+     "v": 2.1
+    },
+    {
+     "s": 2022,
+     "v": 2.8
+    },
+    {
+     "s": 2023,
+     "v": 2.4
+    },
+    {
+     "s": 2024,
+     "v": 0.3
+    },
+    {
+     "s": 2025,
+     "v": -1.6
+    }
+   ]
+  },
+  "held": [
+   {
+    "k": "nobody (raw)",
+    "on": 106.2,
+    "off": 111.3,
+    "d": -5.1,
+    "poss": 31478
+   },
+   {
+    "k": "Maxey held fixed",
+    "on": 110.2,
+    "off": 114.1,
+    "d": -3.9,
+    "poss": 10957
+   },
+   {
+    "k": "Edgecombe held fixed",
+    "on": 114.2,
+    "off": 111.9,
+    "d": 2.3,
+    "poss": 1940
+   }
+  ]
+ },
+ "playoffs": {
+  "lg_shift": -0.06,
+  "rows": [
+   {
+    "player": "Joel Embiid",
+    "pp": 4772,
+    "games": 66,
+    "po": -1.32,
+    "rs": 1.1,
+    "shift": -2.41
+   },
+   {
+    "player": "Tyrese Maxey",
+    "pp": 3339,
+    "games": 52,
+    "po": -2.0,
+    "rs": -1.77,
+    "shift": -0.24
+   },
+   {
+    "player": "VJ Edgecombe",
+    "pp": 759,
+    "games": 11,
+    "po": -2.85,
+    "rs": -3.12,
+    "shift": 0.27
+   },
+   {
+    "player": "Jaylen Brown",
+    "pp": 8912,
+    "games": 125,
+    "po": 1.14,
+    "rs": -0.0,
+    "shift": 1.14
+   },
+   {
+    "player": "LeBron James",
+    "pp": 6514,
+    "games": 85,
+    "po": 6.07,
+    "rs": 4.13,
+    "shift": 1.93
+   }
+  ]
+ }
+};
+const S = ["--s1","--s2","--s3","--s4","--s5"];
+const ORDER = ["Joel Embiid","Jaylen Brown","Tyrese Maxey","VJ Edgecombe","LeBron James"];
+const cvar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+/* Colours are resolved LAZILY and cached per render. Reading a token through C()
+   rather than a pre-populated map means a token nobody remembered to add to a list
+   can no longer come back undefined -- which previously stringified to "undefined"
+   in a fill attribute and made SVG fall back to black. */
+const _cc = {};
+function C(name){
+  let v = _cc[name];
+  if(v === undefined){ v = cvar(name); if(!v) console.warn("unresolved CSS token", name); _cc[name] = v; }
+  return v;
+}
+const PC = player => C(S[ORDER.indexOf(player)]);   // player -> series colour
+function readColors(){ for(const k in _cc) delete _cc[k]; }
+const SHORT = {"Joel Embiid":"Embiid","Jaylen Brown":"Brown","Tyrese Maxey":"Maxey",
+  "VJ Edgecombe":"Edgecombe","LeBron James":"LeBron"};
+const sn = p => SHORT[p] || p.split(" ").pop();
+const SZ = s => `${s-1}-${String(s).slice(2)}`;
+const fmt = (v,d=2)=> (v>0?"+":"") + v.toFixed(d);
+const el=(t,a={},kids=[])=>{const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+  for(const k in a) e.setAttribute(k,a[k]); kids.forEach(c=>e.appendChild(c)); return e;};
+const txt=(s)=>document.createTextNode(s);
+
+/* ---------- meta strip ---------- */
+(function(){
+  const m=DATA.meta, host=document.getElementById("meta");
+  [["Seasons",m.seasons],["Matchup rows",(m.rows/1e6).toFixed(2)+"M"],
+   ["Games",m.games.toLocaleString()],["Defender-seasons",m.defseasons.toLocaleString()],
+   ["Split-half r","+"+m.splithalf.toFixed(2)]].forEach(([k,v])=>{
+    const d=document.createElement("div");
+    d.innerHTML=`<span class="k">${k}</span><span class="v">${v}</span>`; host.appendChild(d);
+  });
+})();
+
+/* ---------- verdict cards ---------- */
+(function(){
+  const VD={"Joel Embiid":["ok","Confirmed"],"Jaylen Brown":["ok","Confirmed, late"],
+    "LeBron James":["bad","Confirmed"],"Tyrese Maxey":["bad","Not supported"],
+    "VJ Edgecombe":["neu","Untested"]};
+  const NOTE={"Joel Embiid":"Negative in all 9 seasons","Jaylen Brown":"Best two years are the last two",
+    "LeBron James":"Positive in all 9 seasons","Tyrese Maxey":"Average and improving",
+    "VJ Edgecombe":"Softest assignments of the five"};
+  const host=document.getElementById("cards");
+  const byName={}; DATA.form.forEach(f=>byName[f.player]=f);
+  ORDER.forEach(p=>{
+    const f=byName[p]; if(!f) return;
+    const good=f.dFG<0, col=good?"var(--pos)":"var(--neg)";
+    const c=document.createElement("div"); c.className="card";
+    c.innerHTML=`
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="nm">${p}</div>
+        <div class="chip ${VD[p][0]}"><i class="dot"></i>${VD[p][1]}</div>
+      </div>
+      <div>
+        <div class="big" style="color:${col}">${fmt(f.dFG)}<small>dFG%adj</small></div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:3px">${NOTE[p]}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="kv"><span>Archetype percentile</span><b>${f.pctl}</b></div>
+        <div class="meter"><i style="width:${f.pctl}%;background:${col}"></i></div>
+        <div class="kv"><span>Assignment burden</span><b>${f.hunt.toFixed(2)}</b></div>
+        <div class="kv"><span>Possessions defended</span><b>${f.pp.toLocaleString()}</b></div>
+      </div>`;
+    host.appendChild(c);
+  });
+})();
+
+/* ---------- generic responsive chart mount ---------- */
+function mount(id, draw){
+  const box=document.getElementById(id);
+  const tip=box.querySelector(".tip");
+  let lastW=-1;
+  const render=(force)=>{
+    const w=Math.max(280, box.clientWidth);
+    // re-rendering changes the box height, so only react to WIDTH changes or an
+    // explicit theme change -- otherwise the ResizeObserver feeds back on itself.
+    if(!force && Math.abs(w-lastW)<1) return;
+    lastW=w;
+    [...box.querySelectorAll("svg")].forEach(s=>s.remove());
+    readColors();
+    box.insertBefore(draw(w, tip, box), tip);
+  };
+  render(true);
+  new ResizeObserver(()=>render(false)).observe(box);
+  const mq=window.matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener("change", ()=>render(true));
+  new MutationObserver(()=>render(true)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+}
+function showTip(tip,box,x,y,html){
+  tip.innerHTML=html; tip.style.opacity="1";
+  const bw=box.clientWidth, tw=tip.offsetWidth||170;
+  tip.style.left=Math.min(Math.max(4,x-tw/2), bw-tw-4)+"px";
+  tip.style.top=Math.max(4,y)+"px";
+}
+const hideTip=t=>t.style.opacity="0";
+
+/* ---------- 1. confound before/after ---------- */
+mount("c-conf",(W,tip,box)=>{
+  const H=250, m={t:16,r:12,b:46,l:44};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b, d=DATA.conf;
+  const vals=d.flatMap(x=>[x.before,x.after]);
+  const lo=Math.min(-1.5,...vals)-.6, hi=Math.max(...vals)+.9;
+  const y=v=>m.t+ih-(v-lo)/(hi-lo)*ih;
+  const bw=iw/d.length, gw=bw*.30;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Mean dFG% by shot diet faced, before and after adjustment"});
+  [-4,-2,0,2,4].filter(t=>t>lo&&t<hi).forEach(t=>{
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:m.l-8,y:y(t)+4,"text-anchor":"end","font-size":11,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t)]));
+  });
+  d.forEach((row,i)=>{
+    const cx=m.l+bw*i+bw/2;
+    [["before",C("--s2"),-1],["after",C("--s1"),1]].forEach(([k,c,side])=>{
+      const v=row[k], y0=y(0), y1=y(v);
+      const x=cx+(side<0?-gw-1:1), hh=Math.abs(y1-y0);
+      const r=el("rect",{x,y:Math.min(y0,y1),width:gw,height:Math.max(hh,1.5),
+        fill:c,rx:4,ry:4});
+      r.style.cursor="pointer";
+      r.addEventListener("pointerenter",()=>showTip(tip,box,x+gw/2,Math.min(y0,y1)-8,
+        `<div class="th">${row.bucket}</div>
+         <div class="tr"><span><i class="sw" style="background:${C("--s2")}"></i>Split only</span><span>${fmt(row.before)}</span></div>
+         <div class="tr"><span><i class="sw" style="background:${C("--s1")}"></i>Residualised</span><span>${fmt(row.after)}</span></div>
+         <div class="tr"><span>3PA faced</span><span>${(row.pct3*100).toFixed(0)}%</span></div>`));
+      r.addEventListener("pointerleave",()=>hideTip(tip));
+      g.appendChild(r);
+      g.appendChild(el("text",{x:x+gw/2,y:v>=0?y1-6:y1+14,"text-anchor":"middle","font-size":10.5,
+        fill:C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(row[k],1))]));
+    });
+    g.appendChild(el("text",{x:cx,y:H-24,"text-anchor":"middle","font-size":11.5,
+      fill:C("--ink-2")},[txt(row.bucket)]));
+  });
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle","font-size":10.5,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt("← more interior      shot diet faced      more perimeter →")]));
+  return g;
+});
+document.getElementById("l-conf").innerHTML=
+  `<span class="lg sq"><i style="background:var(--s2)"></i>2P/3P split only</span>
+   <span class="lg sq"><i style="background:var(--s1)"></i>+ residualised</span>`;
+
+/* ---------- 2. reliability ---------- */
+mount("c-rel",(W,tip,box)=>{
+  const d=DATA.rel, rh=32, m={t:12,r:56,b:34,l:150};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const x=v=>m.l+v/0.9*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Year over year reliability by metric"});
+  [0,.2,.4,.6,.8].forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-2,y2:m.t+d.length*rh,
+      stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-16,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t.toFixed(1))]));
+  });
+  // noise threshold
+  g.appendChild(el("line",{x1:x(.2),x2:x(.2),y1:m.t-2,y2:m.t+d.length*rh,
+    stroke:C("--crit"),"stroke-width":1.5,"stroke-dasharray":"4 3"}));
+  g.appendChild(el("text",{x:x(.2)+6,y:m.t+8,"font-size":10,fill:C("--crit"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("noise floor")]));
+  d.forEach((row,i)=>{
+    const yy=m.t+i*rh+rh/2, dropped=row.r<0.2;
+    const c=dropped?C("--crit"):C("--accent");
+    const r=el("rect",{x:m.l,y:yy-8,width:Math.max(x(row.r)-m.l,2),height:16,fill:c,rx:4,ry:4});
+    r.style.cursor="pointer";
+    r.addEventListener("pointerenter",()=>showTip(tip,box,x(row.r),yy-46,
+      `<div class="th">${row.label}</div><div class="tr"><span>r (t, t+1)</span><span>${fmt(row.r,3)}</span></div>
+       <div class="tr"><span>status</span><span>${dropped?"dropped":"retained"}</span></div>`));
+    r.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(r);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:dropped?C("--crit"):C("--ink-2")},[txt(row.label)]));
+    g.appendChild(el("text",{x:x(row.r)+8,y:yy+4,"font-size":11.5,fill:C("--ink-2"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(fmt(row.r,2))]));
+  });
+  return g;
+});
+
+/* ---------- 3. season trajectories ---------- */
+mount("c-traj",(W,tip,box)=>{
+  const H=Math.max(310,Math.min(390,W*.44)), m={t:18,r:112,b:44,l:48};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const seasons=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
+  const lo=-9, hi=10.5;
+  const x=s=>m.l+(seasons.indexOf(s))/(seasons.length-1)*iw;
+  const y=v=>m.t+ih-(v-lo)/(hi-lo)*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"dFG% adjusted by season for the five players"});
+  // bands
+  g.appendChild(el("rect",{x:m.l,y:m.t,width:iw,height:y(0)-m.t,
+    fill:C("--neg"),opacity:.045}));
+  g.appendChild(el("rect",{x:m.l,y:y(0),width:iw,height:m.t+ih-y(0),
+    fill:C("--pos"),opacity:.045}));
+  [-8,-4,0,4,8].forEach(t=>{
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  g.appendChild(el("text",{x:m.l+4,y:y(0)-7,"font-size":10,fill:C("--pos"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("↓ better")]));
+  seasons.forEach(s=>{
+    g.appendChild(el("text",{x:x(s),y:H-22,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(SZ(s))]));
+  });
+  ORDER.forEach(p=>{
+    const pts=(DATA.series[p]||[]).filter(d=>seasons.includes(d.s));
+    if(!pts.length) return;
+    const c=PC(p);
+    if(pts.length>1){
+      const dd=pts.map((q,i)=>`${i?"L":"M"}${x(q.s).toFixed(1)},${y(q.v).toFixed(1)}`).join("");
+      g.appendChild(el("path",{d:dd,fill:"none",stroke:c,"stroke-width":2,
+        "stroke-linejoin":"round","stroke-linecap":"round"}));
+    }
+    pts.forEach(q=>{
+      g.appendChild(el("circle",{cx:x(q.s),cy:y(q.v),r:pts.length===1?5:3.6,fill:c,
+        stroke:C("--surface"),"stroke-width":2}));
+    });
+    const last=pts[pts.length-1];
+    g.appendChild(el("text",{x:x(last.s)+11,y:y(last.v)+4,"font-size":11.5,fill:c,
+      "font-weight":600,"font-family":"Archivo, sans-serif"},
+      [txt(sn(p))]));
+  });
+  // crosshair
+  const cross=el("line",{y1:m.t,y2:m.t+ih,stroke:C("--ink-3"),"stroke-width":1,
+    "stroke-dasharray":"3 3",opacity:0});
+  g.appendChild(cross);
+  const hit=el("rect",{x:m.l,y:m.t,width:iw,height:ih,fill:"transparent"});
+  hit.style.cursor="crosshair";
+  hit.addEventListener("pointermove",ev=>{
+    const bb=box.getBoundingClientRect(), sc=W/bb.width;
+    const px=(ev.clientX-bb.left)*sc;
+    let best=seasons[0], bd=1e9;
+    seasons.forEach(s=>{const dd=Math.abs(x(s)-px); if(dd<bd){bd=dd;best=s;}});
+    cross.setAttribute("x1",x(best)); cross.setAttribute("x2",x(best));
+    cross.setAttribute("opacity","1");
+    let rows="";
+    ORDER.forEach(p=>{
+      const q=(DATA.series[p]||[]).find(z=>z.s===best); if(!q) return;
+      rows+=`<div class="tr"><span><i class="sw" style="background:${PC(p)}"></i>${sn(p)}</span>
+             <span>${fmt(q.v)} <span style="color:var(--ink-3)">[${fmt(q.lo,1)},${fmt(q.hi,1)}]</span></span></div>`;
+    });
+    showTip(tip,box,x(best)/sc, 8, `<div class="th">${SZ(best)}</div>${rows}`);
+  });
+  hit.addEventListener("pointerleave",()=>{hideTip(tip);cross.setAttribute("opacity","0")});
+  g.appendChild(hit);
+  return g;
+});
+document.getElementById("l-traj").innerHTML=ORDER.map((p,i)=>
+  `<span class="lg"><i style="background:var(${S[i]})"></i>${p}</span>`).join("");
+
+/* ---------- trajectory table (relief + accessibility) ---------- */
+(function(){
+  const t=document.getElementById("tbl-traj");
+  let h=`<thead><tr><th>Player</th><th>Season</th><th>G</th><th>Poss.</th>
+    <th>dFG%adj</th><th>95% CI</th><th>Arch pctl</th><th>Burden</th></tr></thead><tbody>`;
+  ORDER.forEach(p=>(DATA.series[p]||[]).forEach(q=>{
+    h+=`<tr><td>${p}</td><td class="num">${SZ(q.s)}</td><td class="num">${q.g}</td>
+      <td class="num">${q.pp.toLocaleString()}</td>
+      <td class="num ${q.v<0?"pos":"neg"}">${fmt(q.v)}</td>
+      <td class="num">[${fmt(q.lo,1)}, ${fmt(q.hi,1)}]</td>
+      <td class="num">${q.pctl??"—"}</td><td class="num">${q.hunt.toFixed(2)}</td></tr>`;
+  }));
+  t.innerHTML=h+"</tbody>";
+})();
+
+/* ---------- 4. burden vs quality scatter ---------- */
+mount("c-scat",(W,tip,box)=>{
+  const H=Math.max(300,Math.min(360,W*.42)), m={t:20,r:26,b:50,l:52};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xd=[1.05,1.78], yd=[15,100];
+  const x=v=>m.l+(v-xd[0])/(xd[1]-xd[0])*iw;
+  const y=v=>m.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Assignment burden versus within-archetype defensive percentile"});
+  [25,50,75,100].forEach(t=>{
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t)]));
+  });
+  [1.1,1.3,1.5,1.7].forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-28,"text-anchor":"middle","font-size":11,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t.toFixed(1))]));
+  });
+  g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(50),y2:y(50),stroke:C("--ink-3"),
+    "stroke-width":1.4,"stroke-dasharray":"5 4"}));
+  g.appendChild(el("text",{x:m.l+iw-4,y:y(50)-7,"text-anchor":"end","font-size":10,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt("league median")]));
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-8,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("Assignment burden  →  harder assignments")]));
+  g.appendChild(el("text",{x:14,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 14 ${m.t+ih/2})`,"text-anchor":"middle"},[txt("Archetype percentile")]));
+  /* Identity here rests entirely on the labels (one hue, because five hues cannot
+     clear the all-pairs CVD floors in a scatter). Maxey and Brown sit ~20px apart,
+     so labels are de-collided vertically per side and given a leader line whenever
+     they are displaced off their dot. */
+  const MG=17, dots=DATA.form.map(f=>({
+    f, dx:x(f.hunt), dy:y(f.pctl),
+    side:(x(f.hunt) > m.l+iw*0.70) ? -1 : 1,
+    nm:sn(f.player)
+  }));
+  [-1,1].forEach(sd=>{
+    const grp=dots.filter(d=>d.side===sd).sort((a,b)=>a.dy-b.dy);
+    grp.forEach((d,i)=>{ d.ly = i===0 ? d.dy : Math.max(d.dy, grp[i-1].ly+MG); });
+    // recentre the group so de-collision does not drag it all downward
+    if(grp.length>1){
+      const drift=(grp[grp.length-1].ly-grp[grp.length-1].dy)/2;
+      grp.forEach(d=>d.ly-=drift);
+    }
+  });
+  dots.forEach(d=>{
+    if(Math.abs(d.ly-d.dy)>3){
+      g.appendChild(el("line",{x1:d.dx+d.side*9,y1:d.dy,x2:d.dx+d.side*15,y2:d.ly,
+        stroke:C("--ink-3"),"stroke-width":1,opacity:.5}));
+    }
+    const dot=el("circle",{cx:d.dx,cy:d.dy,r:8,fill:C("--accent"),
+      stroke:C("--surface"),"stroke-width":2});
+    dot.style.cursor="pointer";
+    const f=d.f;
+    dot.addEventListener("pointerenter",()=>showTip(tip,box,d.dx,d.dy-96,
+      `<div class="th">${f.player}</div>
+       <div class="tr"><span>dFG%adj</span><span>${fmt(f.dFG)}</span></div>
+       <div class="tr"><span>Archetype pctl</span><span>${f.pctl}</span></div>
+       <div class="tr"><span>Burden</span><span>${f.hunt.toFixed(2)}</span></div>
+       <div class="tr"><span>Poss. defended</span><span>${f.pp.toLocaleString()}</span></div>`));
+    dot.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(dot);
+    g.appendChild(el("text",{x:d.dx+d.side*17,y:d.ly+4,
+      "text-anchor":d.side<0?"end":"start","font-size":12,"font-weight":600,
+      "font-family":"Archivo, sans-serif",fill:C("--ink")},[txt(d.nm)]));
+  });
+  return g;
+});
+
+/* ---------- on/off table ---------- */
+(function(){
+  const t=document.getElementById("tbl-oo");
+  const seasons=[...new Set(Object.values(DATA.onoff).flatMap(o=>o.byseason.map(b=>b.s)))].sort();
+  let h=`<thead><tr><th>Player</th>`+seasons.map(s=>`<th>${SZ(s)}</th>`).join("")+
+    `<th>Career</th></tr></thead><tbody>`;
+  ORDER.forEach(p=>{
+    const o=DATA.onoff[p]; if(!o) return;
+    const bys={}; o.byseason.forEach(b=>bys[b.s]=b.v);
+    h+=`<tr><td>${p}</td>`+seasons.map(s=>{
+      const v=bys[s];
+      return v===undefined?`<td class="num" style="color:var(--ink-3)">·</td>`
+        :`<td class="num ${v<0?"pos":"neg"}">${fmt(v,1)}</td>`;
+    }).join("")+`<td class="num ${o.career<0?"pos":"neg"}"><b>${fmt(o.career)}</b></td></tr>`;
+  });
+  t.innerHTML=h+"</tbody>";
+})();
+
+/* ---------- 5. exposure ---------- */
+mount("c-exp",(W,tip,box)=>{
+  const H=Math.max(280,Math.min(330,W*.38)), m={t:20,r:26,b:48,l:54};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const phis=[0,.1,.2,.3], lo=-2.6, hi=2.2;
+  const x=p=>m.l+p/.3*iw, y=v=>m.t+ih-(v-lo)/(hi-lo)*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Points per 100 conceded as attacks are funneled to the weakest defender"});
+  [-2,-1,0,1,2].forEach(t=>{
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  phis.forEach(p=>g.appendChild(el("text",{x:x(p),y:H-26,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt((p*100)+"%")])));
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("share of attacks reallocated to the weakest defender")]));
+  DATA.expo.forEach((sc,i)=>{
+    const c=i===0?C("--s1"):C("--s2");
+    const dd=sc.pts.map((q,j)=>`${j?"L":"M"}${x(q.phi).toFixed(1)},${y(q.v).toFixed(1)}`).join("");
+    g.appendChild(el("path",{d:dd,fill:"none",stroke:c,"stroke-width":2.4,
+      "stroke-linecap":"round","stroke-linejoin":"round"}));
+    sc.pts.forEach(q=>{
+      const dot=el("circle",{cx:x(q.phi),cy:y(q.v),r:4.4,fill:c,stroke:C("--surface"),"stroke-width":2});
+      dot.style.cursor="pointer";
+      dot.addEventListener("pointerenter",()=>showTip(tip,box,x(q.phi),y(q.v)-92,
+        `<div class="th">${sc.scenario}</div>
+         <div class="tr"><span>reallocated</span><span>${(q.phi*100).toFixed(0)}%</span></div>
+         <div class="tr"><span>pts/100 vs base</span><span>${fmt(q.v)}</span></div>
+         <div class="tr"><span>hunting cost</span><span>${fmt(q.he)}</span></div>
+         <div class="tr"><span>funneled to</span><span>${sn(sc.target)}</span></div>`));
+      dot.addEventListener("pointerleave",()=>hideTip(tip));
+      g.appendChild(dot);
+    });
+    const last=sc.pts[sc.pts.length-1];
+    g.appendChild(el("text",{x:x(last.phi)-6,y:y(last.v)+(i===0?-12:-12),"text-anchor":"end",
+      "font-size":11.5,"font-weight":600,fill:c,"font-family":"Archivo, sans-serif"},
+      [txt(i===0?"Embiid available":"Embiid out")]));
+  });
+  return g;
+});
+document.getElementById("l-exp").innerHTML=
+  `<span class="lg"><i style="background:var(--s1)"></i>Projected five, Embiid available</span>
+   <span class="lg"><i style="background:var(--s2)"></i>Embiid out</span>`;
+
+/* ---------- Phase D: meta strip ---------- */
+(function(){
+  const m=DATA.meta, host=document.getElementById("meta2");
+  if(!host) return;
+  [["Seasons rebuilt",m.seasons13],["Coverage",m.cov_lo.toFixed(1)+"–"+m.cov_hi.toFixed(1)+"%"],
+   ["Minute error",m.mae_lo.toFixed(2)+"–"+m.mae_hi.toFixed(2)+" /g"],
+   ["Ridge λ",DATA.relx.old.lam.toLocaleString()+" → "+DATA.relx.lam.toLocaleString()],
+   ["Reliability","+"+DATA.relx.old.splithalf.toFixed(2)+" → +"+DATA.relx.drapm_splithalf.toFixed(2)]
+  ].forEach(([k,v])=>{
+    const d=document.createElement("div");
+    d.innerHTML=`<span class="k">${k}</span><span class="v">${v}</span>`; host.appendChild(d);
+  });
+})();
+
+/* ---------- validation table ---------- */
+(function(){
+  const t=document.getElementById("tbl-val"); if(!t) return;
+  let h=`<thead><tr><th>Season</th><th>Team-games</th><th>Coverage</th>
+    <th>Minute error /g</th></tr></thead><tbody>`;
+  (DATA.val13||[]).forEach(r=>{
+    h+=`<tr><td class="num">${r.season}-${String(r.season+1).slice(2)}</td>
+      <td class="num">${r.team_games.toLocaleString()}</td>
+      <td class="num pos">${r.coverage.toFixed(2)}%</td>
+      <td class="num">${r.mae===null?"—":r.mae.toFixed(2)}</td></tr>`;
+  });
+  t.innerHTML=h+"</tbody>";
+})();
+
+/* ---------- bump chart: three methods, three orderings ---------- */
+mount("c-bump",(W,tip,box)=>{
+  const H=Math.max(300,Math.min(360,W*.40)), m={t:26,r:118,b:44,l:118};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const METH=[["r_match","Matchup dFG%"],["r_onoff","On/off"],["r_rapm","dRAPM (5 seasons)"]];
+  const x=i=>m.l+(METH.length===1?0:i/(METH.length-1)*iw);
+  const y=r=>m.t+(r-1)/4*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Defender rank by each of three methods"});
+  for(let r=1;r<=5;r++){
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(r),y2:y(r),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-96,y:y(r)+4,"font-size":10.5,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt("rank "+r)]));
+  }
+  METH.forEach(([k,lab],i)=>g.appendChild(el("text",{x:x(i),y:H-20,"text-anchor":"middle",
+    "font-size":11.5,fill:C("--ink-2"),"font-weight":600,
+    "font-family":"Archivo, sans-serif"},[txt(lab)])));
+  (DATA.ranks||[]).forEach(row=>{
+    const c=PC(row.player);
+    const pts=METH.map(([k],i)=>({x:x(i),y:y(row[k])}));
+    g.appendChild(el("path",{d:pts.map((q,i)=>`${i?"L":"M"}${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(""),
+      fill:"none",stroke:c,"stroke-width":2.2,"stroke-linejoin":"round","stroke-linecap":"round"}));
+    pts.forEach(q=>g.appendChild(el("circle",{cx:q.x,cy:q.y,r:5,fill:c,
+      stroke:C("--surface"),"stroke-width":2})));
+    g.appendChild(el("text",{x:x(0)-13,y:y(row.r_match)+4,"text-anchor":"end","font-size":11.5,
+      "font-weight":600,fill:c,"font-family":"Archivo, sans-serif"},[txt(sn(row.player))]));
+    g.appendChild(el("text",{x:x(METH.length-1)+13,y:y(row.r_rapm)+4,"font-size":11.5,
+      "font-weight":600,fill:c,"font-family":"Archivo, sans-serif"},[txt(sn(row.player))]));
+    // hover on the whole polyline
+    const hit=el("path",{d:pts.map((q,i)=>`${i?"L":"M"}${q.x},${q.y}`).join(""),fill:"none",
+      stroke:"transparent","stroke-width":16});
+    hit.style.cursor="pointer";
+    hit.addEventListener("pointerenter",()=>showTip(tip,box,pts[1].x,pts[1].y-104,
+      `<div class="th">${row.player}</div>
+       <div class="tr"><span>Matchup dFG%adj</span><span>${fmt(row.matchup)} (#${row.r_match})</span></div>
+       <div class="tr"><span>On/off career</span><span>${fmt(row.onoff)} (#${row.r_onoff})</span></div>
+       <div class="tr"><span>dRAPM 2025-26</span><span>${fmt(row.drapm)} (#${row.r_rapm})</span></div>`));
+    hit.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(hit);
+  });
+  return g;
+});
+document.getElementById("l-bump").innerHTML=ORDER.map((p,i)=>
+  `<span class="lg"><i style="background:var(${S[i]})"></i>${p}</span>`).join("");
+(function(){
+  const c=document.getElementById("cap-bump"), a=DATA.relx.agree; if(!c||!a) return;
+  c.innerHTML+=` Rank agreement is essentially nil &mdash; matchup vs on/off
+    <b>${fmt(a.mo)}</b>, matchup vs dRAPM <b>${fmt(a.mr)}</b>, on/off vs dRAPM
+    <b>${fmt(a.or)}</b>. With only five players that statistic is itself noisy, but there is
+    plainly no consensus to extract.`;
+})();
+
+/* ---------- dRAPM with its own noise band ---------- */
+mount("c-rapm",(W,tip,box)=>{
+  const d=DATA.rapm||[], rh=34, m={t:28,r:20,b:34,l:96};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const band=DATA.relx.drapm_sd_half;
+  const mx=Math.max(band, ...d.map(r=>Math.abs(r.d)))*1.18;
+  const lo=-mx, hi=mx, x=v=>m.l+(v-lo)/(hi-lo)*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Defensive RAPM for the five with the noise band"});
+  g.appendChild(el("rect",{x:x(-band),y:m.t-6,width:x(band)-x(-band),
+    height:d.length*rh+4,fill:C("--ink-3"),opacity:.10}));
+  g.appendChild(el("text",{x:x(0),y:m.t-12,"text-anchor":"middle","font-size":10,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},
+    [txt("±1 within-half SD (the metric's own noise)")]));
+  const ticks=[]; const step= mx>2 ? 1 : 0.5;
+  for(let t=-Math.floor(mx/step)*step; t<=mx+1e-9; t+=step) ticks.push(Math.round(t*100)/100);
+  ticks.forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-6,y2:m.t+d.length*rh,
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.4:1}));
+    g.appendChild(el("text",{x:x(t),y:H-14,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,1))]));
+  });
+  d.slice().sort((a,b)=>b.d-a.d).forEach((r,i)=>{
+    const yy=m.t+i*rh+rh/2, c=r.d>=0?C("--pos"):C("--neg");
+    const x0=x(0), x1=x(r.d);
+    const bar=el("rect",{x:Math.min(x0,x1),y:yy-7,width:Math.max(Math.abs(x1-x0),2),
+      height:14,fill:c,rx:4,ry:4});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x1,yy-92,
+      `<div class="th">${r.player}</div>
+       <div class="tr"><span>dRAPM</span><span>${fmt(r.d)}</span></div>
+       <div class="tr"><span>oRAPM</span><span>${fmt(r.o)}</span></div>
+       <div class="tr"><span>percentile</span><span>${r.pctl}</span></div>
+       <div class="tr"><span>possessions</span><span>${r.poss.toLocaleString()}</span></div>
+       <div class="tr"><span>own-data weight</span><span>${r.w.toFixed(2)}</span></div>
+       <div class="tr"><span>1-season dRAPM</span><span>${fmt(r.d1)}</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(sn(r.player))]));
+    g.appendChild(el("text",{x:x1+(r.d>=0?9:-9),y:yy+4,"text-anchor":r.d>=0?"start":"end",
+      "font-size":11,fill:C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(r.d))]));
+  });
+  return g;
+});
+(function(){
+  const c=document.getElementById("cap-rapm"), r=DATA.relx, o=r.old; if(!c) return;
+  c.innerHTML=`Positive = points prevented per 100 possessions, pooled over five seasons.
+    The five now span <b>${r.core_range.toFixed(2)}</b> against a within-half SD of
+    ${r.drapm_sd_half.toFixed(2)} &mdash; about <b>2.9&times;</b> the noise, so the ordering is
+    supported. On one season they spanned only ${o.range.toFixed(2)} against
+    ${o.sd_half.toFixed(2)} and could not be ordered at all. Pooling dropped
+    &lambda; from ${o.lam.toLocaleString()} to ${r.lam.toLocaleString()}, lifted the
+    league-wide spread from ${o.sd.toFixed(2)} to ${r.drapm_sd_qualified.toFixed(2)} SD, and
+    took Embiid's own-data weight from ${o.emb_w.toFixed(2)} to
+    ${(DATA.rapm.find(x=>x.player==="Joel Embiid")||{w:0}).w.toFixed(2)}.`;
+})();
+
+/* ---------- staggering: overlap vs wins-above-line ---------- */
+mount("c-stag",(W,tip,box)=>{
+  const d=(DATA.stag&&DATA.stag.rows)||[];
+  const H=Math.max(320,Math.min(380,W*.44)), m={t:22,r:26,b:52,l:58};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xs=d.map(r=>r.overlap), ys=d.map(r=>r.resid);
+  const x0=Math.min(...xs)-0.03, x1=Math.max(...xs)+0.03;
+  const y0=Math.min(...ys)-3, y1=Math.max(...ys)+3;
+  const X=v=>m.l+(v-x0)/(x1-x0)*iw, Y=v=>m.t+ih-(v-y0)/(y1-y0)*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Star floor overlap versus wins above the preseason line"});
+  [-10,-5,0,5,10,15,20].filter(t=>t>y0&&t<y1).forEach(t=>{
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:Y(t),y2:Y(t),
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:m.l-9,y:Y(t)+4,"text-anchor":"end","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  [0.5,0.6,0.7,0.8].filter(t=>t>x0&&t<x1).forEach(t=>{
+    g.appendChild(el("line",{x1:X(t),x2:X(t),y1:m.t,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:X(t),y:H-30,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t.toFixed(1))]));
+  });
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-8,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("← more staggered      star floor overlap      more together →")]));
+  g.appendChild(el("text",{x:15,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 15 ${m.t+ih/2})`,"text-anchor":"middle"},
+    [txt("wins above preseason line")]));
+  // least-squares fit, to show how flat it is
+  const n=d.length, mx=xs.reduce((a,b)=>a+b,0)/n, my=ys.reduce((a,b)=>a+b,0)/n;
+  let sxy=0,sxx=0; for(let i=0;i<n;i++){sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2;}
+  const b1=sxx?sxy/sxx:0, b0=my-b1*mx;
+  g.appendChild(el("line",{x1:X(x0),y1:Y(b0+b1*x0),x2:X(x1),y2:Y(b0+b1*x1),
+    stroke:C("--ink-3"),"stroke-width":1.6,"stroke-dasharray":"5 4",opacity:.75}));
+  const ext=d.slice().sort((a,b)=>b.resid-a.resid);
+  const show=new Set([...ext.slice(0,3),...ext.slice(-3)].map(r=>r.tri+r.season));
+  d.forEach(r=>{
+    const dot=el("circle",{cx:X(r.overlap),cy:Y(r.resid),r:7,fill:C("--accent"),
+      stroke:C("--surface"),"stroke-width":2});
+    dot.style.cursor="pointer";
+    dot.addEventListener("pointerenter",()=>showTip(tip,box,X(r.overlap),Y(r.resid)-104,
+      `<div class="th">${r.tri} ${r.season}-${String(r.season+1).slice(2)}</div>
+       <div class="tr"><span>stars (new)</span><span>${r.stars} (${r.new})</span></div>
+       <div class="tr"><span>floor overlap</span><span>${r.overlap.toFixed(2)}</span></div>
+       <div class="tr"><span>compression</span><span>${r.comp===null?"—":fmt(r.comp,1)}</span></div>
+       <div class="tr"><span>depth BPM</span><span>${fmt(r.depth)}</span></div>
+       <div class="tr"><span>line / wins</span><span>${r.ou.toFixed(1)} / ${r.wins}</span></div>
+       <div class="tr"><span>vs line</span><span>${fmt(r.resid,1)}</span></div>`));
+    dot.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(dot);
+    if(show.has(r.tri+r.season)){
+      g.appendChild(el("text",{x:X(r.overlap),y:Y(r.resid)-12,"text-anchor":"middle",
+        "font-size":10.5,"font-weight":600,fill:C("--ink"),
+        "font-family":"Archivo, sans-serif"},[txt(`${r.tri} ${String(r.season).slice(2)}`)]));
+    }
+  });
+  return g;
+});
+(function(){
+  const c=document.getElementById("cap-stag"), st=DATA.stag; if(!c||!st) return;
+  const ci=st.ci.overlap;
+  c.innerHTML=`Each point is a team-season with at least three high-usage players, two of them
+    newly acquired (n&nbsp;=&nbsp;${st.n}, across 27 seasons from 1999-2000). Overlap is measured
+    from the rebuilt lineups: the mean share of floor time the stars actually spent together.
+    The dashed fit slopes the way the usage study predicted &mdash; more overlap, worse results
+    &mdash; but at r&nbsp;=&nbsp;${fmt(st.corr.overlap,3)}, 95% CI
+    [${fmt(ci[0],2)},&nbsp;${fmt(ci[1],2)}], it is not distinguishable from zero. Only the three
+    best and three worst are labelled; hover for the rest.`;
+})();
+(function(){
+  const t=document.getElementById("tbl-stag"), st=DATA.stag; if(!t||!st) return;
+  const LAB={overlap:"Staggering (floor overlap)",compression:"Usage compression",
+    usg_prior_sum:"Total prior usage assembled",depth_bpm:"Bench quality (players 6-10)",
+    n_stars:"Number of stars"};
+  let h=`<thead><tr><th>Predictor</th><th>r</th><th>95% CI</th><th>n</th></tr></thead><tbody>`;
+  Object.keys(LAB).forEach(k=>{
+    const v=st.corr[k], ci=st.ci[k], excl=(ci[0]>0||ci[1]<0);
+    h+=`<tr><td>${LAB[k]}${excl?' <span style="color:var(--warn)">*</span>':''}</td>
+      <td class="num ${v>0?"pos":"neg"}">${fmt(v,3)}</td>
+      <td class="num" style="color:var(--ink-3)">[${fmt(ci[0],2)}, ${fmt(ci[1],2)}]</td>
+      <td class="num">${st.n_by[k]}</td></tr>`;
+  });
+  t.innerHTML=h+"</tbody>";
+})();
+
+/* ---------- shot-diet similarity matrix ---------- */
+mount("c-diet",(W,tip,box)=>{
+  const P=(DATA.diet&&DATA.diet.pairs)||[];
+  const names=ORDER.filter(n=>P.some(p=>p.a===n||p.b===n));
+  const N=names.length, cell=Math.min(56,(W-150)/N);
+  const m={t:74,l:112}, H=m.t+N*cell+18;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Pairwise shot-zone similarity between the five"});
+  const RAMP=["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#2a78d6","#1c5cab","#104281"];
+  const lo=DATA.diet.lg_median, hi=1.0;
+  const col=v=>RAMP[Math.max(0,Math.min(RAMP.length-1,
+      Math.floor((v-lo)/(hi-lo)*RAMP.length)))];
+  const get=(a,b)=>{const p=P.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));return p||null;};
+  names.forEach((n,i)=>{
+    g.appendChild(el("text",{x:m.l-9,y:m.t+i*cell+cell/2+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(sn(n))]));
+    g.appendChild(el("text",{x:m.l+i*cell+cell/2,y:m.t-10,"text-anchor":"start","font-size":11.5,
+      fill:C("--ink-2"),transform:`rotate(-42 ${m.l+i*cell+cell/2} ${m.t-10})`},[txt(sn(n))]));
+  });
+  names.forEach((a,i)=>names.forEach((b,j)=>{
+    const x=m.l+j*cell, y=m.t+i*cell;
+    if(a===b){
+      g.appendChild(el("rect",{x:x+1,y:y+1,width:cell-2,height:cell-2,fill:C("--surface-2"),rx:3}));
+      return;
+    }
+    const p=get(a,b); if(!p) return;
+    const r=el("rect",{x:x+1,y:y+1,width:cell-2,height:cell-2,fill:col(p.cos),rx:3});
+    r.style.cursor="pointer";
+    r.addEventListener("pointerenter",()=>showTip(tip,box,x+cell/2,y-70,
+      `<div class="th">${sn(a)} & ${sn(b)}</div>
+       <div class="tr"><span>similarity</span><span>${p.cos.toFixed(3)}</span></div>
+       <div class="tr"><span>league pctl</span><span>${p.pctl}</span></div>`));
+    r.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(r);
+    g.appendChild(el("text",{x:x+cell/2,y:y+cell/2+4,"text-anchor":"middle","font-size":10.5,
+      "font-family":"IBM Plex Mono, monospace",
+      // the cell colour comes from a FIXED sequential ramp, so the label must use a
+      // fixed ink too -- a theme token would put light text on a light cell in dark mode
+      fill:p.cos>0.955?"#ffffff":"#0d1218"},[txt(p.cos.toFixed(2))]));
+  }));
+  return g;
+});
+(function(){
+  const c=document.getElementById("cap-diet"),d=DATA.diet; if(!c||!d) return;
+  c.innerHTML=`Cosine similarity across 16 court zones; darker is more alike. The five average
+    <b>${d.mean.toFixed(3)}</b> against a league median of ${d.lg_median.toFixed(3)}, so they
+    overlap unusually heavily. Hover for each pair's league percentile.`;
+})();
+
+/* ---------- self-creation ---------- */
+mount("c-mix",(W,tip,box)=>{
+  const d=(DATA.diet&&DATA.diet.mix)||[], lg=DATA.diet.lg_mix;
+  const rh=34, m={t:26,r:56,b:34,l:96};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const mx=Math.max(65,...d.map(r=>r.unassisted));
+  const x=v=>m.l+v/mx*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Unassisted share of made field goals"});
+  [0,20,40,60].filter(t=>t<=mx).forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-4,y2:m.t+d.length*rh,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-14,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(t+"%")]));
+  });
+  g.appendChild(el("line",{x1:x(lg.unassisted),x2:x(lg.unassisted),y1:m.t-4,y2:m.t+d.length*rh,
+    stroke:C("--crit"),"stroke-width":1.5,"stroke-dasharray":"4 3"}));
+  g.appendChild(el("text",{x:x(lg.unassisted)+6,y:m.t+8,"font-size":10,fill:C("--crit"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("league "+lg.unassisted+"%")]));
+  d.slice().sort((a,b)=>b.unassisted-a.unassisted).forEach((r,i)=>{
+    const yy=m.t+i*rh+rh/2;
+    const bar=el("rect",{x:m.l,y:yy-8,width:Math.max(x(r.unassisted)-m.l,2),height:16,
+      fill:C("--accent"),rx:4});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x(r.unassisted),yy-92,
+      `<div class="th">${r.player}</div>
+       <div class="tr"><span>unassisted</span><span>${r.unassisted}%</span></div>
+       <div class="tr"><span>off-dribble rule</span><span>${r.offdrib}%</span></div>
+       <div class="tr"><span>catch</span><span>${r.catch}%</span></div>
+       <div class="tr"><span>off-ball finish</span><span>${r.offball}%</span></div>
+       <div class="tr"><span>FGA</span><span>${r.fga.toLocaleString()}</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(sn(r.player))]));
+    g.appendChild(el("text",{x:x(r.unassisted)+8,y:yy+4,"font-size":11,fill:C("--ink-2"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(r.unassisted+"%")]));
+  });
+  return g;
+});
+
+/* ---------- drop coverage: change in opponent shot mix ---------- */
+mount("c-drop",(W,tip,box)=>{
+  const d=(DATA.allowed&&DATA.allowed.drop)||[];
+  const rh=36, m={t:22,r:30,b:38,l:104};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const mx=Math.max(...d.map(r=>Math.abs(r.on-r.off)))*1.35;
+  const x=v=>m.l+(v+mx)/(2*mx)*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Change in opponent shot mix with Embiid on the floor"});
+  [-2,-1,0,1,2].filter(t=>Math.abs(t)<mx).forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-2,y2:m.t+d.length*rh,
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:x(t),y:H-16,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-2,"text-anchor":"middle","font-size":10.5,
+    fill:C("--ink-3")},[txt("percentage-point change with Embiid on")]));
+  d.forEach((r,i)=>{
+    const v=r.on-r.off, yy=m.t+i*rh+rh/2;
+    // more mid-range / floaters conceded is GOOD for the defence, so colour by intent
+    const good=(r.k==="rim%"||r.k==="3PA%"||r.k==="opp FG%") ? v<0 : v>0;
+    const c=good?C("--pos"):C("--neg");
+    const x0=x(0),x1=x(v);
+    const bar=el("rect",{x:Math.min(x0,x1),y:yy-9,width:Math.max(Math.abs(x1-x0),2),
+      height:18,fill:c,rx:4});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x1,yy-80,
+      `<div class="th">${r.k}</div>
+       <div class="tr"><span>Maxey + Embiid</span><span>${r.on.toFixed(2)}</span></div>
+       <div class="tr"><span>Maxey, no Embiid</span><span>${r.off.toFixed(2)}</span></div>
+       <div class="tr"><span>change</span><span>${fmt(v,2)}</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(r.k)]));
+    g.appendChild(el("text",{x:x1+(v>=0?9:-9),y:yy+4,"text-anchor":v>=0?"start":"end",
+      "font-size":11,fill:C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(v,2))]));
+  });
+  return g;
+});
+document.getElementById("l-drop").innerHTML=
+  `<span class="lg sq"><i style="background:var(--pos)"></i>better for the defence</span>
+   <span class="lg sq"><i style="background:var(--neg)"></i>worse</span>`;
+
+/* ---------- opponent profile table ---------- */
+(function(){
+  const t=document.getElementById("tbl-allowed"), a=DATA.allowed; if(!t||!a) return;
+  let h=`<thead><tr><th>Defender on floor</th><th>Shots faced</th><th>rim%</th><th>mid%</th>
+    <th>3PA%</th><th>pull-up 3%</th><th>floater%</th><th>opp FG%</th></tr></thead><tbody>`;
+  a.rows.forEach(r=>{
+    h+=`<tr><td>${r.player}</td><td class="num">${r.n.toLocaleString()}</td>
+      <td class="num">${r.rim.toFixed(1)}</td><td class="num">${r.mid.toFixed(1)}</td>
+      <td class="num">${r.p3.toFixed(1)}</td><td class="num">${r.pull3.toFixed(2)}</td>
+      <td class="num">${r.flt.toFixed(2)}</td><td class="num">${r.fg.toFixed(1)}</td></tr>`;
+  });
+  h+=`<tr style="color:var(--ink-3)"><td><em>league</em></td><td class="num">—</td>
+    <td class="num">${a.lg.rim}</td><td class="num">${a.lg.mid}</td><td class="num">${a.lg.p3}</td>
+    <td class="num">${a.lg.pull3}</td><td class="num">${a.lg.flt}</td>
+    <td class="num">${a.lg.fg}</td></tr>`;
+  t.innerHTML=h+"</tbody>";
+})();
+
+/* ---------- Embiid on/off, teammate held fixed ---------- */
+mount("c-held",(W,tip,box)=>{
+  const d=(DATA.onoff_seg&&DATA.onoff_seg.held)||[];
+  const rh=44, m={t:22,r:34,b:36,l:150};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const mx=Math.max(...d.map(r=>Math.abs(r.d)))*1.4;
+  const x=v=>m.l+(v+mx)/(2*mx)*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Embiid defensive on/off with teammates held fixed"});
+  [-4,-2,0,2,4].filter(t=>Math.abs(t)<mx).forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-2,y2:m.t+d.length*rh,
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:x(t),y:H-16,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-2,"text-anchor":"middle","font-size":10.5,
+    fill:C("--ink-3")},[txt("defensive rating on minus off (negative = better with him)")]));
+  d.forEach((r,i)=>{
+    const yy=m.t+i*rh+rh/2, c=r.d<0?C("--pos"):C("--neg");
+    const x0=x(0),x1=x(r.d);
+    const bar=el("rect",{x:Math.min(x0,x1),y:yy-11,width:Math.max(Math.abs(x1-x0),2),
+      height:22,fill:c,rx:4,opacity:r.poss<3000?.45:1});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x1,yy-84,
+      `<div class="th">${r.k}</div>
+       <div class="tr"><span>DRtg with Embiid</span><span>${r.on.toFixed(1)}</span></div>
+       <div class="tr"><span>without</span><span>${r.off.toFixed(1)}</span></div>
+       <div class="tr"><span>on minus off</span><span>${fmt(r.d,1)}</span></div>
+       <div class="tr"><span>possessions</span><span>${r.poss.toLocaleString()}</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(r.k)]));
+    g.appendChild(el("text",{x:x1+(r.d>=0?9:-9),y:yy+4,"text-anchor":r.d>=0?"start":"end",
+      "font-size":11.5,fill:C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},
+      [txt(fmt(r.d,1))]));
+  });
+  return g;
+});
+(function(){
+  const c=document.getElementById("cap-held"); if(!c) return;
+  c.innerHTML=`Raw on/off compares a starting unit to a bench unit, so it measures the
+    substitution pattern as much as the player. Holding Maxey fixed restricts the comparison
+    to lineups that already contain him: Embiid is still worth <b>&minus;3.9</b> points per
+    100. The faded bar is the Edgecombe row &mdash; 1,940 possessions of a single season, too
+    thin to weigh against the others.`;
+})();
+
+/* ---------- playoffs: regular season vs postseason ---------- */
+mount("c-po",(W,tip,box)=>{
+  const d=(DATA.playoffs&&DATA.playoffs.rows)||[];
+  const rh=42, m={t:26,r:38,b:36,l:104};
+  const H=m.t+d.length*rh+m.b, iw=W-m.l-m.r;
+  const vals=d.flatMap(r=>[r.po,r.rs]);
+  const lo=Math.min(...vals)-1.2, hi=Math.max(...vals)+1.2;
+  const x=v=>m.l+(v-lo)/(hi-lo)*iw;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Raw dFG% regular season versus playoffs"});
+  [-4,-2,0,2,4,6].filter(t=>t>lo&&t<hi).forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-6,y2:m.t+d.length*rh,
+      stroke:t===0?C("--ink-3"):C("--grid"),"stroke-width":t===0?1.5:1}));
+    g.appendChild(el("text",{x:x(t),y:H-16,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt(fmt(t,0))]));
+  });
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-2,"text-anchor":"middle","font-size":10.5,
+    fill:C("--ink-3")},[txt("raw dFG% allowed  (left = better)")]));
+  d.forEach((r,i)=>{
+    const yy=m.t+i*rh+rh/2;
+    const improved=r.shift<0, c=improved?C("--pos"):C("--neg");
+    g.appendChild(el("line",{x1:x(r.rs),x2:x(r.po),y1:yy,y2:yy,stroke:c,"stroke-width":2.5,
+      opacity:r.pp<1500?.45:1}));
+    // arrowhead at the playoff end
+    const dir=r.po>=r.rs?1:-1;
+    g.appendChild(el("path",{d:`M${x(r.po)},${yy} l${-dir*7},-5 l0,10 z`,fill:c,
+      opacity:r.pp<1500?.45:1}));
+    g.appendChild(el("circle",{cx:x(r.rs),cy:yy,r:4.5,fill:C("--surface"),stroke:c,
+      "stroke-width":2,opacity:r.pp<1500?.45:1}));
+    const hit=el("rect",{x:Math.min(x(r.rs),x(r.po))-8,y:yy-14,
+      width:Math.abs(x(r.po)-x(r.rs))+16,height:28,fill:"transparent"});
+    hit.style.cursor="pointer";
+    hit.addEventListener("pointerenter",()=>showTip(tip,box,(x(r.rs)+x(r.po))/2,yy-96,
+      `<div class="th">${r.player}</div>
+       <div class="tr"><span>regular season</span><span>${fmt(r.rs)}</span></div>
+       <div class="tr"><span>playoffs</span><span>${fmt(r.po)}</span></div>
+       <div class="tr"><span>shift</span><span>${fmt(r.shift)}</span></div>
+       <div class="tr"><span>playoff sample</span><span>${r.games} g / ${r.pp.toLocaleString()} poss</span></div>`));
+    hit.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(hit);
+    g.appendChild(el("text",{x:m.l-10,y:yy+4,"text-anchor":"end","font-size":11.5,
+      fill:C("--ink-2")},[txt(sn(r.player))]));
+    g.appendChild(el("text",{x:x(r.po)+(r.po>=r.rs?12:-12),y:yy+4,
+      "text-anchor":r.po>=r.rs?"start":"end","font-size":11,fill:c,
+      "font-family":"IBM Plex Mono, monospace"},[txt(fmt(r.shift))]));
+  });
+  return g;
+});
+(function(){
+  const c=document.getElementById("cap-po"),p=DATA.playoffs; if(!c||!p) return;
+  c.innerHTML=`Hollow dot is the regular season, arrow points to the playoffs; blue means the
+    player got better. Both figures are <b>raw</b> dFG% so the shift is like-for-like &mdash;
+    the league-wide shift is only ${fmt(p.lg_shift)}, so these are real movements. Faded rows
+    have under 1,500 playoff possessions; Edgecombe's 11 games are one series.`;
+})();
+</script>
+</body>
+</html>

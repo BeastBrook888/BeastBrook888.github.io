@@ -425,7 +425,7 @@ p.figmark{margin:0 0 14px}
       <div class="railgroup">
         <span class="lab">Independent projects</span>
         <nav class="arc-steps">
-        <a href="#starfit"><span class="yr">AUG 2026</span><span class="mth">Fixed effects + IV</span></a>
+        <a href="#starfit"><span class="yr">AUG&ndash;SEP 2026</span><span class="mth">Ridge APM + tracking</span></a>
         <a href="#availability"><span class="yr">JUL 2026</span><span class="mth">Markov + Monte Carlo</span></a>
         </nav>
       </div>
@@ -1288,37 +1288,42 @@ p.figmark{margin:0 0 14px}
 <article class="proj" id="starfit">
   <div class="wrap">
     <div class="case-head">
-      <span class="status active"><span class="gl" aria-hidden="true">&#9679;</span>Active &middot; updated Aug 2026</span>
-      <span class="lab">August 2026</span>
-      <span class="method-tag">fixed-effects regression &middot; instrumental variables</span>
+      <span class="status active"><span class="gl" aria-hidden="true">&#9679;</span>Active &middot; updated Sep 2026</span>
+      <span class="lab">Aug &ndash; Sep 2026</span>
+      <span class="method-tag">ridge APM &middot; instrumental variables &middot; lineup reconstruction</span>
     </div>
-    <h3>Does five stars&rsquo; worth of usage fit on one team?</h3>
-    <p class="path">~/nba_star_fit &middot; hand-rolled weighted least squares in NumPy</p>
+    <h3>Can five ball-dominant stars share a floor &mdash; and who defends when they do?</h3>
+    <p class="path">~/nba_star_fit &middot; numpy and pandas only; the estimators are written out</p>
 
     <dl class="kv">
       <dt>The question</dt>
-      <dd>A lineup only has 100 usage points to share. If you assemble five players who have each built a career on carrying an offense, whose share has to give &mdash; and does anyone actually get more efficient when asked to do less?</dd>
+      <dd>Philadelphia&rsquo;s 2026-27 roster puts Tyrese Maxey, Joel Embiid, LeBron James, Jaylen Brown and rookie VJ Edgecombe on one team. A lineup has a finite amount of ball to go round and five men who have each built a career on holding it. Whose share gives &mdash; and once you have answered that, who guards anybody?</dd>
 
       <dt>Method</dt>
-      <dd>Two estimators per player, both within-player by construction. First, minutes-weighted means in games with a co-star available against games without, with a 4,000-replication bootstrap for the interval. Second, a minutes-weighted least-squares regression of the outcome on a 0/1 availability dummy for every co-star simultaneously, plus season fixed effects and a home dummy, with heteroskedasticity-robust HC1 standard errors computed by hand. A third pass instruments usage with co-star availability in a two-stage least-squares estimate of the efficiency-versus-usage slope. No statsmodels and no scikit-learn &mdash; the normal equations, the robust sandwich and the bootstrap are all written out.</dd>
+      <dd>Four independent readings, because no single one is trustworthy. <b>Within-player usage elasticities</b> from co-star absences, with season fixed effects, hand-computed HC1 errors and a 4,000-replication bootstrap; a two-stage least-squares pass instruments usage with those absences to get the efficiency-versus-usage slope. <b>Matchup-level defence</b> against leave-one-out baselines, residualised for shot mix after the raw version turned out to correlate &minus;0.73 with the share of threes a defender faces. <b>On-court lineups rebuilt from play-by-play substitutions</b> for 27 seasons &mdash; validated against independent box scores to 0.43 minutes per game on average, 0.75 at worst &mdash; feeding a ridge-regularised adjusted plus-minus and a proper on/off that can hold a teammate fixed. And <b>tracking data</b> for what usage was only ever a proxy for. No statsmodels, no scikit-learn: the normal equations, the robust sandwich, the ridge and the bootstrap are all in the source.</dd>
 
       <dt>Data</dt>
-      <dd>7,857 player-game rows across 20 players and 44 team-seasons, 2010 through 2026, parsed from Basketball-Reference and held in a permanent local cache so the analysis re-runs offline.</dd>
+      <dd>27 seasons of play-by-play rebuilt into 1.3&nbsp;million lineup stints; 2.0&nbsp;million matchup rows across nine seasons plus nine more of playoffs; 8,185 player-games from Basketball-Reference; and 69 tracking and play-type files. Roughly 3&nbsp;GB, cached locally so every figure re-runs offline.</dd>
 
       <dt>What I found</dt>
       <dd>
         <ol class="finds">
-          <li>The cost of a co-star is large and precisely estimated for some players: Jaylen Brown&rsquo;s usage rises <b>+8.18</b> points when Jayson Tatum sits (95% CI <b>+6.75 to +9.61</b>); Tyrese Maxey&rsquo;s rises <b>+6.45</b> without Joel Embiid.</li>
-          <li>And essentially zero for others. Embiid&rsquo;s own usage moves <b>+0.20</b> points when Maxey sits (CI <b>&minus;2.05 to +2.41</b>) &mdash; he is already at his ceiling regardless of who else is on the floor.</li>
-          <li>Maxey is the one player whose efficiency slope excludes zero: <b>&minus;0.68</b> true-shooting points per extra point of usage (CI <b>&minus;1.44 to &minus;0.02</b>). He gets better with less.</li>
-          <li>The binding constraint turns out to be arithmetic, not efficiency. Five established workloads sum to <b>147</b> usage points against a budget of 100, and even at each player&rsquo;s most-crowded observed rate they still sum to <b>132.5</b> &mdash; a <b>32.5</b>-point overhang that no efficiency gain closes. The answer is staggering minutes, not sharing the ball.</li>
+          <li>The measurement I spent the project without turned the headline around. Usage says Embiid is the second-largest claim on the ball. <b>Time of possession says he is the smallest of the five</b> &mdash; 3.8 minutes a game at <b>3.38 seconds per touch, against a league average of 3.37</b>. He runs no pick-and-roll as ball-handler and 22% post-ups, and a post-up is a short possession. Enormous usage, minimal ball-holding.</li>
+          <li>So the crowding is real but lands elsewhere. A team gets about <b>24.1 minutes</b> of possession a game; these five have been using <b>26.9</b>. The player who has to give something up is <b>Maxey</b> (8.4 minutes, 5.79 seconds per touch), not Embiid.</li>
+          <li>Embiid is the best defender of the five on <b>four independent methods</b> &mdash; matchup data, Basketball-Reference on/off, my own segment on/off, and a pooled adjusted plus-minus &mdash; and he is the only one who <b>improves in the playoffs</b> (&minus;2.41 points of opponent shooting against his regular-season mark, on a league-wide shift of &minus;0.06).</li>
+          <li>Maxey and Edgecombe want the same shots: <b>0.989</b> cosine similarity across 16 court zones, more alike than <b>99%</b> of league pairs. The backcourt of the future is the sharpest fit problem in the shot data.</li>
+          <li>My own first answer failed its own test. Version one concluded from arithmetic that &ldquo;the answer is staggering minutes.&rdquo; Measuring shared floor time for every comparable team since 1999 put that at <b>r = &minus;0.20, 95% CI &minus;0.53 to +0.11</b> across 23 teams. Not significant, and doubling the history from 13 seasons to 27 moved the sample only from 16 teams to 23 &mdash; rosters like this arrive about once a year, so the ceiling is structural, not a data problem.</li>
         </ol>
       </dd>
     </dl>
 
+    <p class="readlink"><a href="dashboard.html">Interactive dashboard &rarr;</a></p>
+
     <div class="limits">
       <span class="lab">What I&rsquo;d do differently</span>
-      <p>Three real problems. The standard errors are robust but not clustered, and absences come in multi-week spells, so the intervals above are narrower than they should be. I report roughly 147 nominal-95% intervals across all players and outcomes with no multiple-comparison correction, then promote the largest to the headline &mdash; which is exactly how a false positive gets a table row. And a typo in one player ID silently returned a Basketball-Reference index page instead of a game log; because the file was large enough to look valid to my cache check, that co-star simply vanished from the model with no error raised. That one is a good argument for asserting row counts after every parse.</p>
+      <p>The first version&rsquo;s headline was a conclusion I had not tested. I derived an overhang from usage arithmetic and asserted the remedy was staggering minutes; when I finally built the test, it came back null. The arithmetic was right and the inference on top of it was not, which is a worse failure than a wrong number because it reads as a finding.</p>
+      <p>I still report a lot of nominal-95% intervals without correction. In the staggering table exactly one of five predictors excludes zero &mdash; which is roughly what chance produces at 95%, so it is flagged rather than promoted, but the underlying habit is the thing to fix.</p>
+      <p>Three bugs were caught by checks rather than by errors, and all three were silent. A wrong player ID returned a redirect large enough to pass a size-only cache check, so a co-star vanished from the model with nothing raised; the fetcher now verifies page content and the loader refuses to continue on a zero-row parse. Three-pointers were scored as two points in eleven of thirteen seasons because the column carrying shot value only exists from 2023-24 onward. And I compared a residualised regular-season number against a raw playoff one, which reversed a conclusion until both were put on the same basis. The general lesson in all three: the failure mode that costs you is the one that produces a plausible number instead of an exception.</p>
     </div>
   </div>
 </article>
