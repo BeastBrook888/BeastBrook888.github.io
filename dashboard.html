@@ -167,6 +167,12 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
   Three independent methods were run against each other. They first disagreed completely &mdash;
   then pooling five seasons of rebuilt lineups showed most of that disagreement was noise, and
   all three now agree on who the best defender is.</p>
+  <p class="lede" style="margin-top:14px">A third part compares the roster against the 25 teams
+  since 2000 that assembled three-plus high-usage players. On the ball that comparison works and
+  says something specific: <b>combined appetite for the ball predicts nothing, unevenness is what
+  moves</b>, and the Sixers are extreme on the former and ordinary on the latter. On defence it
+  does not work, for a reason worth reading &mdash; the metric that spans the era is reliable and
+  measures the wrong thing.</p>
   <p class="lede" style="margin-top:14px">Late in the project the tracking endpoint opened, and
   the second half of the page is what that changed. Usage rate &mdash; the proxy every earlier
   conclusion rested on &mdash; had the wrong man at the centre of it. Measured by how long he
@@ -580,6 +586,134 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
 
 <section>
   <div class="shead">
+    <div class="eyebrow">Part three &middot; the comparison</div>
+    <h2>Against teams that actually tried this</h2>
+    <p class="note">Everything above describes one roster. The obvious question is whether the
+    shape it forms has worked before &mdash; so the comp set is every team since 2000 that put
+    <b>three or more players at 24%+ usage</b> on the floor together with <b>at least two newly
+    acquired</b>. That is 25 team-seasons, and roughly one arrives a year. The outcome measure is
+    <b>wins minus the preseason Vegas total</b>, because a team with three stars ought to win a
+    lot regardless &mdash; the question is whether it beat what the market already expected.</p>
+  </div>
+  <p class="note">Each star's input is measured in the seasons <b>before</b> he arrived. That is
+  what a front office knew when it made the trade, and it keeps the predictor out of the outcome
+  year &mdash; measuring ball-dominance or defence in the same season as the wins would be partly
+  circular.</p>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">The ball &middot; new</div>
+    <h2>Does wanting too much of the ball actually hurt?</h2>
+    <p class="note">The earlier staggering test compared these teams on <b>usage</b>. Since
+    measuring possession time reversed which Sixer this project thought was ball-dominant, the
+    comp question is re-asked on the honest measure. <b>Ratio</b> is the group's combined
+    prior-season possession time as a share of what its floor time entitles it to &mdash; 100%
+    means it wants exactly its share.</p>
+  </div>
+  <div class="chartbox" id="c-ballcomp"><div class="tip" hidden></div></div>
+  <div class="two">
+    <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+      <div><b>Combined appetite predicts nothing.</b> Ratio correlates <b>+0.04</b> with beating
+      the line. The hungriest group of the tracking era &mdash; the <b>2020-21 Nets at 211%</b>,
+      with Durant, Harden and Irving all arriving off huge workloads &mdash; beat its line by 2.5.
+      The Sixers' 154% is the 90th percentile here, and on this evidence that is not the thing
+      that sinks these teams.</div></div>
+    <div class="premise" style="border-left-color:var(--warn)"><span aria-hidden="true">&#9888;</span>
+      <div><b>Unevenness is what moves.</b> The gap between a group's biggest and smallest
+      ball-holder correlates <b>&minus;0.65</b> [&minus;0.90, +0.05] &mdash; the strongest
+      offensive-fit signal anywhere in this project, and it still touches zero. The Sixers sit at
+      the <b>60th percentile</b>: Maxey wants roughly twice Embiid's ball, which is a real gap but
+      an ordinary one by these standards.</div></div>
+  </div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Season</th><th>Team</th><th>Stars</th><th>Prior demand</th><th>Entitled</th>
+      <th>Ratio</th><th>Spread</th><th>Wins vs line</th></tr></thead>
+    <tbody id="tbl-ballcomp"></tbody>
+  </table></div>
+  <details>
+    <summary>A missingness artifact that reversed the answer, and how it was caught</summary>
+    <div class="inner"><ul class="lim" style="padding:14px 16px 16px 34px">
+      <li>The first run of this said <b>+0.43</b> &mdash; a bigger overhang went with
+      <em>better</em> results, which makes no sense. The cause was who was missing:
+      <b>Durant, Kawhi Leonard, Zion Williamson, Jimmy Butler and John Wall</b> were all being
+      dropped for having no tracking row in the immediately preceding season, because they had
+      missed it injured. Two more were lost to diacritics (Dragi&#263;, Bogdanovi&#263;) and one
+      to a suffix (Marcus Morris Sr.).</li>
+      <li>That loss is the opposite of random: it strips the <em>largest ball-holder</em> from
+      exactly the rosters whose stars were fragile, which pushes their ratio down while their
+      results were already bad. The correlation was being manufactured by the gaps.</li>
+      <li>Fixed by normalising names for diacritics and suffixes, looking back up to three
+      seasons for the most recent one a player actually played, and refusing any team without
+      <b>all</b> of its stars measured. The same correlation is now <b>+0.04</b>.</li>
+    </ul></div>
+  </details>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="eyebrow">Defence &middot; new</div>
+    <h2>The defensive comparison, and why I do not lean on it</h2>
+    <p class="note">This is the second attempt. The first used single-season defensive on/off
+    from the rebuilt lineups, produced a clean &minus;0.55 with an interval excluding zero, and
+    had to be <b>retracted</b> &mdash; the measure is only <b>+0.18</b> reliable year to year, and
+    +0.03 at team level. A variable that does not correlate with itself cannot honestly correlate
+    with wins.</p>
+  </div>
+  <figure>
+    <h3>Which defensive metrics survive a reliability test</h3>
+    <div class="chartbox" id="c-defrel"><div class="tip" hidden></div></div>
+    <figcaption>Year-over-year correlation, same player, consecutive seasons. <b>DBPM was in the
+    cached Basketball-Reference pages the whole time</b> &mdash; the parser simply never extracted
+    it &mdash; and at +0.75 to +0.78 it clears the bar the on/off measure failed, while being the
+    only defensive metric available for every season back to 1974.</figcaption>
+  </figure>
+  <div class="chartbox" id="c-defcomp"><div class="tip" hidden></div></div>
+  <div class="premise" style="border-left-color:var(--good)"><span aria-hidden="true">&#10003;</span>
+    <div><b>The retracted result does not survive the better metric.</b> Group defensive level
+    went from <b>&minus;0.55</b> on the unreliable measure to <b>+0.01</b> on the reliable one.
+    That is what a spurious correlation looks like once the noise is taken out. Nothing in the
+    redone version clears zero, and <b>the Sixers are not an outlier</b> on any descriptor.</div></div>
+  <div class="premise" style="border-left-color:var(--crit)"><span aria-hidden="true">&#9888;</span>
+    <div><b>But DBPM fails a validity check, which reliability cannot rescue.</b> Against this
+    project's matchup metric across <b>2,203 shared player-seasons</b> it correlates <b>+0.09 with
+    the wrong sign</b> &mdash; and wrong-signed inside every position group. It ranks <b>Embiid
+    last</b> of the five where five other methods rank him first. It is built from steals, blocks
+    and rebounds, which reward activity, not the ability to make your man miss.
+    <b>Reliability and validity are separate tests and a metric has to pass both</b> &mdash;
+    on/off failed the first, DBPM fails the second.</div></div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Comparison</th><th>r</th><th>Expected sign</th><th>Verdict</th></tr></thead>
+    <tbody id="tbl-defval"></tbody>
+  </table></div>
+  <p class="note"><b>What it would take.</b> A defensive measure both reliable per player and
+  available back to 2000. Multi-year RAPM is reliable enough but needs several seasons per player,
+  which one-off assembly seasons do not provide. The matchup metric measures the right thing but
+  starts in 2017-18, which reaches about six comp teams. <b>The offensive comparison is
+  answerable; the defensive one is not yet</b> &mdash; and that is a fact about the available data
+  rather than a choice.</p>
+  <details>
+    <summary>The comp set on DBPM, and what 25 teams can detect</summary>
+    <div class="inner">
+      <div class="tblwrap" style="border:none;border-radius:0"><table>
+        <thead><tr><th>Season</th><th>Team</th><th>Stars</th><th>Anchor</th><th>Worst</th>
+          <th>Mean</th><th>Spread</th><th>Wins vs line</th></tr></thead>
+        <tbody id="tbl-defcomp"></tbody>
+      </table></div>
+      <ul class="lim" style="padding:14px 16px 16px 34px">
+        <li><b>Power, stated rather than assumed.</b> Simulating a <em>true</em> correlation of
+        0.40 through this exact sample, the bootstrap interval excludes zero only <b>62%</b> of the
+        time. Every null here means <b>&ldquo;not detectable at this sample size&rdquo;</b>, not
+        &ldquo;not there&rdquo;.</li>
+        <li>Figures are z-scored within position and season, because DBPM runs high for centres
+        and a raw spread would partly just measure whether the group contains a big.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<section>
+  <div class="shead">
     <div class="eyebrow">Limits</div>
     <h2>What this cannot tell you</h2>
   </div>
@@ -610,6 +744,20 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
     threshold had to be loosened to 24% usage to reach even that. The estimate moved from
     &minus;0.157 to &minus;0.201 as comps were added, which signals underpowered rather than
     converged. Treat the null as "no large effect visible", not as "no effect".</li>
+    <li><b>The defensive comparison against similar teams does not work yet.</b> Its first
+    version was retracted &mdash; single-season on/off is +0.18 reliable, so the &minus;0.55 it
+    produced was noise. Redone on DBPM (+0.78 reliable) nothing clears zero, but DBPM correlates
+    <b>+0.09 with the wrong sign</b> against the matchup metric and ranks Embiid last of the five.
+    Reliable, and measuring something other than defence.</li>
+    <li><b>The ball-dominance comparison rests on 10 teams.</b> Tracking starts in 2013-14, so
+    unlike the staggering test this cannot be rescued by reaching further back &mdash; the data
+    does not exist. Its strongest signal (spread, &minus;0.65) has an interval that touches
+    zero.</li>
+    <li><b>Every comp-set null is a detection limit, not a finding.</b> At 25 teams a true
+    correlation of 0.40 would be caught only 62% of the time.</li>
+    <li><b>Comp-set inputs are prior-season, outcomes are same-season.</b> That is deliberate
+    &mdash; it keeps the predictor out of the outcome year &mdash; but it means a star who
+    changed level on arrival is measured at his old one.</li>
     <li><b>Pooled RAPM assumes a player's impact is stable across the window.</b> That is least
     true for LeBron, who ages from 36 to 41 inside it. One coefficient per player is the price of
     the extra data.</li>
@@ -626,6 +774,7 @@ code{font-family:"IBM Plex Mono",monospace; font-size:.9em; background:var(--sur
 
 <script>
 const DATA = {
+"comps": {"ball":{"teams":[{"season":"2014-15","team":"CHO","stars":3,"demand":12.8,"ent":9.5,"ratio":135,"spread":6.19,"mx":8.15,"wr":-12.0,"members":"Kemba Walker 8.1; Al Jefferson 2.0; Gary Neal 2.7"},{"season":"2019-20","team":"LAC","stars":4,"demand":15.8,"ent":12.6,"ratio":126,"spread":3.9,"mx":6.09,"wr":-4.5,"members":"Lou Williams 6.1; Kawhi Leonard 4.2; Montrezl Harrell 2.2; Paul George 3.3"},{"season":"2019-20","team":"UTA","stars":3,"demand":10.7,"ent":9.4,"ratio":113,"spread":3.31,"mx":5.23,"wr":-9.5,"members":"Donovan Mitchell 5.2; Bojan Bogdanovi\u0107 1.9; Jordan Clarkson 3.6"},{"season":"2020-21","team":"BRK","stars":3,"demand":19.7,"ent":9.3,"ratio":211,"spread":4.11,"mx":8.48,"wr":2.5,"members":"Kyrie Irving 6.9; James Harden 8.5; Kevin Durant 4.4"},{"season":"2020-21","team":"HOU","stars":5,"demand":19.4,"ent":15.6,"ratio":125,"spread":6.13,"mx":8.14,"wr":-17.5,"members":"Christian Wood 2.0; John Wall 8.1; Kevin Porter Jr. 2.8; Eric Gordon 2.0; Victor Oladipo 4.4"},{"season":"2021-22","team":"CHI","stars":3,"demand":13.8,"ent":9.4,"ratio":147,"spread":3.3,"mx":5.77,"wr":3.5,"members":"DeMar DeRozan 5.8; Nikola Vu\u010devi\u0107 2.5; Zach LaVine 5.5"},{"season":"2022-23","team":"LAC","stars":3,"demand":12.0,"ent":9.5,"ratio":127,"spread":3.37,"mx":5.48,"wr":-8.5,"members":"Paul George 5.5; Kawhi Leonard 4.4; Norman Powell 2.1"},{"season":"2022-23","team":"NOP","stars":3,"demand":13.4,"ent":9.5,"ratio":142,"spread":1.41,"mx":5.2,"wr":-3.5,"members":"CJ McCollum 5.2; Brandon Ingram 4.4; Zion Williamson 3.8"},{"season":"2022-23","team":"UTA","stars":3,"demand":8.3,"ent":9.5,"ratio":87,"spread":2.05,"mx":3.57,"wr":13.5,"members":"Lauri Markkanen 1.5; Jordan Clarkson 3.2; Talen Horton-Tucker 3.6"},{"season":"2023-24","team":"BRK","stars":3,"demand":9.5,"ent":9.3,"ratio":103,"spread":3.19,"mx":5.2,"wr":-5.5,"members":"Mikal Bridges 2.3; Cam Thomas 5.2; Lonnie Walker IV 2.0"}],"corr":{"ratio":{"r":0.036,"lo":-0.8,"hi":0.8,"n":10},"demand":{"r":-0.314,"lo":-0.81,"hi":0.73,"n":10},"top_max":{"r":-0.521,"lo":-0.91,"hi":0.47,"n":10},"top_spread":{"r":-0.648,"lo":-0.9,"hi":0.05,"n":10}},"phi":{"demand":27.7,"ent":18.1,"ratio":154,"spread":3.63,"mx":7.96,"pct_ratio":90,"pct_spread":60,"pct_max":70},"med":{"ratio":126,"spread":3.34,"mx":5.63},"artifact":{"before":0.433,"after":0.036,"dropped":["Kevin Durant","Kawhi Leonard","Zion Williamson","Jimmy Butler","John Wall"]}},"dfn":{"teams":[{"season":"2000-01","team":"CHI","stars":3,"anchor":-0.91,"worst":-1.49,"mean":-1.2,"spread":0.58,"wr":-13.5,"members":"Elton Brand -0.91; Ron Mercer -1.49"},{"season":"2002-03","team":"DET","stars":3,"anchor":-0.59,"worst":-2.18,"mean":-1.22,"spread":1.58,"wr":8.0,"members":"Richard Hamilton -2.18; Chauncey Billups -0.59; Corliss Williamson -0.90"},{"season":"2003-04","team":"NYK","stars":3,"anchor":-0.74,"worst":-1.07,"mean":-0.9,"spread":0.32,"wr":5.5,"members":"Stephon Marbury -1.07; Allan Houston -0.89; Keith Van Horn -0.74"},{"season":"2004-05","team":"ORL","stars":3,"anchor":1.2,"worst":0.25,"mean":0.6,"spread":0.95,"wr":1.5,"members":"Steve Francis +0.35; Grant Hill +0.25; Hedo T\u00fcrko\u011flu +1.20"},{"season":"2010-11","team":"CLE","stars":4,"anchor":-0.29,"worst":-1.53,"mean":-0.66,"spread":1.24,"wr":-11.5,"members":"J.J. Hickson -0.43; Ramon Sessions -0.29; Antawn Jamison -1.53; Mo Williams -0.38"},{"season":"2010-11","team":"SAC","stars":3,"anchor":0.24,"worst":-1.13,"mean":-0.44,"spread":1.36,"wr":-3.5,"members":"Tyreke Evans +0.24; Marcus Thornton -1.13"},{"season":"2011-12","team":"NYK","stars":3,"anchor":-0.85,"worst":-1.06,"mean":-0.96,"spread":0.2,"wr":-5.5,"members":"Carmelo Anthony -1.06; Amar'e Stoudemire -0.85"},{"season":"2012-13","team":"BRK","stars":3,"anchor":-0.4,"worst":-0.84,"mean":-0.66,"spread":0.44,"wr":4.5,"members":"Deron Williams -0.73; Brook Lopez -0.84; Andray Blatche -0.40"},{"season":"2013-14","team":"PHI","stars":4,"anchor":0.37,"worst":0.18,"mean":0.28,"spread":0.19,"wr":2.5,"members":"Thaddeus Young +0.37; Evan Turner +0.18"},{"season":"2014-15","team":"CHI","stars":3,"anchor":0.5,"worst":-0.92,"mean":-0.02,"spread":1.42,"wr":-5.5,"members":"Pau Gasol +0.35; Aaron Brooks -0.92; Derrick Rose +0.50"},{"season":"2014-15","team":"CHO","stars":3,"anchor":0.04,"worst":-0.97,"mean":-0.39,"spread":1.01,"wr":-12.0,"members":"Kemba Walker -0.23; Al Jefferson +0.04; Gary Neal -0.97"},{"season":"2019-20","team":"LAC","stars":4,"anchor":1.28,"worst":-1.19,"mean":0.19,"spread":2.47,"wr":-4.5,"members":"Lou Williams -1.19; Kawhi Leonard +1.28; Montrezl Harrell +0.04; Paul George +0.63"},{"season":"2019-20","team":"MEM","stars":3,"anchor":0.45,"worst":-1.05,"mean":-0.3,"spread":1.5,"wr":6.5,"members":"Dillon Brooks -1.05; Jaren Jackson Jr. +0.45"},{"season":"2019-20","team":"MIA","stars":3,"anchor":0.9,"worst":-0.1,"mean":0.4,"spread":1.0,"wr":0.5,"members":"Jimmy Butler +0.90; Goran Dragi\u0107 -0.10"},{"season":"2019-20","team":"NYK","stars":3,"anchor":-0.54,"worst":-0.57,"mean":-0.55,"spread":0.03,"wr":-5.5,"members":"Julius Randle -0.54; Marcus Morris -0.57"},{"season":"2019-20","team":"UTA","stars":3,"anchor":0.44,"worst":-1.47,"mean":-0.72,"spread":1.91,"wr":-9.5,"members":"Donovan Mitchell +0.44; Bojan Bogdanovi\u0107 -1.12; Jordan Clarkson -1.47"},{"season":"2020-21","team":"BRK","stars":3,"anchor":1.59,"worst":0.22,"mean":0.99,"spread":1.37,"wr":2.5,"members":"Kyrie Irving +1.15; James Harden +1.59; Kevin Durant +0.22"},{"season":"2020-21","team":"HOU","stars":5,"anchor":1.38,"worst":-1.43,"mean":-0.35,"spread":2.81,"wr":-17.5,"members":"Christian Wood -0.54; John Wall -0.57; Kevin Porter Jr. -0.57; Eric Gordon -1.43; Victor Oladipo +1.38"},{"season":"2020-21","team":"MIN","stars":4,"anchor":0.09,"worst":-0.84,"mean":-0.41,"spread":0.93,"wr":-6.5,"members":"Karl-Anthony Towns +0.09; Malik Beasley -0.47; D'Angelo Russell -0.84"},{"season":"2020-21","team":"NYK","stars":3,"anchor":-0.73,"worst":-1.17,"mean":-0.95,"spread":0.43,"wr":19.5,"members":"Julius Randle -0.73; Derrick Rose -1.17"},{"season":"2021-22","team":"CHI","stars":3,"anchor":0.46,"worst":-0.79,"mean":-0.14,"spread":1.26,"wr":3.5,"members":"DeMar DeRozan -0.10; Nikola Vu\u010devi\u0107 +0.46; Zach LaVine -0.79"},{"season":"2022-23","team":"LAC","stars":3,"anchor":1.76,"worst":-0.29,"mean":0.72,"spread":2.05,"wr":-8.5,"members":"Paul George +0.71; Kawhi Leonard +1.76; Norman Powell -0.29"},{"season":"2022-23","team":"NOP","stars":3,"anchor":-0.78,"worst":-1.05,"mean":-0.88,"spread":0.27,"wr":-3.5,"members":"CJ McCollum -1.05; Brandon Ingram -0.78; Zion Williamson -0.81"},{"season":"2022-23","team":"UTA","stars":3,"anchor":0.79,"worst":-0.6,"mean":-0.11,"spread":1.39,"wr":13.5,"members":"Lauri Markkanen -0.60; Jordan Clarkson -0.52; Talen Horton-Tucker +0.79"},{"season":"2023-24","team":"BRK","stars":3,"anchor":1.0,"worst":-1.23,"mean":-0.32,"spread":2.23,"wr":-5.5,"members":"Mikal Bridges +1.00; Cam Thomas -1.23; Lonnie Walker IV -0.72"}],"corr":{"anchor":{"r":-0.138,"lo":-0.51,"hi":0.33,"n":25},"worst":{"r":0.196,"lo":-0.15,"hi":0.59,"n":25},"mean":{"r":0.013,"lo":-0.34,"hi":0.43,"n":25},"spread":{"r":-0.306,"lo":-0.61,"hi":0.12,"n":25}},"phi":{"anchor":0.58,"worst":-0.23,"mean":0.2,"spread":0.81,"pct_anchor":68,"pct_worst":84,"pct_mean":80,"pct_spread":32},"med":{"anchor":0.37,"worst":-1.05,"mean":-0.39,"spread":1.24},"rel":[{"m":"rim attempts defended /36","r":0.91,"src":"tracking"},{"m":"time of possession","r":0.9,"src":"tracking"},{"m":"DBPM, 3-season pool","r":0.78,"src":"box score"},{"m":"DBPM, single season","r":0.75,"src":"box score"},{"m":"rim FG% allowed","r":0.72,"src":"tracking"},{"m":"matchup dFG%adj","r":0.5,"src":"matchup"},{"m":"segment defensive on/off","r":0.18,"src":"lineups"},{"m":"matchup dFG3%adj (dropped)","r":0.1,"src":"matchup"}],"validity":[{"pair":"DBPM (raw) vs dFG%adj","r":0.106,"ok":false},{"pair":"DBPM (position-adj) vs dFG%adj","r":0.089,"ok":false},{"pair":"\u2014 within bigs","r":0.094,"ok":false},{"pair":"\u2014 within guards","r":0.095,"ok":false},{"pair":"\u2014 within wings","r":0.079,"ok":false},{"pair":"DBPM vs points saved /100","r":0.185,"ok":true}],"retracted":{"old_metric":"segment defensive on/off","old_r":-0.55,"old_rel":0.18,"new_r":0.013,"new_rel":0.78},"power":62}},
 "track": {"five":[{"player":"Jaylen Brown","usg":36.2,"top36":5.76,"pctl":82,"spt":4.97,"touch36":69.2,"mpg":34.4,"gp":71,"usgRank":1,"topRank":2},{"player":"Joel Embiid","usg":33.5,"top36":4.33,"pctl":69,"spt":3.38,"touch36":77.2,"mpg":31.6,"gp":38,"usgRank":2,"topRank":5},{"player":"Tyrese Maxey","usg":29.4,"top36":7.96,"pctl":96,"spt":5.79,"touch36":82.5,"mpg":38.0,"gp":70,"usgRank":3,"topRank":1},{"player":"LeBron James","usg":27.2,"top36":4.45,"pctl":70,"spt":3.79,"touch36":71.1,"mpg":33.2,"gp":60,"usgRank":4,"topRank":4},{"player":"VJ Edgecombe","usg":20.1,"top36":5.25,"pctl":79,"spt":4.76,"touch36":66.3,"mpg":35.0,"gp":75,"usgRank":5,"topRank":3}],"series":{"Joel Embiid":[{"season":"2023-24","top36":3.64},{"season":"2024-25","top36":3.22},{"season":"2025-26","top36":4.33}],"Jaylen Brown":[{"season":"2023-24","top36":3.87},{"season":"2024-25","top36":4.2},{"season":"2025-26","top36":5.76}],"Tyrese Maxey":[{"season":"2023-24","top36":7.09},{"season":"2024-25","top36":7.26},{"season":"2025-26","top36":7.96}],"VJ Edgecombe":[{"season":"2025-26","top36":5.25}],"LeBron James":[{"season":"2023-24","top36":5.29},{"season":"2024-25","top36":5.57},{"season":"2025-26","top36":4.45}]},"rel":[{"pair":"2023-24\u21922024-25","r":0.933,"n":256},{"pair":"2024-25\u21922025-26","r":0.897,"n":257},{"pair":"2023-24\u21922025-26","r":0.858,"n":218}],"budget":{"demand":27.7,"entitlement":18.1,"ratio":154,"over":9.7,"four":[{"season":"2023-24","demand":19.88,"entitlement":12.41,"ratio":160},{"season":"2024-25","demand":20.24,"entitlement":12.49,"ratio":162},{"season":"2025-26","demand":22.49,"entitlement":14.45,"ratio":156}],"cuts":[{"player":"Tyrese Maxey","now":7.96,"cut":2.77,"after":5.19,"afterPctl":79},{"player":"Jaylen Brown","now":5.76,"cut":2.01,"after":3.75,"afterPctl":64},{"player":"VJ Edgecombe","now":5.25,"cut":1.83,"after":3.42,"afterPctl":59},{"player":"LeBron James","now":4.45,"cut":1.55,"after":2.9,"afterPctl":49},{"player":"Joel Embiid","now":4.33,"cut":1.51,"after":2.82,"afterPctl":48}],"teamTop":{"2023-24":20.68,"2024-25":20.82,"2025-26":24.09},"teamRaw":{"2023-24":20.66,"2024-25":35.02,"2025-26":24.1}},"rim":{"five":[{"player":"Joel Embiid","vol":6.95,"volPctl":95,"pct":57.4,"stopPctl":85,"blk36":1.37},{"player":"Jaylen Brown","vol":1.67,"volPctl":1,"pct":67.2,"stopPctl":39,"blk36":0.42},{"player":"Tyrese Maxey","vol":1.61,"volPctl":0,"pct":65.5,"stopPctl":51,"blk36":0.76},{"player":"VJ Edgecombe","vol":2.47,"volPctl":21,"pct":63.4,"stopPctl":62,"blk36":0.51},{"player":"LeBron James","vol":2.06,"volPctl":5,"pct":59.5,"stopPctl":78,"blk36":0.65}],"cloud":[[2.23,76.8],[3.35,70.2],[3.39,64.6],[3.14,65.6],[3.78,66.8],[6.62,54.5],[5.19,54.0],[10.99,53.3],[6.27,63.0],[1.83,61.8],[5.72,64.1],[2.19,69.8],[3.92,69.5],[2.75,76.2],[2.54,75.9],[5.52,50.5],[2.37,63.4],[4.58,64.5],[2.91,57.3],[2.4,77.3],[2.24,64.0],[4.22,60.2],[3.29,65.5],[2.76,63.1],[3.3,55.6],[4.17,71.1],[2.92,75.7],[2.28,73.3],[2.66,56.8],[3.09,60.5],[2.59,77.4],[2.72,76.9],[6.44,49.8],[2.21,76.0],[3.43,78.0],[2.21,70.4],[3.35,71.6],[2.3,72.3],[3.29,62.1],[2.24,68.0],[2.17,67.7],[3.63,65.4],[6.48,46.4],[2.15,77.1],[2.16,61.3],[3.26,62.8],[2.53,72.7],[5.1,58.0],[4.41,58.6],[4.02,64.3],[2.86,63.2],[7.47,53.4],[4.85,60.0],[2.17,76.8],[2.27,69.0],[4.81,61.2],[2.48,75.0],[3.6,65.2],[2.65,75.8],[4.2,66.7],[5.56,58.4],[3.14,62.6],[7.34,59.9],[2.13,61.7],[3.38,57.7],[1.82,66.9],[2.58,59.6],[2.01,59.0],[2.25,66.0],[5.14,62.1],[8.07,52.6],[1.72,67.0],[2.96,63.4],[2.58,73.1],[4.71,57.9],[1.97,66.9],[6.99,54.0],[3.04,72.1],[3.71,65.9],[4.11,74.2],[2.65,71.4],[5.98,48.7],[2.64,59.5],[4.37,64.1],[3.49,51.5],[6.87,47.3],[3.27,67.7],[2.12,70.8],[4.8,67.2],[4.39,67.8],[2.23,73.0],[2.92,74.0],[2.14,70.5],[3.21,62.3],[4.61,54.1],[7.42,60.1],[6.03,40.1],[5.26,48.8],[1.9,56.7],[3.34,72.4],[3.69,55.6],[4.54,56.5],[5.64,72.1],[3.18,64.4],[3.87,72.5],[6.48,61.7],[1.85,79.3],[5.23,59.9],[2.36,70.4],[3.68,66.5],[5.39,56.7],[2.87,65.6],[2.15,69.6],[2.54,68.3],[1.55,79.6],[5.07,64.1],[2.94,70.9],[5.58,52.7],[3.31,59.8],[5.31,55.6],[4.13,55.8],[8.74,51.4],[2.45,73.4],[4.57,59.5],[2.28,64.9],[2.18,69.0],[2.51,67.8],[4.39,74.4],[2.74,65.7],[2.08,69.1],[5.38,60.2],[3.06,60.2],[4.7,75.5],[4.7,69.4],[2.96,66.2],[2.4,68.5],[3.42,72.4],[2.41,71.9],[3.44,57.6],[3.81,64.7],[3.22,75.7],[4.24,58.6],[2.74,69.4],[3.16,70.4],[4.5,66.1],[6.41,60.3],[3.6,55.9],[3.03,69.6],[2.69,77.1],[5.53,60.3],[7.0,62.1],[2.47,65.9],[2.97,65.4],[2.99,65.3],[2.67,60.8],[3.36,66.9],[6.07,72.8],[2.17,59.2],[1.63,75.6],[2.53,71.0],[2.97,68.1],[3.38,59.1],[6.3,52.6],[4.0,66.7],[6.0,71.8],[2.89,62.8],[4.47,59.1],[3.25,66.7],[4.38,66.7],[3.52,71.7],[6.0,65.2],[2.51,72.3],[7.71,53.8],[2.45,70.7],[6.41,63.1],[6.3,57.7],[5.92,61.0],[2.85,69.3],[5.98,65.7],[8.02,66.2],[3.54,70.1],[2.85,67.7],[2.9,64.1],[2.33,65.2],[4.96,50.9],[3.36,65.1],[4.71,58.6],[7.2,61.7],[6.69,56.9],[2.44,75.3],[4.41,58.6],[6.12,50.9],[5.7,57.4],[3.23,72.7],[3.09,70.8],[6.21,65.4],[6.28,61.9],[5.83,64.4],[2.87,65.8],[5.6,65.1],[3.41,70.6],[2.82,63.8],[5.61,67.3],[4.99,63.9],[6.29,73.4],[5.54,53.4],[2.98,65.2],[4.41,58.4],[4.05,66.0],[3.58,67.5],[3.1,74.8],[3.34,73.6],[3.64,61.4],[2.18,64.0],[4.13,55.3],[4.14,65.8],[5.42,61.4],[2.33,74.1],[7.08,56.2],[2.97,66.7],[3.86,75.4],[2.61,73.6],[5.89,47.0],[2.79,73.8],[6.21,53.9],[2.93,73.4],[1.99,69.3],[3.15,64.4],[7.4,51.2],[3.03,66.8],[2.32,66.4],[2.04,67.9],[5.42,67.3],[5.03,62.5],[2.75,66.7],[4.84,59.9],[1.96,74.4],[2.6,53.1],[2.83,63.1],[3.21,64.8],[2.4,60.5],[2.61,67.3],[2.28,68.5],[5.37,67.6],[2.93,70.4],[4.74,64.4],[2.67,68.5],[3.46,66.1],[2.3,72.0],[2.21,61.7],[3.14,72.9],[2.7,71.8],[3.53,70.1],[3.45,71.7],[2.77,66.4],[2.65,67.5],[6.16,48.9],[3.2,63.9],[2.82,68.1],[4.55,58.6],[3.1,71.5],[6.76,51.4],[3.54,67.6],[2.06,77.1],[2.36,70.2],[2.55,62.5]],"rel":[{"metric":"volume","pair":"2023-24\u21922024-25","r":0.911,"n":203},{"metric":"rim FG% allowed","pair":"2023-24\u21922024-25","r":0.715,"n":203},{"metric":"volume","pair":"2024-25\u21922025-26","r":0.914,"n":190},{"metric":"rim FG% allowed","pair":"2024-25\u21922025-26","r":0.722,"n":190}],"hist":{"Joel Embiid":[{"season":"2023-24","volPctl":98},{"season":"2024-25","volPctl":78},{"season":"2025-26","volPctl":95}],"Jaylen Brown":[{"season":"2023-24","volPctl":11},{"season":"2024-25","volPctl":8},{"season":"2025-26","volPctl":1}],"Tyrese Maxey":[{"season":"2023-24","volPctl":0},{"season":"2024-25","volPctl":0},{"season":"2025-26","volPctl":0}],"VJ Edgecombe":[{"season":"2025-26","volPctl":21}],"LeBron James":[{"season":"2023-24","volPctl":27},{"season":"2024-25","volPctl":24},{"season":"2025-26","volPctl":5}]},"lgVol":3.82,"lgPct":64.9,"nQual":271},"nQual":350,"lgTop":3.57},
  "form": [
   {
@@ -2584,7 +2733,8 @@ const txt=(s)=>document.createTextNode(s);
   [["Seasons",m.seasons],["Matchup rows",(m.rows/1e6).toFixed(2)+"M"],
    ["Games",m.games.toLocaleString()],["Defender-seasons",m.defseasons.toLocaleString()],
    ["Split-half r","+"+m.splithalf.toFixed(2)],
-   ["Tracking seasons","3"],
+   ["Tracking seasons","13"],
+   ["Comp teams","25"],
    ["Ball-holding r","+"+DATA.track.rel[0].r.toFixed(2)]].forEach(([k,v])=>{
     const d=document.createElement("div");
     d.innerHTML=`<span class="k">${k}</span><span class="v">${v}</span>`; host.appendChild(d);
@@ -3651,6 +3801,209 @@ mount("c-bud",(W,tip,box)=>{
      <td class="num neg">&minus;${c.cut.toFixed(2)}</td>
      <td class="num">${c.after.toFixed(2)}</td>
      <td class="num" style="color:var(--ink-3)">${c.afterPctl}th %ile</td></tr>`).join("");
+})();
+
+
+/* ================= comps: ball-dominance ================= */
+mount("c-ballcomp",(W,tip,box)=>{
+  const B=DATA.comps.ball, P=B.phi;
+  const H=Math.max(300,Math.min(370,W*.44)), m={t:22,r:28,b:52,l:58};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xs=B.teams.map(t=>t.ratio).concat([P.ratio]);
+  const ys=B.teams.map(t=>t.wr).concat([0]);
+  const xd=[Math.floor(Math.min(...xs)/20)*20, Math.ceil(Math.max(...xs)/20)*20];
+  const yd=[Math.floor(Math.min(...ys)/5)*5-2, Math.ceil(Math.max(...ys)/5)*5+2];
+  const x=v=>m.l+(v-xd[0])/(xd[1]-xd[0])*iw, y=v=>m.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":
+    "Combined prior ball demand as a share of entitlement, against wins versus the preseason line"});
+  for(let t=yd[0];t<=yd[1];t+=5){
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt((t>0?"+":"")+t)]));
+  }
+  for(let t=xd[0];t<=xd[1];t+=20){
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-30,"text-anchor":"middle","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t+"%")]));
+  }
+  /* zero line = met the market exactly; 100% = wanted exactly its share of the ball */
+  g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(0),y2:y(0),stroke:C("--ink-3"),
+    "stroke-width":1.4,"stroke-dasharray":"5 4"}));
+  g.appendChild(el("text",{x:m.l+4,y:y(0)-7,"font-size":10,fill:C("--ink-3"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("met the line")]));
+  if(xd[0]<=100&&xd[1]>=100){
+    g.appendChild(el("line",{x1:x(100),x2:x(100),y1:m.t,y2:m.t+ih,stroke:C("--ink-3"),
+      "stroke-width":1.2,"stroke-dasharray":"3 3",opacity:.7}));
+    g.appendChild(el("text",{x:x(100)+5,y:m.t+12,"font-size":10,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt("fair share")]));
+  }
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-9,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("Combined prior ball demand, share of entitlement  →")]));
+  g.appendChild(el("text",{x:14,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 14 ${m.t+ih/2})`,"text-anchor":"middle"},[txt("Wins vs preseason line")]));
+
+  const pts=B.teams.map(t=>({t,dx:x(t.ratio),dy:y(t.wr),
+    side:(x(t.ratio)>m.l+iw*.72)?-1:1,nm:t.team+" "+t.season.slice(2)}));
+  const MG=15;
+  [-1,1].forEach(sd=>{
+    const grp=pts.filter(p=>p.side===sd).sort((a,b)=>a.dy-b.dy);
+    grp.forEach((p,i)=>{ p.ly = i===0 ? p.dy : Math.max(p.dy, grp[i-1].ly+MG); });
+    if(grp.length>1){ const dr=(grp[grp.length-1].ly-grp[grp.length-1].dy)/2;
+      grp.forEach(p=>p.ly-=dr); }
+  });
+  pts.forEach(p=>{
+    if(Math.abs(p.ly-p.dy)>3) g.appendChild(el("line",{x1:p.dx+p.side*7,y1:p.dy,
+      x2:p.dx+p.side*13,y2:p.ly,stroke:C("--ink-3"),"stroke-width":1,opacity:.45}));
+    const dot=el("circle",{cx:p.dx,cy:p.dy,r:6,fill:C("--ink-3"),opacity:.75,
+      stroke:C("--surface"),"stroke-width":1.5});
+    dot.style.cursor="pointer";
+    dot.addEventListener("pointerenter",()=>showTip(tip,box,p.dx,p.dy-104,
+      `<div class="th">${p.t.season} ${p.t.team}</div>
+       <div class="tr"><span>Prior demand</span><span>${p.t.demand} min</span></div>
+       <div class="tr"><span>Entitled to</span><span>${p.t.ent} min</span></div>
+       <div class="tr"><span>Ratio</span><span>${p.t.ratio}%</span></div>
+       <div class="tr"><span>Spread</span><span>${p.t.spread}</span></div>
+       <div class="tr"><span>Wins vs line</span><span>${fmt(p.t.wr,1)}</span></div>`));
+    dot.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(dot);
+    g.appendChild(el("text",{x:p.dx+p.side*15,y:p.ly+4,"text-anchor":p.side<0?"end":"start",
+      "font-size":10.5,fill:C("--ink-2"),"font-family":"IBM Plex Mono, monospace"},[txt(p.nm)]));
+  });
+  /* the Sixers have no outcome yet, so they are a vertical marker rather than a dot */
+  const px=x(P.ratio);
+  g.appendChild(el("line",{x1:px,x2:px,y1:m.t,y2:m.t+ih,stroke:C("--accent"),
+    "stroke-width":2.4}));
+  g.appendChild(el("text",{x:px-7,y:m.t+ih-6,"text-anchor":"end","font-size":11.5,
+    "font-weight":600,fill:C("--accent"),"font-family":"Archivo, sans-serif"},
+    [txt(`Sixers ${P.ratio}%`)]));
+  return g;
+});
+(function(){
+  const t=document.getElementById("tbl-ballcomp"); if(!t) return;
+  const B=DATA.comps.ball, P=B.phi;
+  t.innerHTML=B.teams.slice().sort((a,b)=>b.ratio-a.ratio).map(r=>
+    `<tr><td>${r.season}</td><td>${r.team}</td><td class="num">${r.stars}</td>
+     <td class="num">${r.demand}</td><td class="num">${r.ent}</td>
+     <td class="num"><b>${r.ratio}%</b></td><td class="num">${r.spread}</td>
+     <td class="num ${r.wr>0?"pos":"neg"}">${fmt(r.wr,1)}</td></tr>`).join("")
+   +`<tr style="background:var(--accent-soft)"><td><b>2026-27</b></td><td><b>PHI</b></td>
+     <td class="num">5</td><td class="num">${P.demand}</td><td class="num">${P.ent}</td>
+     <td class="num"><b>${P.ratio}%</b></td><td class="num">${P.spread}</td>
+     <td class="num" style="color:var(--ink-3)">&mdash;</td></tr>`;
+})();
+
+/* ================= comps: defensive reliability ladder ================= */
+mount("c-defrel",(W,tip,box)=>{
+  const R=DATA.comps.dfn.rel;
+  const H=Math.max(230,Math.min(300,W*.40)), m={t:14,r:52,b:34,l:Math.min(210,W*.34)};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const x=v=>m.l+v*iw, step=ih/R.length, bh=Math.min(15,step*.62);
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"Year-over-year reliability of each defensive metric"});
+  [0,.25,.5,.75,1].forEach(t=>{
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t-4,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-18,"text-anchor":"middle","font-size":10.5,
+      fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},[txt("+"+t.toFixed(2))]));
+  });
+  /* the line the dropped metric sits at -- the bar everything must clear */
+  g.appendChild(el("line",{x1:x(.10),x2:x(.10),y1:m.t-4,y2:m.t+ih,stroke:C("--crit"),
+    "stroke-width":1.6,"stroke-dasharray":"4 3"}));
+  g.appendChild(el("text",{x:x(.10)+5,y:m.t+9,"font-size":9.5,fill:C("--crit"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("discard line")]));
+  R.forEach((r,i)=>{
+    const yy=m.t+i*step+step/2-bh/2;
+    const hot=r.m.indexOf("DBPM")===0;
+    const bad=r.r<=0.20;
+    const col=bad?C("--crit"):hot?C("--accent"):C("--ink-3");
+    const bar=el("rect",{x:m.l,y:yy,width:Math.max(1,x(r.r)-m.l),height:bh,fill:col,
+      opacity:bad?.85:hot?1:.5,rx:2});
+    bar.style.cursor="pointer";
+    bar.addEventListener("pointerenter",()=>showTip(tip,box,x(r.r),yy-58,
+      `<div class="th">${r.m}</div>
+       <div class="tr"><span>year-over-year r</span><span>+${r.r.toFixed(2)}</span></div>
+       <div class="tr"><span>source</span><span>${r.src}</span></div>`));
+    bar.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(bar);
+    g.appendChild(el("text",{x:m.l-9,y:yy+bh/2+4,"text-anchor":"end","font-size":10.5,
+      fill:hot?C("--ink"):C("--ink-2"),"font-weight":hot?600:400},[txt(r.m)]));
+    g.appendChild(el("text",{x:x(r.r)+7,y:yy+bh/2+4,"font-size":10.5,fill:col,
+      "font-family":"IBM Plex Mono, monospace"},[txt("+"+r.r.toFixed(2))]));
+  });
+  return g;
+});
+
+/* ================= comps: defensive shape ================= */
+mount("c-defcomp",(W,tip,box)=>{
+  const D=DATA.comps.dfn, P=D.phi;
+  const H=Math.max(300,Math.min(360,W*.42)), m={t:22,r:28,b:52,l:58};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xs=D.teams.map(t=>t.spread).concat([P.spread]);
+  const ys=D.teams.map(t=>t.wr);
+  const xd=[0, Math.ceil(Math.max(...xs)*2)/2];
+  const yd=[Math.floor(Math.min(...ys)/5)*5-2, Math.ceil(Math.max(...ys)/5)*5+2];
+  const x=v=>m.l+(v-xd[0])/(xd[1]-xd[0])*iw, y=v=>m.t+ih-(v-yd[0])/(yd[1]-yd[0])*ih;
+  const g=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":
+    "Defensive spread among a team's stars against wins versus the preseason line"});
+  for(let t=yd[0];t<=yd[1];t+=5){
+    g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(t),y2:y(t),stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:m.l-9,y:y(t)+4,"text-anchor":"end","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt((t>0?"+":"")+t)]));
+  }
+  for(let t=0;t<=xd[1];t+=0.5){
+    g.appendChild(el("line",{x1:x(t),x2:x(t),y1:m.t,y2:m.t+ih,stroke:C("--grid"),"stroke-width":1}));
+    g.appendChild(el("text",{x:x(t),y:H-30,"text-anchor":"middle","font-size":11,fill:C("--ink-3"),
+      "font-family":"IBM Plex Mono, monospace"},[txt(t.toFixed(1))]));
+  }
+  g.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y(0),y2:y(0),stroke:C("--ink-3"),
+    "stroke-width":1.4,"stroke-dasharray":"5 4"}));
+  g.appendChild(el("text",{x:m.l+4,y:y(0)-7,"font-size":10,fill:C("--ink-3"),
+    "font-family":"IBM Plex Mono, monospace"},[txt("met the line")]));
+  g.appendChild(el("text",{x:m.l+iw/2,y:H-9,"text-anchor":"middle","font-size":11,
+    fill:C("--ink-3")},[txt("Defensive spread among the stars, best to worst  →  more lopsided")]));
+  g.appendChild(el("text",{x:14,y:m.t+ih/2,"font-size":11,fill:C("--ink-3"),
+    transform:`rotate(-90 14 ${m.t+ih/2})`,"text-anchor":"middle"},[txt("Wins vs preseason line")]));
+  D.teams.forEach(t=>{
+    const dot=el("circle",{cx:x(t.spread),cy:y(t.wr),r:5.5,fill:C("--ink-3"),opacity:.6,
+      stroke:C("--surface"),"stroke-width":1.4});
+    dot.style.cursor="pointer";
+    dot.addEventListener("pointerenter",()=>showTip(tip,box,x(t.spread),y(t.wr)-96,
+      `<div class="th">${t.season} ${t.team}</div>
+       <div class="tr"><span>Anchor (z)</span><span>${fmt(t.anchor)}</span></div>
+       <div class="tr"><span>Worst (z)</span><span>${fmt(t.worst)}</span></div>
+       <div class="tr"><span>Spread</span><span>${t.spread.toFixed(2)}</span></div>
+       <div class="tr"><span>Wins vs line</span><span>${fmt(t.wr,1)}</span></div>`));
+    dot.addEventListener("pointerleave",()=>hideTip(tip));
+    g.appendChild(dot);
+  });
+  const px=x(P.spread);
+  g.appendChild(el("line",{x1:px,x2:px,y1:m.t,y2:m.t+ih,stroke:C("--accent"),"stroke-width":2.4}));
+  g.appendChild(el("text",{x:px+7,y:m.t+ih-6,"font-size":11.5,"font-weight":600,
+    fill:C("--accent"),"font-family":"Archivo, sans-serif"},
+    [txt(`Sixers ${P.spread.toFixed(2)}`)]));
+  const cc=D.corr.spread;
+  g.appendChild(el("text",{x:m.l+iw-4,y:m.t+14,"text-anchor":"end","font-size":11,
+    fill:C("--ink-3"),"font-family":"IBM Plex Mono, monospace"},
+    [txt(`r = ${fmt(cc.r)}  [${fmt(cc.lo)}, ${fmt(cc.hi)}]  n=${cc.n}`)]));
+  return g;
+});
+(function(){
+  const D=DATA.comps.dfn;
+  const v=document.getElementById("tbl-defval");
+  if(v) v.innerHTML=D.validity.map(r=>
+    `<tr><td>${r.pair}</td><td class="num">${fmt(r.r,3)}</td>
+     <td class="num" style="color:var(--ink-3)">${r.ok?"positive":"negative"}</td>
+     <td class="num ${r.ok?"pos":"neg"}"><b>${r.ok?"agree":"disagree"}</b></td></tr>`).join("");
+  const c=document.getElementById("tbl-defcomp");
+  if(c) c.innerHTML=D.teams.slice().sort((a,b)=>b.wr-a.wr).map(r=>
+    `<tr><td>${r.season}</td><td>${r.team}</td><td class="num">${r.stars}</td>
+     <td class="num">${fmt(r.anchor)}</td><td class="num">${fmt(r.worst)}</td>
+     <td class="num">${fmt(r.mean)}</td><td class="num">${r.spread.toFixed(2)}</td>
+     <td class="num ${r.wr>0?"pos":"neg"}">${fmt(r.wr,1)}</td></tr>`).join("")
+   +`<tr style="background:var(--accent-soft)"><td><b>2026-27</b></td><td><b>PHI</b></td>
+     <td class="num">5</td><td class="num">${fmt(D.phi.anchor)}</td>
+     <td class="num">${fmt(D.phi.worst)}</td><td class="num">${fmt(D.phi.mean)}</td>
+     <td class="num">${D.phi.spread.toFixed(2)}</td>
+     <td class="num" style="color:var(--ink-3)">&mdash;</td></tr>`;
 })();
 
 </script>
